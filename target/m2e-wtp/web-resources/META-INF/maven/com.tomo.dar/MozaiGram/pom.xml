@@ -7,12 +7,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MozaiGram Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
-	<configuration>
-	  <processTypes>
-	     <web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>
-	  </processTypes>
-	</configuration>
 
 	<dependencies>
 		<dependency>
