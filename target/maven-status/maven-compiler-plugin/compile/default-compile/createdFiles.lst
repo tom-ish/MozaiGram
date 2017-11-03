@@ -16,7 +16,6 @@ servlets\IsMozaikGeneratedServlet.class
 database\Database.class
 database\DBAuthentification.class
 services\ServicesAuthentification.class
-test\Test.class
 algorithm\ImageResizer.class
 hibernate_entity\UserSession.class
 servlets\CreateUserServlet.class
