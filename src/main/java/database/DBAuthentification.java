@@ -63,7 +63,6 @@ public class DBAuthentification {
 			for(User user : users)
 				if(user.getUsername().equals(username) && user.getPassword().equals(password))
 					return true;
-			
 		}
 		return false;
 	}

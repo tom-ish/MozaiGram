@@ -88,7 +88,17 @@ public class DBStatic {
 				.addAnnotatedClass(Library.class)
 				.addAnnotatedClass(UserSession.class)
 				.buildSessionFactory();
-		
-		return factory.getCurrentSession();
+		return factory.openSession();
 	}
+	
+	/*
+	public static Connection getConnection() {
+		String dburl = System.getenv("DATABASE_URL");
+		if(dburl == null || dburl.isEmpty()) {
+			dburl = url;
+ 
+		}
+		return (DriverManager.getConnection(dburl, DBStatic.postgresql_username, DBStatic.postgresql_password));
+	}
+	*/
 }
