@@ -58,11 +58,12 @@ public class IsMozaikGeneratedServlet extends HttpServlet {
 			if(userTasksMapper.get(sessionkey).getKey() == Persist.SUCCESS) {
 				Integer imgId = userTasksMapper.get(sessionkey).getValue();
 				String imgPath = ServicesImage.getPathFromImgId(imgId);
-				Image mozaik = ServicesImage.getImageFromPath(imgPath);
+				//Image mozaik = ServicesImage.getImageFromPath(imgPath);
 				
 				try {
 					json.put("IsMozaikGeneratedServlet", ""+Persist.SUCCESS);
 					json.put("imgId", ""+imgId);
+					json.put("imgPath", ""+imgPath);
 					//json.put()
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

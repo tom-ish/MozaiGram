@@ -72,7 +72,7 @@ public class ServicesMozaikProcessingCompletableFuture {
 			}
 		}
 		executorService.shutdown();
-		System.out.println("NB_IMAGE_SAVED : " + nbImagesSaved); 
+		System.out.println("NB_IMAGE_SAVED : " + nbImagesSaved);
 		
 		return CompletableFuture.completedFuture(Persist.SUCCESS);
 	}

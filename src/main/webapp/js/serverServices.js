@@ -134,7 +134,7 @@ var ServerServices = {
 				complete: function(json) {
 					if(!generated) {
 						// Schedule the next
-	                    setTimeout(ServerServices.isMozaikGenerated(sessionkey), 2000);
+	                    setTimeout(ServerServices.isMozaikGenerated(sessionkey), 10000);
 					}
 					else {
 						console.log("SUCCESS");
