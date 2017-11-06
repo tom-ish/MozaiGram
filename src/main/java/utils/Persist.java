@@ -62,8 +62,8 @@ public class Persist {
 	
 	
 	public static File FROM_REPOSITORY = new File("images_save");
-	public static File DEST_MOZAIK_REPOSITORY = new File(Persist.DEST_MOZAIK_REPOSITORY_PATH);
 	public static String DEST_MOZAIK_REPOSITORY_PATH = "mozaikRslt";
+	public static File DEST_MOZAIK_REPOSITORY = new File(Persist.DEST_MOZAIK_REPOSITORY_PATH);
 	
 	
 }

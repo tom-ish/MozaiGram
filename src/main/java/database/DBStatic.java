@@ -3,12 +3,16 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import hibernate_entity.*;
+import hibernate_entity.Image;
+import hibernate_entity.Library;
+import hibernate_entity.User;
+import hibernate_entity.UserSession;
 
 public class DBStatic {
 	
@@ -44,6 +48,36 @@ public class DBStatic {
 			e.printStackTrace();
 		}
 		return (DriverManager.getConnection("jdbc:mysql://" + DBStatic.mysql_host + "/" + DBStatic.mysql_db,DBStatic.mysql_username,DBStatic.mysql_password));
+	}
+
+	private static boolean postgresql_pooling = false;
+	private static String postgresql_username = "nuvvhgenjviffn";
+	private static String postgresql_password = "88c5e0822d52b10bf9138eb7ba756af22f04dd7c679b93d1f04a577e9b2f7eab";
+	
+	public static Connection getPostgreSQLConnection() throws SQLException {
+//		String url = "jdbc:postgresql://nuvvhgenjviffn:88c5e0822d52b10bf9138eb7ba756af22f04dd7c679b93d1f04a577e9b2f7eab@ec2-50-16-202-213.compute-1.amazonaws.com:5432/da5njdatl991hn";
+		String url = "jdbc:postgresql://ec2-50-16-202-213.compute-1.amazonaws.com:5432/da5njdatl991hn?sslmode=require";
+		try {
+			Class.forName("org.postgresql.Driver").newInstance();
+			if(DBStatic.postgresql_pooling == false)
+				return (DriverManager.getConnection(url, DBStatic.postgresql_username, DBStatic.postgresql_password));
+			else {
+				if(database == null)
+					database =  new Database("jdbc/db");
+				return (database.getConnection());
+			}
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return (DriverManager.getConnection(url, DBStatic.postgresql_username, DBStatic.postgresql_password));
 	}
 	
 	public static Session getHibernateSession() {
