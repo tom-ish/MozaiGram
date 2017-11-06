@@ -177,6 +177,7 @@ public class ImageFrame {
 			if(!Persist.DEST_MOZAIK_REPOSITORY.exists() || !Persist.DEST_MOZAIK_REPOSITORY.isDirectory())
 				Persist.DEST_MOZAIK_REPOSITORY.mkdir();
 			String rsltFileName = Persist.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
+			System.out.println("OUTPUT FILEPATH : " + rsltFileName);
 			ImageIO.write(rslt, "jpg", new File(rsltFileName));
 			
 			emptyLibrary();
