@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 
 import hibernate_entity.UserSession;
+import utils.Persist;
 
 public class DBSessionKey {
 	
@@ -29,11 +30,8 @@ public class DBSessionKey {
 	public static int getUsernameByKey(String key) {
 		String hql = "from UserSession";
 		
-		Session session = DBStatic.getHibernateSession();
-		if(session != null) {
-			session.beginTransaction();
-			List<UserSession> userSessions = session.createQuery(hql).getResultList();
-			session.close();
+		if(Persist.OPENED_SESSION!= null) {
+			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey().equals(key))
 					return userSession.getUserId();
@@ -45,11 +43,8 @@ public class DBSessionKey {
 	public static String getSessionkeyByUsername(String username) {
 		String hql = "from UserSession";
 		
-		Session session = DBStatic.getHibernateSession();
-		if(session != null) {
-			session.beginTransaction();
-			List<UserSession> userSessions = session.createQuery(hql).getResultList();
-			session.close();
+		if(Persist.OPENED_SESSION!= null) {
+			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getUserId() == DBAuthentification.getIdByUsername(username))
 					return userSession.getSessionkey();		
@@ -66,13 +61,12 @@ public class DBSessionKey {
 		int userId = DBAuthentification.getIdByUsername(username);
 		if(userId == -1) return null;
 		UserSession newSession = new UserSession(sessionkey, userId);
-		Session session = DBStatic.getHibernateSession();
-
-		if(session != null) {			
-			session.beginTransaction();
-			session.save(newSession);
-			session.getTransaction().commit();
-			session.close();
+		
+		if(Persist.OPENED_SESSION != null) {
+			Persist.OPENED_SESSION.beginTransaction();
+			Persist.OPENED_SESSION.save(newSession);
+			Persist.OPENED_SESSION.getTransaction().commit();
+			Persist.OPENED_SESSION.close();
 			return sessionkey;
 		}	
 		return null;
@@ -81,11 +75,8 @@ public class DBSessionKey {
 	public static boolean isSessionKeyExpired(String sessionkey) {
 		String hql = "from UserSession";
 
-		Session session = DBStatic.getHibernateSession();
-		if(session != null) {
-			session.beginTransaction();
-			List<UserSession> userSessions = session.createQuery(hql).getResultList();
-			session.close();
+		if(Persist.OPENED_SESSION!= null) {
+			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey() == sessionkey)
 					return true;		

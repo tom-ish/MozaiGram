@@ -12,7 +12,6 @@ public class DBAuthentification {
 	public static int getIdByUsername(String username) {
 		String hql = "from User u where u.username='"+username+"'";
 		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
-			Persist.OPENED_SESSION.beginTransaction();
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users)
 				if(user.getUsername().equals(username))
@@ -25,7 +24,6 @@ public class DBAuthentification {
 	public static boolean existeLogin(String username) {
 		String hql = "from User";
 		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
-			Persist.OPENED_SESSION.beginTransaction();
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users) {
 				if(user.getUsername().equalsIgnoreCase(username))
@@ -50,7 +48,6 @@ public class DBAuthentification {
 		String hql = "from User u where u.username='"+username+"'";
 
 		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
-			Persist.OPENED_SESSION.beginTransaction();
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users)
 				if(user.getUsername().equals(username) && user.getPassword().equals(password))
