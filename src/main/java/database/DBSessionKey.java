@@ -30,7 +30,7 @@ public class DBSessionKey {
 	public static int getUsernameByKey(String key) {
 		String hql = "from UserSession";
 		
-		if(Persist.OPENED_SESSION!= null) {
+		if(Persist.OPENED_SESSION != null) {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey().equals(key))
@@ -43,7 +43,7 @@ public class DBSessionKey {
 	public static String getSessionkeyByUsername(String username) {
 		String hql = "from UserSession";
 		
-		if(Persist.OPENED_SESSION!= null) {
+		if(Persist.OPENED_SESSION != null) {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getUserId() == DBAuthentification.getIdByUsername(username))
@@ -75,7 +75,7 @@ public class DBSessionKey {
 	public static boolean isSessionKeyExpired(String sessionkey) {
 		String hql = "from UserSession";
 
-		if(Persist.OPENED_SESSION!= null) {
+		if(Persist.OPENED_SESSION != null) {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey() == sessionkey)

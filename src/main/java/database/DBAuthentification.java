@@ -11,7 +11,7 @@ public class DBAuthentification {
 
 	public static int getIdByUsername(String username) {
 		String hql = "from User u where u.username='"+username+"'";
-		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
+		if(Persist.OPENED_SESSION != null) {
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users)
 				if(user.getUsername().equals(username))
@@ -23,10 +23,11 @@ public class DBAuthentification {
 
 	public static boolean existeLogin(String username) {
 		String hql = "from User";
-		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
+		if(Persist.OPENED_SESSION != null) {
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users) {
 				if(user.getUsername().equalsIgnoreCase(username))
+					
 					return true;
 			}
 		}
@@ -35,7 +36,7 @@ public class DBAuthentification {
 
 	public static boolean createUser(String username, String password, String email ) {
 		User newUser = new User(username, password, email);
-		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {			
+		if(Persist.OPENED_SESSION != null) {			
 			Persist.OPENED_SESSION.beginTransaction();
 			Persist.OPENED_SESSION.save(newUser);
 			Persist.OPENED_SESSION.getTransaction().commit();
@@ -47,7 +48,7 @@ public class DBAuthentification {
 	public static boolean isPasswordExact(String username, String password) {
 		String hql = "from User u where u.username='"+username+"'";
 
-		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
+		if(Persist.OPENED_SESSION != null) {
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users)
 				if(user.getUsername().equals(username) && user.getPassword().equals(password))
@@ -63,7 +64,7 @@ public class DBAuthentification {
 	public static int logout(int userId, String sessionkey) {
 		String hql = "delete from UserSession where sessionkey = :sessionkey and userId = :userId";
 
-		if(Persist.OPENED_SESSION != null && Persist.OPENED_SESSION.isOpen()) {
+		if(Persist.OPENED_SESSION != null) {
 			Persist.OPENED_SESSION.beginTransaction();
 
 			int nb_row = Persist.OPENED_SESSION.createQuery(hql)
