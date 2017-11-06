@@ -66,7 +66,6 @@ public class DBSessionKey {
 			Persist.OPENED_SESSION.beginTransaction();
 			Persist.OPENED_SESSION.save(newSession);
 			Persist.OPENED_SESSION.getTransaction().commit();
-			Persist.OPENED_SESSION.close();
 			return sessionkey;
 		}	
 		return null;
