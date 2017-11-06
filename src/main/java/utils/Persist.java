@@ -2,6 +2,8 @@ package utils;
 
 import java.io.File;
 
+import org.hibernate.Session;
+
 public class Persist {
 	
 	public static boolean OK = true;
@@ -65,5 +67,11 @@ public class Persist {
 	public static String DEST_MOZAIK_REPOSITORY_PATH = "mozaikRslt";
 	public static File DEST_MOZAIK_REPOSITORY = new File(Persist.DEST_MOZAIK_REPOSITORY_PATH);
 	
+	
+	
+	/*
+	 * Hibernate User Session
+	 */
+	public static Session OPENED_SESSION = null;
 	
 }

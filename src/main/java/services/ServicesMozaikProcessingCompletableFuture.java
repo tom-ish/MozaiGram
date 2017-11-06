@@ -33,8 +33,7 @@ public class ServicesMozaikProcessingCompletableFuture {
 		if(Tools.isNullParameter(sessionkey) || Tools.isNullParameter(keyword) || imagePartFile.equals(null))
 			return Persist.ERROR_NULL_PARAMETER;
 
-		//		if(DBSessionKey.isSessionKeyExpired(userId))
-
+		//		if(DBSessionKey.isSessionKeyExpired(userId))		
 		String imageFileName = Paths.get(imagePartFile.getSubmittedFileName()).getFileName().toString();
 		if(Tools.isNullParameter(imageFileName) || imageFileName.length() == 0)
 			return Persist.ERROR_FILE_NOT_FOUND;

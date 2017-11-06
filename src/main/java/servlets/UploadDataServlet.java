@@ -21,6 +21,7 @@ import javax.servlet.http.Part;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBStatic;
 import mozaik_process.ImageResizer;
 import services.ServicesMozaikProcessingCompletableFuture;
 import utils.FileProcess;
@@ -135,5 +136,19 @@ public class UploadDataServlet extends HttpServlet {
 				System.out.println("COMPLETED FUTURE - STATUS : " + statusImgIdSimpleEntry.getKey() + " imgId : " + statusImgIdSimpleEntry.getValue());				
 		});
 		return Persist.PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED;
+	}
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
+	}
+	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		Persist.OPENED_SESSION.close();
+		super.destroy();
 	}
 }

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBStatic;
 import services.ServicesImage;
 import utils.Persist;
 
@@ -84,4 +85,18 @@ public class IsMozaikGeneratedServlet extends HttpServlet {
 		writer.println(json.toString());
 	}
 
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
+	}
+	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		Persist.OPENED_SESSION.close();
+		super.destroy();
+	}
 }

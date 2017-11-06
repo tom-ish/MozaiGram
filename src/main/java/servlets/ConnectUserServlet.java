@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBStatic;
 import services.ServicesAuthentification;
+import utils.Persist;
 
 /**
  * Servlet implementation class ConnectUserServlet
  */
 @WebServlet("/ConnectUserServlet")
 public class ConnectUserServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -60,7 +64,20 @@ public class ConnectUserServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		super.init();
+		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
+	}
+	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		Persist.OPENED_SESSION.close();
+		super.destroy();
 	}
 
 }
