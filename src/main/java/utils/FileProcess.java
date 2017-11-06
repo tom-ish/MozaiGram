@@ -62,10 +62,12 @@ public class FileProcess {
 			ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.mkdir();
 		
 		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
+		System.out.println(file.getAbsolutePath());
 		
 		if(img != null) {
 			try {
 				ImageIO.write(img, "jpg", file);
+				System.out.println(file.getAbsolutePath());
 				//System.out.println(file.getAbsolutePath());
 				return true;
 			} catch (IOException e) {
