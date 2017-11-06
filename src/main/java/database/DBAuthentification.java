@@ -27,7 +27,6 @@ public class DBAuthentification {
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users) {
 				if(user.getUsername().equalsIgnoreCase(username))
-					
 					return true;
 			}
 		}
