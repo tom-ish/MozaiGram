@@ -62,7 +62,7 @@ public class FileProcess {
 			ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.mkdir();
 		
 		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
-		System.out.println(file.getAbsolutePath());
+		System.out.println("TEST : " +file.getAbsolutePath());
 		
 		if(img != null) {
 			try {
@@ -73,6 +73,7 @@ public class FileProcess {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				//System.err.println(e.getMessage());
+				System.err.println("ERROR : " + file.getAbsolutePath());
 				return false;
 			}
 		}
