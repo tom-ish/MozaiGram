@@ -41,7 +41,7 @@ public class ServicesMozaikProcessingCompletableFuture {
 	}
 	
 	public static ArrayList<String> loadAPIImagesFromKeyword(String keyword) {
-		String url = "https://api.qwant.com/api/search/images?count="+NB_IMAGES+"&offset=1&q="+keyword+"\"";
+		String url = "https://api.qwant.com/api/search/images?count="+NB_IMAGES+"&offset=1&q="+keyword;
 		return Tools.getURLsfromJSON(Tools.readJsonFromUrl(url));
 	}
 	
