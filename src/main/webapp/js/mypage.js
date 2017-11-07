@@ -1,10 +1,9 @@
-var username = localStorage.getItem("username");
-var sessionkey = localStorage.getItem("sessionKey");
+var username = localStorage.getItem("requestedpage");
 
-var mozaikcontent = {
+var mypagecontent = {
 		initialize : function() {
-			initializeUser();
-			console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
+			initializePage();
+				console.log("USERNAME : " + username);
 			$('#logoutButton').click(function(){
 				ServerServices.logout(username, sessionkey);
 				window.location.href = "./index.html"
@@ -17,15 +16,15 @@ var mozaikcontent = {
 		}
 };
 
-function initializeUser() {
-	console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
-
-	var html = "Welcome "+username+", sessionKey : " + sessionkey +"!";
+function initializePage() {
+	console.log("USERNAME : " + username);
+	var html = "Page personnelle de "+username;
 	var test = document.createElement('h1');
 	test.className="test";
 	test.innerHTML = html;
 	document.getElementById("usernameId").appendChild(test);
 }
+
 
 function goHome() {
 	console.log("go Home called...");
@@ -35,7 +34,6 @@ function goHome() {
 }
 
 
-
 window.onload = function() {
-	mozaikcontent.initialize();
+	mypagecontent.initialize();
 }
