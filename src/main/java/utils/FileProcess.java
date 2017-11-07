@@ -9,10 +9,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
+import com.cloudinary.utils.ObjectUtils;
+
+import database.DBStatic;
 import services.ServicesMozaikProcessingCompletableFuture;
 
 // C:\Program Files\Java\jdk1.8.0_91/bin
@@ -21,7 +25,10 @@ public class FileProcess {
 	public static int saveCpt = 0;
 
 	public static int saveImagesFromURLs(ArrayList<String> urls) {
-		//long startTime = System.currentTimeMillis();
+		//long startTime = System.currentTimeMillis();		
+		if(!ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.exists())
+			ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.mkdir();
+
 		int nbImgSaved = 0;
 		for(String url : urls) {			
 			if(saveImage(url))
@@ -58,9 +65,7 @@ public class FileProcess {
 			return false;
 		}
 
-		if(!ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.exists())
-			ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.mkdir();
-		
+		/*
 		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
 		System.out.println("TEST : " +file.getAbsolutePath());
 		
@@ -68,16 +73,33 @@ public class FileProcess {
 			try {
 				ImageIO.write(img, "jpg", file);
 				System.out.println(file.getAbsolutePath());
-				//System.out.println(file.getAbsolutePath());
 				return true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//System.err.println(e.getMessage());
-				System.err.println("ERROR : " + file.getAbsolutePath());
+				System.err.println(e.getMessage());
 				return false;
 			}
+		}*/
+		
+		
+		/*
+		 * CLOUDINARY UPLOADING
+		 */
+		File toUpload = new File(fileName);
+		Map<?, ?> params = ObjectUtils.asMap(
+				"public_id", Persist.FROM_REPOSITORY_PATH+File.separator,
+				"use_filename", true,
+				"unique_filename", false);
+		try {
+			Map<?, ?> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
+			System.out.println(uploadRslt.toString());
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("CLOUDINARY IOException");
+			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 	
 	public static BufferedImage getBufferedImageFromPart(Part imageFilePart) {

@@ -9,6 +9,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
 import hibernate_entity.Image;
 import hibernate_entity.Library;
 import hibernate_entity.User;
@@ -89,6 +92,18 @@ public class DBStatic {
 				.addAnnotatedClass(UserSession.class)
 				.buildSessionFactory();
 		return factory.openSession();
+	}
+	
+	private static String CLOUDINARY_CLOUD_NAME = "hldpldmwn";
+	private static String CLOUDINARY_API_KEY = "483791282241664";
+	private static String CLOUDINARY_API_SECRET = "cz_RVeyy1cw327ShrWBUehBHxH0";
+	private static String CLOUDINARY_URL = "cloudinary://483791282241664:cz_RVeyy1cw327ShrWBUehBHxH0@hldpldmwn/";
+	public static Cloudinary getCloudinaryInstance() {
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				  "cloud_name", CLOUDINARY_CLOUD_NAME,
+				  "api_key", CLOUDINARY_API_KEY,
+				  "api_secret", CLOUDINARY_API_SECRET));
+		return cloudinary;
 	}
 	
 	/*
