@@ -6,6 +6,11 @@ var mypagecontent = {
 				console.log("USERNAME : " + username);
 			$('#logoutButton').click(function(){
 				ServerServices.logout(username, sessionkey);
+				window.location.href = "./index.html"
+				return false;
+			});
+			$('#homeButton').click(function(){
+				goHome();
 				return false;
 			});
 		}
@@ -20,19 +25,15 @@ function initializePage() {
 	document.getElementById("usernameId").appendChild(test);
 }
 
-function refreshDataInPage() {
-	console.log("Refreshing page");
-	
-}
 
 function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
-	window.location.href = "./index.html"
+	window.location.href = "./myspace.html"
 //	window.location.href = "./FlipLogin.jsp";
 }
 
 
 window.onload = function() {
-	mozaikcontent.initialize();
+	mypagecontent.initialize();
 }
