@@ -30,7 +30,7 @@ function initializeUser() {
 function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
-	window.location.href = "./mypsace.html"
+	window.location.href = "./myspace.html"
 //	window.location.href = "./FlipLogin.jsp";
 }
 
