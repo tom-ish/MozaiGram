@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -86,10 +87,10 @@ public class FileProcess {
 		 * CLOUDINARY UPLOADING
 		 */
 		File toUpload = new File(fileName);
-		Map<?, ?> params = ObjectUtils.asMap(
-				"public_id", Persist.FROM_REPOSITORY_PATH+File.separator,
-				"use_filename", true,
-				"unique_filename", false);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("public_id", Persist.FROM_REPOSITORY_PATH +File.separator);
+		params.put("use_filename", "true");
+		params.put("unique_filename", "false");
 		try {
 			Map<?, ?> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
 			System.out.println(uploadRslt.toString());

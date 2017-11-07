@@ -3,7 +3,8 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -99,10 +100,11 @@ public class DBStatic {
 	private static String CLOUDINARY_API_SECRET = "cz_RVeyy1cw327ShrWBUehBHxH0";
 	private static String CLOUDINARY_URL = "cloudinary://483791282241664:cz_RVeyy1cw327ShrWBUehBHxH0@hldpldmwn/";
 	public static Cloudinary getCloudinaryInstance() {
-		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-				  "cloud_name", CLOUDINARY_CLOUD_NAME,
-				  "api_key", CLOUDINARY_API_KEY,
-				  "api_secret", CLOUDINARY_API_SECRET));
+		Map<String, String> config = new HashMap<String, String>();
+		config.put("cloud_name", CLOUDINARY_CLOUD_NAME);
+		config.put("api_key", CLOUDINARY_API_KEY);
+		config.put("api_secret", CLOUDINARY_API_SECRET);
+		Cloudinary cloudinary = new Cloudinary(config);
 		return cloudinary;
 	}
 	
