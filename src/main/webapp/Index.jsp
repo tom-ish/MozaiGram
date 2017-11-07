@@ -5,10 +5,8 @@
 <head>
 <link href="css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
-<link href="css/mix_match.css" rel="stylesheet"
-	type="text/css" />
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/mix_match.js"></script>
+<script type="text/javascript" src="js/fliplogin.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
