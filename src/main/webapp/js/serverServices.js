@@ -71,7 +71,7 @@ var ServerServices = {
 						console.log("Deconnexion success!");
 						console.log(json);
 						localStorage.clear();
-						goHome();
+
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {

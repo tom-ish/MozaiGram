@@ -7,6 +7,11 @@ var mozaikcontent = {
 			console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
 			$('#logoutButton').click(function(){
 				ServerServices.logout(username, sessionkey);
+				window.location.href = "./index.html"
+				return false;
+			});
+			$('#homeButton').click(function(){
+				goHome();
 				return false;
 			});
 		}
@@ -25,9 +30,10 @@ function initializeUser() {
 function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
-	window.location.href = "./mypage.html"
+	window.location.href = "./mypsace.html"
 //	window.location.href = "./FlipLogin.jsp";
 }
+
 
 
 window.onload = function() {

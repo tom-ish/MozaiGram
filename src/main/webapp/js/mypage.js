@@ -28,7 +28,7 @@ function refreshDataInPage() {
 function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
-	window.location.href = "./mypage.html"
+	window.location.href = "./index.html"
 //	window.location.href = "./FlipLogin.jsp";
 }
 
