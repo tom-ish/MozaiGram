@@ -87,12 +87,12 @@ public class FileProcess {
 		 * CLOUDINARY UPLOADING
 		 */
 		File toUpload = new File(fileName);
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("public_id", Persist.FROM_REPOSITORY_PATH +File.separator);
-		params.put("use_filename", "true");
-		params.put("unique_filename", "false");
+		params.put("use_filename", true);
+		params.put("unique_filename", false);
 		try {
-			Map<?, ?> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
+			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
 			System.out.println(uploadRslt.toString());
 			return true;
 		} catch (IOException e) {
