@@ -89,7 +89,7 @@ public class FileProcess {
 		System.out.println("*********************************");
 		System.out.println("filename: " + fileName);
 		System.out.println("url: " + url);
-		File toUpload = new File(fileName);
+		//File toUpload = new File(fileName);
 		/*Map<String, Object> params = new HashMap<String, Object>();
 		params.put("public_id", Persist.FROM_REPOSITORY_PATH +File.separator);
 		params.put("use_filename", true);
@@ -97,12 +97,14 @@ public class FileProcess {
 		*/
 		try {
 //			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
-			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, ObjectUtils.emptyMap());
+//			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, ObjectUtils.emptyMap());
+			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(url, ObjectUtils.emptyMap());
 			System.out.println(uploadRslt.toString());
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("CLOUDINARY IOException on " + toUpload.getAbsolutePath());
+//			System.out.println("CLOUDINARY IOException on " + toUpload.getAbsolutePath());
+			System.out.println("IOException on " + url);
 			e.printStackTrace();
 			return false;
 		}
