@@ -70,10 +70,11 @@ public class FileProcess {
 		
 		
 		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
+		
 		if(img != null) {
 			try {
+				System.out.println("filename : " + fileName + " path : " + file.getAbsolutePath());
 				ImageIO.write(img, "jpg", file);
-				System.out.println(file.getAbsolutePath());
 				if(AmazonUtilities.uploadImagesAmazonAPI(file) == Persist.SUCCESS)
 					return true;
 				return false;

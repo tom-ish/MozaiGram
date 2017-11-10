@@ -42,7 +42,6 @@ public class AmazonUtilities {
         	System.out.println("Upload complete.");
         	return Persist.SUCCESS;
         } catch (AmazonClientException amazonClientException) {
-        	System.out.println("Unable to upload file, upload was aborted.");
         	System.out.println("Caught an AmazonClienException, which"
 					+ "	means the client encountered an internal error"
 					+ " while trying to communicate with S3, such as not"
