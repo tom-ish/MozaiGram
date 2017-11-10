@@ -66,8 +66,6 @@ public class Persist {
 	public static String AMAZON_S3_BUCKET_NAME = "mozaigram";
 	public static String AWS_ACCESS_KEY_ID = "AWS_ACCESS_KEY_ID";
 	public static String AWS_SECRET_KEY_ID = "AWS_SECRET_KEY";
-	public static final String ACCESS_ID = "AKIAI7ZRBCXAMH57D4AA";
-	public static final String SECRET_KEY = "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";
 
 	public static String USERS_TASKS = "userTasks";
 	
