@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 
 import com.cloudinary.utils.ObjectUtils;
 
+import amazon.AmazonUtilities;
 import database.DBStatic;
 import services.ServicesMozaikProcessingCompletableFuture;
 
@@ -66,46 +67,24 @@ public class FileProcess {
 			return false;
 		}
 
-		/*
-		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
-		System.out.println("TEST : " +file.getAbsolutePath());
 		
+		
+		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
 		if(img != null) {
 			try {
 				ImageIO.write(img, "jpg", file);
 				System.out.println(file.getAbsolutePath());
-				return true;
+				if(AmazonUtilities.uploadImagesAmazonAPI(file) == Persist.SUCCESS)
+					return true;
+				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
 				return false;
 			}
-		}*/
-		
-		
-		/*
-		 * CLOUDINARY UPLOADING
-		 */
-		System.out.println("*********************************");
-		System.out.println("filename: " + fileName);
-		System.out.println("url: " + url);
-		//File toUpload = new File(fileName);
-		/*Map<String, Object> params = new HashMap<String, Object>();
-		params.put("public_id", Persist.FROM_REPOSITORY_PATH +File.separator);
-		params.put("use_filename", true);
-		params.put("unique_filename", false);
-		*/
-		try {
-//			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, params);
-//			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(toUpload, ObjectUtils.emptyMap());
-			Map<String, Object> uploadRslt = DBStatic.getCloudinaryInstance().uploader().upload(url, ObjectUtils.emptyMap());
-			System.out.println(uploadRslt.toString());
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-//			System.out.println("CLOUDINARY IOException on " + toUpload.getAbsolutePath());
-			System.out.println("IOException on " + url);
-			e.printStackTrace();
+		}
+		else {
+			System.out.println("img from "+file.getAbsolutePath()+" to save is null...");
 			return false;
 		}
 	}

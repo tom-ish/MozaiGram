@@ -1,11 +1,18 @@
 package test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.Upload;
 
 import database.DBAuthentification;
-import database.DBStatic;
+import utils.Persist;
 
 
 public class Test {
@@ -13,7 +20,8 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		boolean ok = DBAuthentification.createUser("tomo", "1234567", "tomo@tomo.tomo");
+		String filePath = "desktop_wallpaper.jpg";
+		int ok = Test.uploadImagesAmazonAPI(filePath);
 		System.out.println(ok);
 		
 		/*
@@ -117,6 +125,32 @@ public class Test {
 		System.out.println(psql_create_friendship);
 		System.out.println(psql_create_messages);
 		System.out.println(psql_create_comments);
+	}
+	
+	private static final String BUCKET_NAME = "mozaigram";
+
+	public static int uploadImagesAmazonAPI(String filePath) {
+        TransferManager tm = new TransferManager(new ProfileCredentialsProvider());
+        System.out.println("Hello");
+        // TransferManager processes all transfers asynchronously, 
+        // so this call will return immediately.
+        File toUpload = Paths.get(filePath).toFile();
+        Upload upload = tm.upload(BUCKET_NAME, toUpload.getName(), toUpload);
+        System.out.println("Hello2");
+
+        try {
+        	// Or you can block and wait for the upload to finish
+        	upload.waitForCompletion();
+        	System.out.println("Upload complete.");
+        	return Persist.SUCCESS;
+        } catch (AmazonClientException amazonClientException) {
+        	System.out.println("Unable to upload file, upload was aborted.");
+        	amazonClientException.printStackTrace();
+        } catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return Persist.ERROR;
 	}
 
 }
