@@ -79,6 +79,7 @@ public class FileProcess {
 				return false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("IOException on ImageIO.write() from saveImage() : " + url + "\n\ttrying to write on file "+file);
 				System.err.println(e.getMessage());
 				return false;
 			}
