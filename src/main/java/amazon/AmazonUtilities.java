@@ -30,11 +30,11 @@ public class AmazonUtilities {
 	
 	public static int uploadImagesAmazonAPI(File toUpload) {
         TransferManager tm = new TransferManager(new ProfileCredentialsProvider());
-        System.out.println("Hello");
         // TransferManager processes all transfers asynchronously, 
         // so this call will return immediately.
+        System.out.println("Trying to upload " + toUpload.getAbsolutePath());
         Upload upload = tm.upload(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
-        System.out.println("Hello2");
+        System.out.println("----------");
 
         try {
         	// Or you can block and wait for the upload to finish
