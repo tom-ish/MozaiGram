@@ -21,7 +21,7 @@ public class UserSession {
 	private int userId;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="userId")
+	@JoinColumn(name="id")
 	private User user;
 	
 	@Column(name="since")
