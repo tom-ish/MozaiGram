@@ -123,6 +123,7 @@ function switchToHomePage() {
 
 function switchToMyPage() {
 	console.log("switchToMyPage called");
+	localStorage.setItem("requestedpage", username);
 	window.location.href = "./myspace.html";
 }
 
