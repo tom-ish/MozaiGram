@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import hibernate_entity.User;
 import hibernate_entity.UserSession;
 import utils.Persist;
 
@@ -21,13 +22,13 @@ public class DBSessionKey {
 		for(int i = 0; i < length; i++)
 			rslt += dictionnary.charAt((int) (Math.random()*dictionnary.length()));
 		
-		if(getUsernameByKey(rslt) != -1)
+		if(getUserIdByKey(rslt) != -1)
 			return generateKey();
 		else
 			return rslt;
 	}
 		
-	public static int getUsernameByKey(String key) {
+	public static int getUserIdByKey(String key) {
 		String hql = "from UserSession";
 		
 		if(Persist.OPENED_SESSION != null) {
@@ -58,9 +59,12 @@ public class DBSessionKey {
 	}
 	
 	public static String addSessionKey(String username, String sessionkey) {
-		int userId = DBAuthentification.getIdByUsername(username);
-		if(userId == -1) return null;
-		UserSession newSession = new UserSession(sessionkey, userId);
+		User user = DBAuthentification.getUserByUsername(username);
+		if(user == null) return null;
+		
+		UserSession newSession = new UserSession();
+		newSession.setSessionkey(sessionkey);
+		newSession.setUser(user);
 		
 		if(Persist.OPENED_SESSION != null) {
 			Persist.OPENED_SESSION.beginTransaction();
@@ -78,7 +82,7 @@ public class DBSessionKey {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey() == sessionkey)
-					return true;		
+					return true;
 			}
 		}
 		return false;

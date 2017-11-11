@@ -33,7 +33,7 @@ public class ServicesImage {
 		if(imgId == 0)
 			return new SimpleEntry<Integer, Integer>(Persist.ERROR_DB_IMAGE_NOT_FOUND, -1);
 		
-		int userId = DBSessionKey.getUsernameByKey(sessionkey);
+		int userId = DBSessionKey.getUserIdByKey(sessionkey);
 		if(userId == -1)
 			return new SimpleEntry<Integer, Integer>(Persist.ERROR_SESSION_KEY_NOT_FOUND, -1);
 		int imgIdInLibrary = DBImage.addImageToLibrary(userId, imgId);

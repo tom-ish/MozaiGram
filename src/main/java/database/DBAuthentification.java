@@ -20,6 +20,18 @@ public class DBAuthentification {
 		}
 		return -1;
 	}
+	
+	public static User getUserByUsername(String username) {
+		String hql = "from User u where u.username='"+username+"'";
+		if(Persist.OPENED_SESSION != null) {
+			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			for(User user : users)
+				if(user.getUsername().equals(username))
+					return user;
+
+		}
+		return null;
+	}
 
 	public static boolean existeLogin(String username) {
 		String hql = "from User";
@@ -27,6 +39,18 @@ public class DBAuthentification {
 			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(User user : users) {
 				if(user.getUsername().equalsIgnoreCase(username))
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean existeUserId(int userId) {
+		String hql = "from User";
+		if(Persist.OPENED_SESSION != null) {
+			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			for(User user : users) {
+				if(user.getId() == userId)
 					return true;
 			}
 		}
