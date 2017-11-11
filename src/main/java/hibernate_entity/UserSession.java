@@ -18,6 +18,7 @@ public class UserSession {
 	
 	@GeneratedValue(generator="newGenerator")
 	@GenericGenerator(name="newGenerator", strategy="foreign", parameters= { @Parameter(value="user", name="property")})
+	@Column(name="userId")
 	private int userId;
 	
 	@OneToOne(cascade=CascadeType.ALL)
