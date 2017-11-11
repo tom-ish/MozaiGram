@@ -17,7 +17,7 @@ public class UserSession {
 	private String sessionkey;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="userid")
 	private User user;
 	
 	@Column(name="since")
