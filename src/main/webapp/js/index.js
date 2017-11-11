@@ -121,9 +121,9 @@ function switchToHomePage() {
 	logZoneVisible=false;
 }
 
-function switchToMozaikPage() {
-	console.log("switchToMozaikPage called");
-	window.location.href = "./after_login_page.html";
+function switchToMyPage() {
+	console.log("switchToMyPage called");
+	window.location.href = "./myspace.html";
 }
 
 function checkBrowserCompatibility() {

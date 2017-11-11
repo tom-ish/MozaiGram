@@ -13,6 +13,10 @@ var mypagecontent = {
 				goHome();
 				return false;
 			});
+			$('#mozaikButton').click(function(){
+				goMozaik();
+				return false;
+			});
 		}
 };
 
@@ -33,6 +37,10 @@ function goHome() {
 //	window.location.href = "./FlipLogin.jsp";
 }
 
+function goMozaik(){
+	console.log("go to Mozaik called ...");
+	window.location.href = "./after_login_page.html"
+}
 
 window.onload = function() {
 	mypagecontent.initialize();
