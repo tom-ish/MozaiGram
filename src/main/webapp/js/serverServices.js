@@ -146,5 +146,26 @@ var ServerServices = {
 					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
+		},
+		
+		
+		addFriend : function addFriend(sessionkey, userid) {
+			console.log("addFriend called...");
+			$.ajax({
+				type: "POST",
+				url: "AddFriendServlet",
+				data: "sessionkey=" + username + "&userid=" + password,
+				dataType: 'json',
+				success: function(json){
+					if(json.AddFriendServlet == SUCCESS_CODE){
+						console.log("addFriend success!");
+						console.log("returned code : " + json.ConnectUserServlet);
+					}
+					else{
+						console.log("addFriend failed!");
+						console.log("returned code : " + json.ConnectUserServlet);
+					}
+				}
+			});
 		}
 }
