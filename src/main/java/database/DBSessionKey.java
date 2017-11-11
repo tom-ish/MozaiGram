@@ -35,7 +35,7 @@ public class DBSessionKey {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey().equals(key))
-					return userSession.getUserId();
+					return userSession.getUser().getId();
 			}
 		}
 		return -1;
@@ -47,7 +47,7 @@ public class DBSessionKey {
 		if(Persist.OPENED_SESSION != null) {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
-				if(userSession.getUserId() == DBAuthentification.getIdByUsername(username))
+				if(userSession.getUser().getId() == DBAuthentification.getIdByUsername(username))
 					return userSession.getSessionkey();		
 			}
 		}
