@@ -49,8 +49,10 @@ function login(formulaire) {
 	var ok = verif_connect_form(username, pwd);
 	console.log("verif_connect_form" + ok);
 	console.log("username : " + username + ", pwd : " + pwd);
-	if(ok)
+	if(ok) {
 		ServerServices.connect(username, pwd);
+		switchToMyPage();
+	}
 }
 
 function createUser(formulaire) {
