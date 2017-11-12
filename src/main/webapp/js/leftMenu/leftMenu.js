@@ -18,7 +18,7 @@ var leftMenu = {
 				return false;
 			});
 		}
-}
+};
 
 function goHome() {
 	console.log("go Home called...");
