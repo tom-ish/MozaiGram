@@ -1,4 +1,5 @@
 function search(field) {
+   console.log("Searching for "+field.value);
   document.getElementById("error").innerText = "";
     if (field.value === "") {
 	 var page = localStorage.getItem("previouspage");
