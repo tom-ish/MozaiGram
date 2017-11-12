@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('#sb-search').change(function () {
+	$('#sb-search-input').change(function () {
 		var word=document.getElementById("sb-search").value;
 	   console.log("Searching for "+word);
 	  document.getElementById("error").innerText = "";
