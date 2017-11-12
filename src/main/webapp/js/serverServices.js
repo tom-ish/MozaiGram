@@ -173,7 +173,7 @@ var ServerServices = {
 			var generated = false;
 			$.ajax({
 				type: "POST",
-				url: "getSearchResults",
+				url: "SearchServlet",
 				data: "sessionkey=" + sessionkey,
 				dataType: 'json',
 				success: function(json) {
