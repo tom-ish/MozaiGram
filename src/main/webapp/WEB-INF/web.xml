@@ -4,26 +4,6 @@
 
 <web-app>
   <display-name>MozaiGram</display-name>
-  <servlet>
-  	<servlet-name>AddFriendServlet</servlet-name>
-  	<display-name>AddFriendServlet</display-name>
-  	<description></description>
-  	<servlet-class>servlets.AddFriendServlet</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>GetAllFriendsServlet</servlet-name>
-  	<display-name>GetAllFriendsServlet</display-name>
-  	<description></description>
-  	<servlet-class>servlets.GetAllFriendsServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  	<servlet-name>AddFriendServlet</servlet-name>
-  	<url-pattern>/AddFriendServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>GetAllFriendsServlet</servlet-name>
-  	<url-pattern>/GetAllFriendsServlet</url-pattern>
-  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
