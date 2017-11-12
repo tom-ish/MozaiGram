@@ -149,21 +149,21 @@ var ServerServices = {
 		},
 		
 		
-		sendFriendRequest : function sendFriendRequest(sessionkey, userid) {
+		sendFriendRequest : function sendFriendRequest(sessionkey, friendid) {
 			console.log("sendFriendRequest called...");
 			$.ajax({
 				type: "GET",
 				url: "SendFriendRequestServlet",
-				data: "sessionkey=" + sessionkey + "&friendid=" + userid,
+				data: "sessionkey=" + sessionkey + "&friendid=" + friendid,
 				dataType: 'json',
 				success: function(json){
 					if(json.SendFriendRequestServlet == SUCCESS_CODE){
 						console.log("addFriend success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("returned code : " + json.SendFriendRequestServlet);
 					}
 					else{
 						console.log("addFriend failed!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("returned code : " + json.SendFriendRequestServlet);
 					}
 				}
 			});
@@ -182,20 +182,40 @@ var ServerServices = {
 			$.ajax({
 				type: "GET",
 				url: "GetAllFriendsServlet",
-				data: "sessionkey=" + username,
+				data: "sessionkey=" + sessionkey,
 				dataType: 'json',
 				success: function(json){
 					if(json.GetAllFriendsServlet == SUCCESS_CODE){
 						console.log("addFriend success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log(json);
 					}
 					else{
 						console.log("addFriend failed!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("returned code : " + json.GetAllFriendsServlet);
 					}
 				}
 			});
 		},
+		getAllFriendRequest : function getAllFriendRequest(sessionkey) {
+			console.log("getAllFriendRequest called...");
+			$.ajax({
+				type: "GET",
+				url: "GetAllFriendRequestServlet",
+				data: "sessionkey=" + sessionkey,
+				datatype: 'json',
+				success: function(json) {
+					if(json.GetAllFriendRequestServlet == SUCCESS_CODE){
+						console.log("getAllFriendRequest success!");
+						console.log(json);
+					}
+					else {
+						console.log("getAllFriendRequest failed!");
+						console.log("returned code : " + json.getAllFriendRequestServlet);
+					}
+				}
+			});
+		},
+		
 		getSearchResults : function getSearchResults(sessionkey) {
 			console.log("getSearchResults called...");
 			var generated = false;

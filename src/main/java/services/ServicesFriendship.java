@@ -60,5 +60,18 @@ public class ServicesFriendship {
 			return Persist.SUCCESS;
 		}
 	}
+	
+	public static int getAllFriendRequest(String sessionkey, JSONObject json) {
+		if(Tools.isNullParameter(sessionkey))
+			return Persist.ERROR_NULL_PARAMETER;
+		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
+			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
+		else {
+			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			Set<User> requestUsers = DBFriendship.getAllFriendsRequests(userId);
+			json.put("friendRequest", requestUsers);
+			return Persist.SUCCESS;
+		}
+	}
 
 }
