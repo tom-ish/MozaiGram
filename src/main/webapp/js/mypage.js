@@ -10,6 +10,8 @@ var mypagecontent = {
 			console.log("myPageContent loaded");
 			console.log("USERNAME : " + username);
 			console.log(connectResultJSON);
+			console.log(connectResultJSON.friendRequest);
+			console.log(connectResultJSON.friends);
 			localStorage.setItem("previouspage", "mypage");
 		}
 		
