@@ -1,22 +1,24 @@
-$('#sb-search').change(function () {
-	var word=document.getElementById("sb-search").value;
-   console.log("Searching for "+word);
-  document.getElementById("error").innerText = "";
-    if (word === "") {
-	 var page = localStorage.getItem("previouspage");
-		if (page == "mozaikpage"){
-			goMozaik();
+$(document).ready(function(){
+	$('#sb-search').change(function () {
+		var word=document.getElementById("sb-search").value;
+	   console.log("Searching for "+word);
+	  document.getElementById("error").innerText = "";
+		if (word === "") {
+		 var page = localStorage.getItem("previouspage");
+			if (page == "mozaikpage"){
+				goMozaik();
+			}
+			else if (page=="mypage"){
+				goPage();
+			}
 		}
-		else if (page=="mypage"){
-			goPage();
+		else {
+			goSearch();
+			document.getElementById("sb-search").value=word;
+			serverServices.getSearchResults(field.value);
 		}
-	}
-	else {
-		goSearch();
-		document.getElementById("sb-search").value=word;
-		serverServices.getSearchResults(field.value);
-	}
-}
+	});
+});
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
