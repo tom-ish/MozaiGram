@@ -41,7 +41,7 @@ var ServerServices = {
 				success: function(json){
 					if(json.ConnectUserServlet == SUCCESS_CODE){
 						console.log("Connexion success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log(json);
 						// Store username in localStorage Object before switching to MozaikPage
 						// Web Storage Compatibility should be checked at start
 						localStorage.setItem("username", json.username);

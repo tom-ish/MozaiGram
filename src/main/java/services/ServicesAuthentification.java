@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import database.DBAuthentification;
+import database.DBFriendship;
 import database.DBStatic;
 import utils.Persist;
 import utils.Tools;
@@ -38,14 +39,16 @@ public class ServicesAuthentification {
 				return Persist.ERROR_USER_PASSWORD_NOT_MATCH;
 			
 			// DB
+			int userId = DBAuthentification.getIdByUsername(username);
 			String sessionkey = DBAuthentification.connect(username);
 			if(sessionkey != null){
 				json.put("username", username);
 				json.put("sessionKey", sessionkey);
+				json.put("friends", DBFriendship.getAllFriends(userId));
+				json.put("friendRequest", DBFriendship.getAllFriendsRequests(userId));
 				return Persist.SUCCESS;
 			}
 		}
-
 		return Persist.ERROR;
 	}
 

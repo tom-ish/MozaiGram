@@ -6,6 +6,7 @@
 
 <link href="css/bootstrap.css" rel ="stylesheet" type='text/css' />
 <link href="css/afterLogin/style.css" rel="stylesheet" type='text/css' />
+<link href="css/leftMenu.css" rel="stylesheet" type='text/css' />
 <link href="css/afterLogin/style_custom.css" rel="stylesheet" type='text/css' />
 <link href="css/afterLogin/dragndrop.css" rel="stylesheet" type='text/css' />
 <link href="css/afterLogin/font-awesome.css" rel="stylesheet" />
@@ -16,7 +17,15 @@
 </head>
 <body class="sticky-header left-side-collapsed">
 
-	<section>
+	<div id="friendRequestSideNav" class="sidenav">
+		<div class="closebtn" onclick="closeFriendRequestSideNav()">&times;</div>
+		<div >About</div>
+		<div >Services</div>
+		<div >Clients</div>
+		<div>Contact</div>
+	</div>
+
+	<section id="visibleContent">
 		<!-- left side start -->
 		<div class="left-side sticky-left-side" style="overflow: hidden; outline: none;">
 			<div class="logo">
@@ -29,28 +38,28 @@
 			<div class="left-side-inner">
 				<!-- sidebar nav start -->
 				<ul class="nav nav-pills nav-stacked custom-nav">
-					<li class="active" id="homeButton">
+					<li id="homeButton">
 						<a href="#">
 							<i class="lnr lnr-home">H</i>
 							<span>Page personnelle</span>
 						</a>
 					</li>
-					<li id="mozaikButton">
+					<li class="active" id="mozaikButton">
 						<a href="#">
 							<i class="lnr lnr-users">M</i>
 							<span>Generer une mosaique</span>
-						</a>
-					</li>
-					<li id="logoutButton">
-						<a href="#">
-							<i class="lnr lnr-users">L</i>
-							<span>D&eacute;connexion</span>
 						</a>
 					</li>
 					<li id="friendRequestButton">
 						<a href="#">
 							<i class="lnr lnr-users">A</i>
 							<span>Amis</span>
+						</a>
+					</li>
+					<li id="logoutButton">
+						<a href="#">
+							<i class="lnr lnr-users">L</i>
+							<span>D&eacute;connexion</span>
 						</a>
 					</li>
 				</ul>
