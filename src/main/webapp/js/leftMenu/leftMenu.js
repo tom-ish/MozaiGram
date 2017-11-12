@@ -24,14 +24,14 @@ function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
 	localStorage.setItem("previouspage","mypage");
-	window.location.href = "./myspace.html"
+	window.location.href = "./myspace.html";
 //	window.location.href = "./FlipLogin.jsp";
 }
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
 	localStorage.setItem("previouspage","mozaikpage");
-	window.location.href = "./after_login_page.html"
+	window.location.href = "./after_login_page.html";
 }
 
 window.onload = function() {
