@@ -50,7 +50,7 @@ public class ServicesAuthentification {
 				json.put("username", username);
 				json.put("sessionKey", sessionkey);
 				json.put("friends", friends);
-				json.put("friendRequest", friendRequest);
+				json.put("friendRequests", friendRequest);
 				return Persist.SUCCESS;
 			}
 		}
