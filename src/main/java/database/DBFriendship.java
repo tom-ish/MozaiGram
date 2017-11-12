@@ -8,6 +8,7 @@ import java.util.Set;
 import hibernate_entity.Friendship;
 import hibernate_entity.User;
 import utils.Persist;
+import utils.Tools;
 
 public class DBFriendship {
 	
@@ -88,7 +89,7 @@ public class DBFriendship {
 		return rslt;
 	}
 	
-	public static Set<User> getAllFriendsRequests(int userId) {
+	public static Set<User> getAllFriendRequests(int userId) {
 		String hql = "from Friendship f where f.user='"+userId+"'";
 		Set<User> rslt = new HashSet<User>();
 		
@@ -101,6 +102,10 @@ public class DBFriendship {
 							rslt.add(f.getFriend());
 		}
 		return rslt;
+	}
+	
+	public static String getStringFromUsersSet(Set<User> users) {
+		return Tools.stringifyUsersSet(users);
 	}
 
 }

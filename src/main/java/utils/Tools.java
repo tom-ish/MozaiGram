@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import hibernate_entity.User;
+
 public class Tools {
 
 	public static boolean isNullParameter(String parameter) {
@@ -139,6 +141,17 @@ public class Tools {
 			}
 		}
 		return "";
+	}
+	
+	
+	public static String stringifyUsersSet(Set<User> users) {
+		String rslt = "";
+		for(User user : users) {
+			rslt+= user.getId() + Persist.STRINGIFY_ATTRIBUTE_SEPARATOR
+					+ user.getUsername() + Persist.STRINGIFY_ATTRIBUTE_SEPARATOR
+					+ user.getEmail() + Persist.STRINGIFY_SEPARATOR;
+		}
+		return rslt;
 	}
 	
 }

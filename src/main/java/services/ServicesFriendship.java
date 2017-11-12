@@ -68,7 +68,7 @@ public class ServicesFriendship {
 			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
 			int userId = DBSessionKey.getUserIdByKey(sessionkey);
-			Set<User> requestUsers = DBFriendship.getAllFriendsRequests(userId);
+			Set<User> requestUsers = DBFriendship.getAllFriendRequests(userId);
 			json.put("friendRequest", requestUsers);
 			return Persist.SUCCESS;
 		}

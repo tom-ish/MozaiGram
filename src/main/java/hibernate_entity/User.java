@@ -48,7 +48,7 @@ public class User {
 	public String getPassword() { return this.password; } 
 	public String getEmail() { return this.email; }
 	public Set<Friendship> getAllFriends() { return this.friends; }
-	public Set<Library> getAllLiraries() { return this.libraries; }
+	public Set<Library> getAllLibraries() { return this.libraries; }
 	public Set<Comment> getAllComments() { return this.comments; }
 
 	public void setId(int id) { this.id =  id; }

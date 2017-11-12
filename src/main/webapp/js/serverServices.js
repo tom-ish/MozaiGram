@@ -42,8 +42,8 @@ var ServerServices = {
 					if(json.ConnectUserServlet == SUCCESS_CODE){
 						console.log("Connexion success!");
 						console.log(json);
-						console.log(JSON.stringify(Array.from(json.friendRequest)));
-						console.log(JSON.stringify(Array.from(json.friends)));
+						console.log(json.friendRequest);
+						console.log(json.friends);
 						// Store username in localStorage Object before switching to MozaikPage
 						// Web Storage Compatibility should be checked at start
 						localStorage.setItem("username", json.username);

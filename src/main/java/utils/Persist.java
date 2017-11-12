@@ -91,4 +91,9 @@ public class Persist {
 	 */
 	public static Session OPENED_SESSION = null;
 	
+	
+	
+	public static String STRINGIFY_SEPARATOR = "###";
+	public static String STRINGIFY_ATTRIBUTE_SEPARATOR = "&&&";
+	
 }
