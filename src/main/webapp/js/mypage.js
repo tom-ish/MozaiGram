@@ -37,7 +37,7 @@ function initializePage() {
 
 function loadFriendsListInfo() {
 	console.log("Loading friendsListInfo...");
-	ServerServices.loadFriendsListInfo(sessionkey);
+	ServerServices.getAllFriends(sessionkey);
 }
 
 function goHome() {
