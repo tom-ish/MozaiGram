@@ -1,6 +1,6 @@
 $(document).ready(function(){
-	$('#sb-search-input').change(function () {
-		var word=document.getElementById("sb-search").value;
+	$('#search').change(function () {
+		var word=document.getElementById("search").value;
 	   console.log("Searching for "+word);
 	  document.getElementById("error").innerText = "";
 		if (word === "") {
