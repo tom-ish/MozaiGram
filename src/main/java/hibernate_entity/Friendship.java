@@ -1,10 +1,14 @@
 package hibernate_entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,33 +19,34 @@ public class Friendship {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="userid")
-	private int userId;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="userid", nullable=false)
+	private User user;
 	
-	@Column(name="friendid")
-	private int friendId;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="friendid", nullable=false)
+	private User friend;
 	
 	@Column(name="state")
 	private int state;
 	
 	public Friendship() {}
 	
-	public Friendship(int userId, int friendId, int state) {
-		this.userId = userId;
-		this.friendId = friendId;
+	public Friendship(User friend, int state) {
+		this.friend = friend;
 		this.state = state;
 	}
 	
-	public int getUserId() { return this.userId; }
-	public int getFriendId() { return this.friendId; }
+	public User getFriend() { return this.friend; }
 	public int getState() { return this.state; }
+	public User getUser() { return this.user; }
 	
-	public void setUserId(int userId) { this.userId = userId; }
-	public void setFriendId(int friendId) { this.friendId = friendId; }
+	public void setFriend(User friend) { this.friend = friend; }
 	public void setState(int state) { this.state = state; }
+	public void setUser(User user) { this.user = user; }
 	
 	@Override
 	public String toString() {
-		return "Friendship [id=" + id + ", userId=" + userId + ", friendId=" + friendId + "]";
+		return "Friendship [id=" + id + ", userId=" + user.getId() + ", friendId=" + friend.getId() + "]";
 	}
 }

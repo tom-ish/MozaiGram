@@ -4,9 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="user_session")

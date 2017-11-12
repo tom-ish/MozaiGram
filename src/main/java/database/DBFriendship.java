@@ -4,17 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hibernate_entity.Friendship;
+import hibernate_entity.User;
 import utils.Persist;
 
 public class DBFriendship {
 	
 	public static int addFriend(int userId, int friendId) {
-		Friendship friendship = new Friendship(userId, friendId, Persist.STATUS_FRIENDSHIP_REQUEST_SENT);
-		if(Persist.OPENED_SESSION != null) {
-			Persist.OPENED_SESSION.beginTransaction();
-			Persist.OPENED_SESSION.save(friendship);
-			Persist.OPENED_SESSION.getTransaction().commit();
-			return Persist.SUCCESS;
+		if(userId == friendId)
+			return Persist.ERROR_FRIENDSHIP_SAME_USER_ID;
+		
+		User user = DBAuthentification.getUserById(userId);
+		User friend = DBAuthentification.getUserById(friendId);
+		
+		if(user != null && friend != null) {
+			Friendship friendship = new Friendship();
+			friendship.setFriend(friend);
+			friendship.setUser(user);
+			friendship.setState(Persist.STATUS_FRIENDSHIP_REQUEST_SENT);
+			if(Persist.OPENED_SESSION != null) {
+				Persist.OPENED_SESSION.beginTransaction();
+				Persist.OPENED_SESSION.save(friendship);
+				Persist.OPENED_SESSION.getTransaction().commit();
+				return Persist.SUCCESS;
+			}
 		}
 		return Persist.ERROR;
 	}
@@ -25,7 +37,7 @@ public class DBFriendship {
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(Friendship friendship : friendships)
-				if(friendship.getUserId() == userId && friendship.getFriendId() == friendId)
+				if(friendship.getUser().getId() == userId && friendship.getFriend().getId() == friendId)
 					return friendship.getState();
 		}
 		return Persist.ERROR_FRIENDSHIP_NOT_FOUND;
@@ -53,8 +65,8 @@ public class DBFriendship {
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(Friendship friendship : friendships)
-				if(friendship.getUserId() == userId)
-					rslt.add(new Integer(friendship.getFriendId()));
+				if(friendship.getUser().getId() == userId)
+					rslt.add(new Integer(friendship.getFriend().getId()));
 		}
 		return rslt;
 	}

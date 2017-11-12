@@ -1,5 +1,8 @@
 package hibernate_entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +22,15 @@ public class User {
 	
 	@Column(name="email")
 	private String email;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	private Set<Friendship> friends;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	private Set<Library> libraries;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="auteur")
+	private Set<Comment> comments;
 		
 	public User() {}
 	
@@ -26,19 +38,26 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.friends = new HashSet<Friendship>();
+		this.libraries = new HashSet<Library>();
+		this.comments = new HashSet<Comment>();
 	}
 	
 	public int getId() { return this.id; }
 	public String getUsername() { return this.username; }
 	public String getPassword() { return this.password; } 
 	public String getEmail() { return this.email; }
+	public Set<Friendship> getAllFriends() { return this.friends; }
+	public Set<Library> getAllLiraries() { return this.libraries; }
+	public Set<Comment> getAllComments() { return this.comments; }
 
 	public void setId(int id) { this.id =  id; }
 	public void setUsername(String username) { this.username = username; }
 	public void setPassword(String password) { this.password = password; }
 	public void setEmail(String email) { this.email = email; }
-	
-	
+	public void setFriends(Set<Friendship> friends) { this.friends = friends; }
+	public void setLibraries(Set<Library> libraries) { this.libraries = libraries; }
+	public void setComments(Set<Comment> comments) { this.comments = comments; }
 
 	@Override
 	public String toString() {

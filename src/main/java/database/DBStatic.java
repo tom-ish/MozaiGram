@@ -13,6 +13,7 @@ import org.hibernate.cfg.Configuration;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+import hibernate_entity.Comment;
 import hibernate_entity.Friendship;
 import hibernate_entity.Image;
 import hibernate_entity.Library;
@@ -93,6 +94,7 @@ public class DBStatic {
 				.addAnnotatedClass(Library.class)
 				.addAnnotatedClass(UserSession.class)
 				.addAnnotatedClass(Friendship.class)
+				.addAnnotatedClass(Comment.class)
 				.buildSessionFactory();
 		return factory.openSession();
 	}

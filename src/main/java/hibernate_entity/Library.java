@@ -1,6 +1,18 @@
 package hibernate_entity;
 
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="library")
@@ -11,25 +23,27 @@ public class Library {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="userId")
-	private int userId;
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="userid", nullable=false)
+	private User user;
 	
-	@Column(name="imgId")
-	private int imgId;
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="imgid")
+	private Set<Image> images;
 	
 	public Library() {}
 	
-	public Library(int userId, int imgId) {
-		this.userId = userId;
-		this.imgId = imgId;
+	public Library(User user) {
+		this.user = user;
+		this.images = new HashSet<Image>();
 	}
 	
 	public int getId() { return this.id; }
-	public int getUserId() { return this.userId; }
-	public int getImgId() { return this.imgId; }
+	public User getUser() { return this.user; }
+	public Set<Image> getImages() { return this.images; }
 	
 	public void setId(int id) { this.id = id; }
-	public void setUserId(int userId) { this.userId = userId; }
-	public void setImgId(int imgId) { this.imgId = imgId; }
+	public void setUser(User user) { this.user = user; }
+	public void setImages(Set<Image> images) { this.images = images; }
 
 }

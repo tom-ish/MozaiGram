@@ -32,6 +32,18 @@ public class DBAuthentification {
 		}
 		return null;
 	}
+	
+	public static User getUserById(int id) {
+		String hql = "from User u where u.id='"+id+"'";
+		if(Persist.OPENED_SESSION != null) {
+			List<User> users = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			for(User user : users)
+				if(user.getId() == id)
+					return user;
+
+		}
+		return null;
+	}
 
 	public static boolean existeLogin(String username) {
 		String hql = "from User";

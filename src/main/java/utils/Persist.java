@@ -30,8 +30,9 @@ public class Persist {
 	 */
 	public static final int ERROR_FRIEND_NOT_FOUND = 311;
 	public static final int ERROR_FRIENDSHIP_NOT_FOUND = 312;
-	public static final int STATUS_FRIENDSHIP_REQUEST_SENT = 313;
-	public static final int STATUS_FRIENDSHIP_REQUEST_ACCEPTED = 314;
+	public static final int ERROR_FRIENDSHIP_SAME_USER_ID = 313;
+	public static final int STATUS_FRIENDSHIP_REQUEST_SENT = 314;
+	public static final int STATUS_FRIENDSHIP_REQUEST_ACCEPTED = 315;
 
 	
 	/*

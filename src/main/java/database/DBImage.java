@@ -4,10 +4,11 @@ import java.util.List;
 
 import hibernate_entity.Image;
 import hibernate_entity.Library;
+import hibernate_entity.User;
 import utils.Persist;
 
 public class DBImage {
-	
+
 	public static int addImage(String imgPath) {
 		Image img = new Image(imgPath);
 		if(Persist.OPENED_SESSION != null) {
@@ -20,19 +21,26 @@ public class DBImage {
 	}
 
 	public static int addImageToLibrary(int userId, int imgId) {
-		Library library = new Library(userId, imgId);
-		if(Persist.OPENED_SESSION != null) {
-			Persist.OPENED_SESSION.beginTransaction();
-			Persist.OPENED_SESSION.save(library);
-			Persist.OPENED_SESSION.getTransaction().commit();
-			Persist.OPENED_SESSION.close();
+		User user = DBAuthentification.getUserById(userId);
+		Image img = DBImage.getImgFromId(imgId);
+		if(user != null && img != null) {
+			Library library = new Library();
+			library.setUser(user);
+			library.getImages().add(img);
+			if(Persist.OPENED_SESSION != null) {
+				Persist.OPENED_SESSION.beginTransaction();
+				Persist.OPENED_SESSION.save(library);
+				Persist.OPENED_SESSION.getTransaction().commit();
+				Persist.OPENED_SESSION.close();
+			}
+			return library.getId();
 		}
-		return library.getId();
+		return -1;
 	}
-	
+
 	public static String getPathFromImgId(int id) {
 		String hql = "from Image";
-		
+
 		if(Persist.OPENED_SESSION != null) {
 			List<Image> images = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			Persist.OPENED_SESSION.close();
@@ -43,5 +51,19 @@ public class DBImage {
 		}
 		return null;
 	}
-	
+
+	public static Image getImgFromId(int id) {
+		String hql = "from Image";
+
+		if(Persist.OPENED_SESSION != null) {
+			List<Image> images = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			Persist.OPENED_SESSION.close();
+			for(Image img : images) {
+				if(img.getId() == id)
+					return img;
+			}
+		}
+		return null;
+	}
+
 }

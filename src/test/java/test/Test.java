@@ -36,6 +36,7 @@ public class Test {
 			session.beginTransaction();
 			session.createQuery(psql_create_friendship).executeUpdate();
 			session.getTransaction().commit();
+			session.getSessionFactory().close();
 			session.close();
 			System.out.println("OK");
 			
