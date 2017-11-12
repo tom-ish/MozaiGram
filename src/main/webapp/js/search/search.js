@@ -1,7 +1,8 @@
-function search(field) {
-   console.log("Searching for "+field.value);
+$('#sb-search').change(function () {
+	var word=document.getElementById("sb-search").value;
+   console.log("Searching for "+word);
   document.getElementById("error").innerText = "";
-    if (field.value === "") {
+    if (word === "") {
 	 var page = localStorage.getItem("previouspage");
 		if (page == "mozaikpage"){
 			goMozaik();
@@ -12,6 +13,7 @@ function search(field) {
 	}
 	else {
 		goSearch();
+		document.getElementById("sb-search").value=word;
 		serverServices.getSearchResults(field.value);
 	}
 }
