@@ -17,7 +17,9 @@ var mypagecontent = {
 				goMozaik();
 				return false;
 			});
+			localStorage.setItem("previouspage", "mypage");
 		}
+		
 };
 
 function initializePage() {

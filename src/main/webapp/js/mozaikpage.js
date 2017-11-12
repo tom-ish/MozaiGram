@@ -18,17 +18,14 @@ var mozaikcontent = {
 				goMozaik();
 				return false;
 			});
+			localStorage.setItem("previouspage", "mozaikpage");
 		}
+		
 };
 
 function initializeUser() {
 	console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
 
-	var html = "Welcome "+username+", sessionKey : " + sessionkey +"!";
-	var test = document.createElement('h1');
-	test.className="test";
-	test.innerHTML = html;
-	document.getElementById("usernameId").appendChild(test);
 }
 
 function goHome() {

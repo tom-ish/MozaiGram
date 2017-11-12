@@ -167,5 +167,38 @@ var ServerServices = {
 					}
 				}
 			});
+		},
+		getSearchResults : function getSearchResults(sessionkey) {
+			console.log("getSearchResults called...");
+			var generated = false;
+			$.ajax({
+				type: "POST",
+				url: "getSearchResults",
+				data: "sessionkey=" + sessionkey,
+				dataType: 'json',
+				success: function(json) {
+					if (json.searchEnded) {
+						generated=true;
+					}
+					var listResearch = json.listResearch;
+					localStorage.setItem("listResearch",listResearch);
+					displayResults();
+				},
+				complete: function(json) {
+					if(!generated) {
+						// Schedule the next
+	                    setTimeout(ServerServices.searchresult(sessionkey), 100);
+					}
+					else {
+						console.log("Search Ended");
+					}
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
+				}
+			});
 		}
+		
 }

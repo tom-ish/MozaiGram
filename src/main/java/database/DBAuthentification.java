@@ -1,5 +1,6 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -43,6 +44,19 @@ public class DBAuthentification {
 
 		}
 		return null;
+	}
+	
+	public static ArrayList<String> getUserNames(){
+		String hql="from SearchEngine";
+		ArrayList<String> result = new ArrayList<String>();
+		if (Persist.OPENED_SESSION !=null){
+			List<User> users= Persist.OPENED_SESSION.createQuery(hql).getResultList();
+
+			for (User user:users){
+				result.add(user.getUsername());
+			}
+		 }
+		return result;
 	}
 
 	public static boolean existeLogin(String username) {
