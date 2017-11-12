@@ -3,8 +3,8 @@ var sessionkey = localStorage.getItem("sessionKey");
 
 var leftMenu = {
 		initialize : function() {
-			initializeUser();
 			$('#logoutButton').click(function(){
+				console.log("Logout Clicked!");
 				ServerServices.logout(username, sessionkey);
 				window.location.href = "./index.html"
 				return false;
@@ -17,7 +17,6 @@ var leftMenu = {
 				goMozaik();
 				return false;
 			});
-			localStorage.setItem("previouspage", "mypage");
 		}
 }
 
