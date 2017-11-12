@@ -18,28 +18,27 @@ var mozaikcontent = {
 				goMozaik();
 				return false;
 			});
+			localStorage.setItem("previouspage", "mozaikpage");
 		}
+		
 };
 
 function initializeUser() {
 	console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
 
-	var html = "Welcome "+username+", sessionKey : " + sessionkey +"!";
-	var test = document.createElement('h1');
-	test.className="test";
-	test.innerHTML = html;
-	document.getElementById("usernameId").appendChild(test);
 }
 
 function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
+	localStorage.setItem("previouspage","mypage");
 	window.location.href = "./myspace.html"
 //	window.location.href = "./FlipLogin.jsp";
 }
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
+	localStorage.setItem("previouspage","mozaikpage");
 	window.location.href = "./after_login_page.html"
 }
 

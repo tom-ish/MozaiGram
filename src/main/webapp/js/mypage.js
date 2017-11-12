@@ -17,7 +17,9 @@ var mypagecontent = {
 				goMozaik();
 				return false;
 			});
+			localStorage.setItem("previouspage", "mypage");
 		}
+		
 };
 
 function initializePage() {
@@ -32,6 +34,7 @@ function initializePage() {
 
 function goHome() {
 	console.log("go Home called...");
+	localStorage.setItem("previouspage","mypage");
 	localStorage.setItem("requestedpage", username);
 	window.location.href = "./myspace.html"
 //	window.location.href = "./FlipLogin.jsp";
@@ -39,6 +42,7 @@ function goHome() {
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
+	localStorage.setItem("previouspage","mozaikpage");
 	window.location.href = "./after_login_page.html"
 }
 
