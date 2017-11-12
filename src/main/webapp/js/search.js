@@ -13,7 +13,7 @@ jQuery('#search').on('input', function () {
 		else {
 			goSearch();
 			document.getElementById("sb-search").value=word;
-			ServerServices.getSearchResults(field.value);
+			ServerServices.getSearchResults(word);
 		}
 
 });
