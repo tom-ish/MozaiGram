@@ -54,7 +54,7 @@ public class ServicesFriendship {
 		else {
 			int userId = DBSessionKey.getUserIdByKey(sessionkey);
 			Set<User> friends = DBFriendship.getAllFriends(userId);
-			System.out.println("FRIENDS.size() : " + friends.size() + " : " + friends);
+			System.out.println("userId: "+userId+" FRIENDS.size() : " + friends.size() + " : " + friends);
 			json.put("friends", friends);
 			System.out.println("FRIENDS : " + friends);
 			return Persist.SUCCESS;
