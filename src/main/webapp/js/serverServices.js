@@ -152,9 +152,9 @@ var ServerServices = {
 		sendFriendRequest : function sendFriendRequest(sessionkey, userid) {
 			console.log("sendFriendRequest called...");
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "SendFriendRequestServlet",
-				data: "sessionkey=" + sessionkey + "&userid=" + userid,
+				data: "sessionkey=" + sessionkey + "&friendid=" + userid,
 				dataType: 'json',
 				success: function(json){
 					if(json.SendFriendRequestServlet == SUCCESS_CODE){
