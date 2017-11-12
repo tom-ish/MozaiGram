@@ -87,5 +87,20 @@ public class DBFriendship {
 		}
 		return rslt;
 	}
+	
+	public static Set<User> getAllFriendsRequests(int userId) {
+		String hql = "from Friendship f where f.userId='"+userId+"'";
+		Set<User> rslt = new HashSet<User>();
+		
+		if(Persist.OPENED_SESSION != null) {
+			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			for(Friendship friendship : friendships)
+				if(friendship.getUser().getId() == userId)
+					for(Friendship f : friendship.getUser().getAllFriends())
+						if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_SENT)
+							rslt.add(f.getFriend());
+		}
+		return rslt;
+	}
 
 }

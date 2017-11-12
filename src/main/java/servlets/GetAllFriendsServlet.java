@@ -48,6 +48,8 @@ public class GetAllFriendsServlet extends HttpServlet {
 		int friendId = Integer.valueOf(request.getParameter("userid"));
 
 
+		PrintWriter writer = response.getWriter();
+		response.setContentType("text/plain");
 		try {
 			// Traitement des donnees
 			JSONObject json = new JSONObject();
@@ -55,15 +57,12 @@ public class GetAllFriendsServlet extends HttpServlet {
 			//json.put("GetAllFriendsServlet", ""+rslt);
 			json.put("username", ""+sessionkey);
 			json.put("password", ""+friendId);
+			
+			writer.println(json.toString());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// Ecriture des donnees
-		PrintWriter writer = response.getWriter();
-		response.setContentType("text/plain");
-		writer.println(json.toString());
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class AddFriendServlet extends HttpServlet {
 		int friendId = Integer.valueOf(request.getParameter("userid"));
 		
 		JSONObject json = new JSONObject();
-		int rslt = ServicesFriendship.addFriend(sessionkey, friendId);
+		int rslt = ServicesFriendship.addFriend(sessionkey, friendId, json);
 	}
 	
 	@Override
