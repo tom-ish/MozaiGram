@@ -1,7 +1,6 @@
 jQuery('#search').on('input', function () {
 		var word=document.getElementById("search").value;
 	   console.log("Searching for "+word);
-	  document.getElementById("error").innerText = "";
 		if (word === "") {
 		 var page = localStorage.getItem("previouspage");
 			if (page == "mozaikpage"){
