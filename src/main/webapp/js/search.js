@@ -18,10 +18,6 @@ jQuery('#search').on('input', function () {
 
 });
 
-function goMozaik(){
-	console.log("go to Mozaik called ...");
-	window.location.href = "./after_login_page.html"
-}
 
 function goPage() {
 	var req= localStorage.getItem("requestedpage");

@@ -165,6 +165,10 @@ var ServerServices = {
 						console.log("addFriend failed!");
 						console.log("returned code : " + json.SendFriendRequestServlet);
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
 		},
@@ -186,13 +190,17 @@ var ServerServices = {
 				dataType: 'json',
 				success: function(json){
 					if(json.GetAllFriendsServlet == SUCCESS_CODE){
-						console.log("addFriend success!");
+						console.log("getAllFriends success!");
 						console.log(json);
 					}
 					else{
-						console.log("addFriend failed!");
+						console.log("getAllFriends failed!");
 						console.log("returned code : " + json.GetAllFriendsServlet);
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
 		},
@@ -212,6 +220,10 @@ var ServerServices = {
 						console.log("getAllFriendRequest failed!");
 						console.log("returned code : " + json.getAllFriendRequestServlet);
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
 		},
