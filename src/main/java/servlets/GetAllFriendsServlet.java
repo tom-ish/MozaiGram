@@ -45,7 +45,6 @@ public class GetAllFriendsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String sessionkey =  request.getParameter("sessionkey");
-		int friendId = Integer.valueOf(request.getParameter("userid"));
 
 
 		PrintWriter writer = response.getWriter();
@@ -53,10 +52,9 @@ public class GetAllFriendsServlet extends HttpServlet {
 		try {
 			// Traitement des donnees
 			JSONObject json = new JSONObject();
-			//int rslt = ServicesFriendship.(sessionkey, friendId, json);
-			//json.put("GetAllFriendsServlet", ""+rslt);
-			json.put("username", ""+sessionkey);
-			json.put("password", ""+friendId);
+			int rslt = ServicesFriendship.getAllFriends(sessionkey, json);
+			json.put("GetAllFriendsServlet", ""+rslt);
+			json.put("sessionkey", ""+sessionkey);
 			
 			writer.println(json.toString());
 		} catch (JSONException e) {

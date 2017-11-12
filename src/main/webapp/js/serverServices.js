@@ -177,12 +177,12 @@ var ServerServices = {
 			});
 		},
 		
-		getAllFriends : function getAllFriends(sessionkey, userid) {
+		getAllFriends : function getAllFriends(sessionkey) {
 			console.log("getAllFriends called...");
 			$.ajax({
 				type: "POST",
 				url: "GetAllFriendsServlet",
-				data: "sessionkey=" + username + "&userid=" + password,
+				data: "sessionkey=" + username,
 				dataType: 'json',
 				success: function(json){
 					if(json.GetAllFriendsServlet == SUCCESS_CODE){
