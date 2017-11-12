@@ -34,7 +34,7 @@ public class DBFriendship {
 	}
 	
 	public static int getFriendshipRequestStatus(int userId, int friendId) {
-		String hql = "from Friendship f where f.userid='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
@@ -62,7 +62,7 @@ public class DBFriendship {
 	}
 	
 	public static List<Integer> getAllFriendsIds(int userId) {
-		String hql = "from Friendship f where f.userid='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		ArrayList<Integer> rslt = new ArrayList<Integer>();
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
@@ -74,7 +74,7 @@ public class DBFriendship {
 	}
 	
 	public static Set<User> getAllFriends(int userId) {
-		String hql = "from Friendship f where f.userid='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		Set<User> rslt = new HashSet<User>();
 		
 		if(Persist.OPENED_SESSION != null) {
@@ -89,7 +89,7 @@ public class DBFriendship {
 	}
 	
 	public static Set<User> getAllFriendsRequests(int userId) {
-		String hql = "from Friendship f where f.userid='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		Set<User> rslt = new HashSet<User>();
 		
 		if(Persist.OPENED_SESSION != null) {
