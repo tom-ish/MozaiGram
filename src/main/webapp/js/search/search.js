@@ -1,5 +1,5 @@
-function searchforthis(field){
-	var word=field.value;
+jQuery('#search').on('input', function () {
+		var word=document.getElementById("search").value;
 	   console.log("Searching for "+word);
 	  document.getElementById("error").innerText = "";
 		if (word === "") {
@@ -16,7 +16,8 @@ function searchforthis(field){
 			document.getElementById("sb-search").value=word;
 			serverServices.getSearchResults(field.value);
 		}
-}
+
+});
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
