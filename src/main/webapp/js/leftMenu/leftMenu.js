@@ -16,7 +16,7 @@ var leftMenu = {
 			$('#mozaikButton').click(function(){
 				goMozaik();
 				return false;
-			});
+			})
 		}
 };
 
