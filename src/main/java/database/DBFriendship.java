@@ -1,7 +1,9 @@
 package database;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import hibernate_entity.Friendship;
 import hibernate_entity.User;
@@ -44,14 +46,14 @@ public class DBFriendship {
 	}
 	
 	public static boolean isFriend(int userId1, int userId2) {
-		List<Integer> friendsOfUser1 = getAllFriends(userId1);
+		List<Integer> friendsOfUser1 = getAllFriendsIds(userId1);
 		
 		for(Integer friendIdFromUser1 : friendsOfUser1) {
 			if(friendIdFromUser1.intValue() == userId2)
 				return true;
 		}
 		
-		List<Integer> friendsOfUser2 = getAllFriends(userId2);
+		List<Integer> friendsOfUser2 = getAllFriendsIds(userId2);
 		for(Integer friendIdFromUser2 : friendsOfUser2) {
 			if(friendIdFromUser2.intValue() == userId1)
 				return true;
@@ -59,7 +61,7 @@ public class DBFriendship {
 		return false;
 	}
 	
-	public static List<Integer> getAllFriends(int userId) {
+	public static List<Integer> getAllFriendsIds(int userId) {
 		String hql = "from Friendship f where f.userId='"+userId+"'";
 		ArrayList<Integer> rslt = new ArrayList<Integer>();
 		if(Persist.OPENED_SESSION != null) {
@@ -67,6 +69,21 @@ public class DBFriendship {
 			for(Friendship friendship : friendships)
 				if(friendship.getUser().getId() == userId)
 					rslt.add(new Integer(friendship.getFriend().getId()));
+		}
+		return rslt;
+	}
+	
+	public static Set<User> getAllFriends(int userId) {
+		String hql = "from Friendship f where f.userId='"+userId+"'";
+		Set<User> rslt = new HashSet<User>();
+		
+		if(Persist.OPENED_SESSION != null) {
+			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
+			for(Friendship friendship : friendships)
+				if(friendship.getUser().getId() == userId)
+					for(Friendship f : friendship.getUser().getAllFriends())
+						if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_ACCEPTED)
+							rslt.add(f.getFriend());
 		}
 		return rslt;
 	}

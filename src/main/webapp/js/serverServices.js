@@ -149,15 +149,43 @@ var ServerServices = {
 		},
 		
 		
-		addFriend : function addFriend(sessionkey, userid) {
-			console.log("addFriend called...");
+		sendFriendRequest : function sendFriendRequest(sessionkey, userid) {
+			console.log("sendFriendRequest called...");
 			$.ajax({
 				type: "POST",
-				url: "AddFriendServlet",
+				url: "SendFriendRequestServlet",
+				data: "sessionkey=" + sessionkey + "&userid=" + userid,
+				dataType: 'json',
+				success: function(json){
+					if(json.SendFriendRequestServlet == SUCCESS_CODE){
+						console.log("addFriend success!");
+						console.log("returned code : " + json.ConnectUserServlet);
+					}
+					else{
+						console.log("addFriend failed!");
+						console.log("returned code : " + json.ConnectUserServlet);
+					}
+				}
+			});
+		},
+		acceptFriendRequest : function acceptFriendRequest(sessionkey, friendid) {
+			console.log("acceptFriendRequest called...");
+			$.ajax({
+				type: "POST",
+				url: "AcceptFriendRequestServlet",
+				data: "sessionkey=" + sessionkey + "&userid=" + friendid
+			});
+		},
+		
+		getAllFriends : function getAllFriends(sessionkey, userid) {
+			console.log("getAllFriends called...");
+			$.ajax({
+				type: "POST",
+				url: "GetAllFriendsServlet",
 				data: "sessionkey=" + username + "&userid=" + password,
 				dataType: 'json',
 				success: function(json){
-					if(json.AddFriendServlet == SUCCESS_CODE){
+					if(json.GetAllFriendsServlet == SUCCESS_CODE){
 						console.log("addFriend success!");
 						console.log("returned code : " + json.ConnectUserServlet);
 					}
