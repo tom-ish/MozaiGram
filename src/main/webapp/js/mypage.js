@@ -1,13 +1,15 @@
 var username = localStorage.getItem("requestedpage");
 var sessionkey = localStorage.getItem("sessionKey");
+var connectResultJSON = localStorage.getItem("connectResultJSON");
 
 
 var mypagecontent = {
 		initialize : function() {
 			initializePage();
 			loadFriendsListInfo();
+			console.log("myPageContent loaded");
 			console.log("USERNAME : " + username);
-			
+			console.log(connectResultJSON);
 			localStorage.setItem("previouspage", "mypage");
 		}
 		

@@ -46,6 +46,7 @@ var ServerServices = {
 						// Web Storage Compatibility should be checked at start
 						localStorage.setItem("username", json.username);
 						localStorage.setItem("sessionKey", json.sessionKey);
+						localStorage.setItem("connectResultJSON", json);
 						switchToMyPage();
 					}
 					else{
