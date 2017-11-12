@@ -180,7 +180,7 @@ var ServerServices = {
 		getAllFriends : function getAllFriends(sessionkey) {
 			console.log("getAllFriends called...");
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "GetAllFriendsServlet",
 				data: "sessionkey=" + username,
 				dataType: 'json',
