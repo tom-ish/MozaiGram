@@ -33,6 +33,12 @@ function displayResults(searchkey){
 
 		for (var i = 0; i < res.length; i++) {
     		//alert(List[i]);
+			if(res[i].charAt(0)=='[' || res[i].charAt(0)==' '){
+				res[i]=res[i].substr(1,res[i].length);
+			}
+			if (res[i].charAt(res[i].length-1)==']' || res[i].charAt(res[i].length-1)==' '){
+				res[i]=res[i].substr(0,res[i].length-1);
+			}
     		displayAccessButton(res[i]);
 		}
 }
@@ -46,7 +52,7 @@ function displayAccessButton(name) {
 	button.value = name;
 	button.type = "submit";
 	button.style.height="200px";
-	button.style.length="800px";
+	button.style.width="800px";
 	button.onclick=accessClick;
 	$(document.getElementById("AccessArea")).append(button);
 	return;
