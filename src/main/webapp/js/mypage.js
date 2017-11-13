@@ -1,19 +1,14 @@
 var mypagecontent = {
 		initialize : function() {
+			localStorage.setItem("previouspage", "mypage");
 			initializePage();
 			loadFriendsListInfo();
-
-			console.log("myPageContent loaded");
-			console.log("USERNAME : " + username);
-			console.log("friendRequests : ");
-			console.log(friendRequests);
-			localStorage.setItem("previouspage", "mypage");
+			loadFriendRequestsInfo();
 		}
 		
 };
 
 function initializePage() {
-	console.log("USERNAME : " + username);
 	var html = "Page personnelle de "+username;
 	var test = document.createElement('h1');
 	test.className="test";
@@ -22,8 +17,25 @@ function initializePage() {
 }
 
 function loadFriendsListInfo() {
-	console.log("Loading friendsListInfo...");
-	ServerServices.getAllFriends(sessionkey);
+	
+	var friendsArray = friends.split(STRINGIFY_SEPARATOR);
+	for (var i = 0; i < friendsArray.length; i++) {
+		var friendInfoArray = friendInfo.split(STRINGIFY_ATTRIBUTE_SEPARATOR);
+	}
+	
+	
+}
+
+function loadFriendRequestsInfo() {
+	var friendRequestsSideNav = $(document.getElementById("friendRequestSideNav"));
+	
+	var requestsArray = friendRequests.split(STRINGIFY_SEPARATOR);
+	for (var i = 0; i < requestsArray.length; i++) {
+		var div = document.createElement("div");
+		var requestInfoArray = requestArray.split(STRINGIFY_ATTRIBUTE_SEPARATOR);
+		div.innerHTML = requestInfoArray[1];
+		friendRequestsSideNav.append(div);
+	}
 }
 
 window.onload = function() {
