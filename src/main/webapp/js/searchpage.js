@@ -54,7 +54,8 @@ function displayAccessButton(name) {
 	button.type = "submit";
 	button.style.height="50px";
 	button.style.width="200px";
-	button.addEventListener('click', accessClick(),false);
+	
+	button.addEventListener('click', accessClick,false);
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
