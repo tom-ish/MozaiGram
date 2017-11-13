@@ -19,7 +19,7 @@ var mozaikcontent = {
 
 
 
-function displayResults(){
+function displayResults(searchkey){
 	var html = "Resultat de recherche pour "+searchkey;
 	var test = document.createElement('h1');
 	test.className="test";

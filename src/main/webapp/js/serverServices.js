@@ -242,7 +242,7 @@ var ServerServices = {
 					if (json.SearchServlet == SUCCESS_CODE){
 						var listResearch = json.listResearch;
 						localStorage.setItem("listResearch",listResearch);
-						displayResults();
+						displayResults(searchword);
 					}
 					else {
 						console.log("getSearchResults failed!");
