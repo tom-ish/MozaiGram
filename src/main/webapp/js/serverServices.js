@@ -51,6 +51,7 @@ var ServerServices = {
 						localStorage.setItem("friends", json.friends);
 						localStorage.setItem("friendRequests", json.friendRequests);
 						localStorage.setItem("requestedpage", json.username);
+						switchToMyPage();
 					}
 					else{
 						console.log("Connexion failed!");

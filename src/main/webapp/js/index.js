@@ -51,7 +51,7 @@ function login(formulaire) {
 	console.log("username : " + username + ", pwd : " + pwd);
 	if(ok) {
 		ServerServices.connect(username, pwd);
-		switchToMyPage();
+
 	}
 }
 
