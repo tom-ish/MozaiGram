@@ -1,6 +1,5 @@
 var mypagecontent = {
 		initialize : function() {
-			localStorage.setItem("previouspage", "mypage");
 			initializePage();
 			loadFriendsListInfo();
 			loadFriendRequestsInfo();

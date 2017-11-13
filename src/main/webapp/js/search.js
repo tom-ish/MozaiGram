@@ -1,30 +1,14 @@
-jQuery('#search').on('input', function () {
+jQuery('#searchButton').on('input', function () {
 		var word=document.getElementById("search").value;
 	   console.log("Searching for "+word);
-		if (word === "") {
-		 var page = localStorage.getItem("previouspage");
-			if (page == "mozaikpage"){
-				goMozaik();
-			}
-			else if (page=="mypage"){
-				goPage();
-			}
-		}
-		else {
 			goSearch();
-			document.getElementById("sb-search").value=word;
+			document.getElementById("search").value=word;
 			ServerServices.getSearchResults(word);
 		}
 
 });
 
 
-function goPage() {
-	var req= localStorage.getItem("requestedpage");
-	console.log(req+"'s page called...");
-	window.location.href = "./myspace.html"
-//	window.location.href = "./FlipLogin.jsp";
-}
 
 function goSearch() {
 	window.location.href="./search.html"

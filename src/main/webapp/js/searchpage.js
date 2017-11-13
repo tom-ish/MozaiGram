@@ -3,7 +3,7 @@ var searchkey = localStorage.getItem("searchkey");
 var mozaikcontent = {
 		initialize : function() {
 			initializeUser();
-			localStorage.setItem("previouspage", "mozaikpage");
+
 		}
 		
 };
