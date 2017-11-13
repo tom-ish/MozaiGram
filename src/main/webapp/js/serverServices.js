@@ -58,7 +58,7 @@ var ServerServices = {
 				},
 				error: function(jqXHR , textStatus , errorThrown ){
 					console.log(textStatus);
-					console.log(jqXHR.responseText + " status: " + jqXHR.status);
+					console.log(jqXHR.responseText + " status: " + jqXHR.status + " errorThrown : " + errorThrown);
 					//alert("Erreur Ajax: Connexion is not working.\n" + textStatus + " " + errorThrown);
 				}
 			});
