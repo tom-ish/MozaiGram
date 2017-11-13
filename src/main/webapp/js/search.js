@@ -1,8 +1,8 @@
 function launchSearch () {
 		var word=document.getElementById("search").value;
-	   console.log("Searching for "+word);
+
 			goSearch();
-			document.getElementById("search").value=word;
+	   		console.log("Searching for "+word);
 			ServerServices.getSearchResults(word);
 }
 
