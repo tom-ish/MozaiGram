@@ -1,3 +1,5 @@
+var username=localStorage.getItem("requestedpage");
+
 var mypagecontent = {
 		initialize : function() {
 			initializePage();
