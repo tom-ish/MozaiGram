@@ -12,7 +12,7 @@ $(document).ready(function(){
 });
 
 
-var mozaikcontent = {
+var searchpagecontent = {
 
 		
 };
@@ -27,10 +27,11 @@ function displayResults(searchkey){
 	document.getElementById("usernameId").value = test;
 	flushAccessArea();
 	var List=localStorage.getItem("listResearch");
+	console.log("Search's results are: "+listResearch;
 		var arrayLength = List.length;
 
 		for (var i = 0; i < arrayLength; i++) {
-    		alert(List[i]);
+    		//alert(List[i]);
     		displayAccessButton(List[i]);
 		}
 }
@@ -52,5 +53,5 @@ function flushAccessArea() {
 }
 
 window.onload = function() {
-	mozaikcontent.initialize();
+	searchpagecontent.initialize();
 }
