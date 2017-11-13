@@ -30,6 +30,7 @@ var leftMenu = {
 
 function goHome() {
 	console.log("go Home called...");
+	window.location.href = "./after_login_page.html";
 	localStorage.setItem("requestedpage", username);
 	window.location.href = "./myspace.html";
 	return;
