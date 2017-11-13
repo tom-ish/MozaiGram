@@ -48,4 +48,5 @@ function loadFriendRequestsInfo() {
 
 window.onload = function() {
 	mypagecontent.initialize();
+	leftMenu.initialize();
 }
