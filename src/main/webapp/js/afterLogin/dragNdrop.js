@@ -78,6 +78,7 @@ function checkFileExtension(filename) {
 
 function checkDataUploadValidity(keyword, image) {
 //	if(keyword )
+	return;
 }
 
 function loadImage(imgFile) {

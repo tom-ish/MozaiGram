@@ -14,6 +14,7 @@ function initializePage() {
 	test.className="test";
 	test.innerHTML = html;
 	document.getElementById("usernameId").appendChild(test);
+	return;
 }
 
 function loadFriendsListInfo() {
@@ -23,7 +24,7 @@ function loadFriendsListInfo() {
 		var friendInfoArray = friendInfo.split(STRINGIFY_ATTRIBUTE_SEPARATOR);
 	}
 	
-	
+	return;
 }
 
 function loadFriendRequestsInfo() {
@@ -36,6 +37,7 @@ function loadFriendRequestsInfo() {
 		div.innerHTML = requestInfoArray[1];
 		friendRequestsSideNav.append(div);
 	}
+	return;
 }
 
 window.onload = function() {
