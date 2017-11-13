@@ -51,9 +51,9 @@ function displayAccessButton(name) {
 	button.form = "AccessForm";
 	button.value = name;
 	button.type = "submit";
-	button.style.height="200px";
-	button.style.width="800px";
-	button.onclick=accessClick;
+	button.style.height="50px";
+	button.style.width="200px";
+	button.onclick="accessClick(this);";
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
@@ -62,8 +62,8 @@ function flushAccessArea() {
 	$(document.getElementById("AccessArea")).innerHTML="";
 }
 
-function accessClick() {
-//	localStorage.setItem("requestedpage", field.value);
+function accessClick(field) {
+	localStorage.setItem("requestedpage", field.value);
 	window.location.href = "./myspace.html";
 }
 
