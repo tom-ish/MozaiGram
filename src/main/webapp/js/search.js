@@ -4,7 +4,7 @@ jQuery('#searchButton').on('input', function () {
 			goSearch();
 			document.getElementById("search").value=word;
 			ServerServices.getSearchResults(word);
-		}
+		
 
 });
 
