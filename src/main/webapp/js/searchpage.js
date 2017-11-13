@@ -72,6 +72,7 @@ function flushAccessArea() {
 }
 
 function accessClick() {
+	console.log("Going to "+this.value+"'s page");
 	localStorage.setItem("requestedpage", this.value);
 	window.location.href = "./myspace.html";
 }
