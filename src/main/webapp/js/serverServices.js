@@ -10,7 +10,6 @@ var ServerServices = {
 					if(json.CreateUserServlet == SUCCESS_CODE){
 						console.log("signUp success!");
 						isLoginPage = false;
-						switchToHomePage();
 					}
 					else{
 						console.log("signUp failed with code: " + json.CreateUserServlet);
@@ -58,7 +57,7 @@ var ServerServices = {
 				},
 				error: function(jqXHR , textStatus , errorThrown ){
 					console.log(textStatus);
-					console.log(jqXHR.responseText + " status: " + jqXHR.status + " errorThrown : " + errorThrown);
+					console.log(jqXHR.responseText + " status: " + jqXHR.status);
 					//alert("Erreur Ajax: Connexion is not working.\n" + textStatus + " " + errorThrown);
 				}
 			});

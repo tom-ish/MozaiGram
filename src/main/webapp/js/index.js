@@ -66,6 +66,7 @@ function createUser(formulaire) {
 
 	if(ok) {
 		ServerServices.signup(username, pwd, pwd2, email);
+		switchToHomePage();
 	}
 }
 
