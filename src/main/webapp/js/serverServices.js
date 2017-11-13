@@ -236,7 +236,7 @@ var ServerServices = {
 			$.ajax({
 				type: "POST",
 				url: "SearchServlet",
-				data: "sessionkey=" + sessionkey+"searchword"+searchword,
+				data: "sessionkey=" + sessionkey+"searchword="+searchword,
 				dataType: 'json',
 				success: function(json) {
 					if (json.SearchServlet == SUCCESS_CODE){
