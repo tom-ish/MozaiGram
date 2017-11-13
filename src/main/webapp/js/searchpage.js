@@ -54,13 +54,20 @@ function displayAccessButton(name) {
 	button.type = "submit";
 	button.style.height="50px";
 	button.style.width="200px";
-	button.onclick="accessClick(this)";
+	button.addEventListener('click', accessClick(this),false);
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
 
+
+
+
+
+
 function flushAccessArea() {
-	$(document.getElementById("AccessArea")).innerHTML="";
+	while (document.getElementById("AccessArea").firstChild) {
+  		document.getElementById("AccessArea").removeChild(document.getElementById("AccessArea").firstChild);
+	}
 }
 
 function accessClick(field) {
