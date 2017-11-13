@@ -28,26 +28,31 @@ function goHome() {
 	console.log("go Home called...");
 	localStorage.setItem("requestedpage", username);
 	window.location.href = "./myspace.html";
+	return;
 }
 
 function goMozaik(){
 	console.log("go to Mozaik called ...");
 	window.location.href = "./after_login_page.html";
+	return;
 }
 
 function showFriendRequest(){
 	console.log("showing friends request...");
 	openFriendRequestSideNav();
+	return;
 }
 
 function openFriendRequestSideNav() {
 	document.getElementById("friendRequestSideNav").style.width="300px";
 	document.getElementById("visibleContent").style.marginLeft="300px";
+	return;
 }
 
 function closeFriendRequestSideNav() {
 	document.getElementById("friendRequestSideNav").style.width="0";
 	document.getElementById("visibleContent").style.marginLeft="0";
+	return;
 }
 
 window.onload = function() {

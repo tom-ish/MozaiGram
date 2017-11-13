@@ -31,6 +31,7 @@ function loadFriendRequestsInfo() {
 	var friendRequestsSideNav = $(document.getElementById("friendRequestSideNav"));
 	
 	var requestsArray = friendRequests.split(STRINGIFY_SEPARATOR);
+	localStorage.setItem("requestsArray", requestsArray);
 	for (var i = 0; i < requestsArray.length; i++) {
 		var div = document.createElement("div");
 		var requestInfoArray = requestArray.split(STRINGIFY_ATTRIBUTE_SEPARATOR);
