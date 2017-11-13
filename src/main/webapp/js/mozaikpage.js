@@ -18,4 +18,5 @@ function initializeUser() {
 
 window.onload = function() {
 	mozaikcontent.initialize();
+	leftMenu.initialize();
 }

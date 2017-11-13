@@ -79,4 +79,5 @@ function accessClick() {
 
 window.onload = function() {
 	searchpagecontent.initialize();
+	leftMenu.initialize();
 }
