@@ -1,13 +1,13 @@
 	var username = localStorage.getItem("requestedpage");
 	var sessionkey = localStorage.getItem("sessionKey");
-	var friends = localStorage.getItem("friends");
-	var friendRequests = localStorage.getItem("friendRequests");
+//	var friends = localStorage.getItem("friends");
+//	var friendRequests = localStorage.getItem("friendRequests");
 
 var mypagecontent = {
 		initialize : function() {
 			initializePage();
-			loadFriendsListInfo();
-			loadFriendRequestsInfo();
+//			loadFriendsListInfo();
+//			loadFriendRequestsInfo();
 		}
 		
 };
