@@ -49,6 +49,7 @@ var ServerServices = {
 						localStorage.setItem("sessionKey", json.sessionKey);
 						localStorage.setItem("friends", json.friends);
 						localStorage.setItem("friendRequests", json.friendRequests);
+						localStorage.setItem("requestedpage", json.username);
 					}
 					else{
 						console.log("Connexion failed!");

@@ -13,7 +13,9 @@ $(document).ready(function(){
 
 
 var searchpagecontent = {
+	initialize : function() {
 
+	}
 		
 };
 
