@@ -8,6 +8,7 @@ var mypagecontent = {
 };
 
 function initializePage() {
+	console.log("Page personnelle de "+username);
 	var html = "Page personnelle de "+username;
 	var test = document.createElement('h1');
 	test.className="test";
