@@ -70,7 +70,7 @@ public class SearchServlet extends HttpServlet {
 			
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
-		ArrayList<String> results=new ArrayList<String>();
+		String results=new String();
 		try {
 			JSONObject json = new JSONObject();
 			results = SearchService.searchResults(searchword);

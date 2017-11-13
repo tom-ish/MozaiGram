@@ -32,13 +32,13 @@ public class SearchService {
 	}
 	
 	
-	public static ArrayList<String> searchResults(String searchword) {
+	public static String searchResults(String searchword) {
 		ArrayList<String> users=DBAuthentification.getUserNames();
-		ArrayList<String> results=new ArrayList<String>();
+		String results="";
 		
 		for (String user:users) {
 			if (user.contains(searchword)) {
-				results.add(user);
+				results.concat(user+",");
 			}
 		}
 		return results;

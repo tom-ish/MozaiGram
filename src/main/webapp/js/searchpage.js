@@ -27,12 +27,12 @@ function displayResults(searchkey){
 	document.getElementById("usernameId").value = test;
 	flushAccessArea();
 	var List=localStorage.getItem("listResearch");
-	console.log("Search's results are: "+List+" of size "+List.length);
-		var arrayLength = List.length;
+	console.log("Search's results are: "+List);
+	var res=List.split(",");
 
-		for (var i = 0; i < arrayLength; i++) {
+		for (var i = 0; i < res.length; i++) {
     		//alert(List[i]);
-    		displayAccessButton(List[i]);
+    		displayAccessButton(res[i]);
 		}
 }
 
