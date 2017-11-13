@@ -27,7 +27,7 @@ function displayResults(searchkey){
 	document.getElementById("usernameId").value = test;
 	flushAccessArea();
 	var List=localStorage.getItem("listResearch");
-	console.log("Search's results are: "+listResearch);
+	console.log("Search's results are: "+List+" of size "+List.length);
 		var arrayLength = List.length;
 
 		for (var i = 0; i < arrayLength; i++) {
