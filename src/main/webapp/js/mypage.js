@@ -1,3 +1,8 @@
+	var username = localStorage.getItem("requestedpage");
+	var sessionkey = localStorage.getItem("sessionKey");
+	var friends = localStorage.getItem("friends");
+	var friendRequests = localStorage.getItem("friendRequests");
+
 var mypagecontent = {
 		initialize : function() {
 			initializePage();
@@ -42,10 +47,5 @@ function loadFriendRequestsInfo() {
 }
 
 window.onload = function() {
-	var username = localStorage.getItem("requestedpage");
-	var sessionkey = localStorage.getItem("sessionKey");
-	var friends = localStorage.getItem("friends");
-	var friendRequests = localStorage.getItem("friendRequests");
-	
 	mypagecontent.initialize();
 }
