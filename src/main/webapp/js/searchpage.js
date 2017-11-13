@@ -54,7 +54,7 @@ function displayAccessButton(name) {
 	button.type = "submit";
 	button.style.height="50px";
 	button.style.width="200px";
-	button.addEventListener('click', accessClick(this),false);
+	button.addEventListener('click', "accessClick(this)",false);
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
@@ -70,7 +70,7 @@ function flushAccessArea() {
 	}
 }
 
-function accessClick(field) {
+function accessClick() {
 	localStorage.setItem("requestedpage", field.value);
 	window.location.href = "./myspace.html";
 }
