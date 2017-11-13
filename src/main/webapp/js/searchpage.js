@@ -1,24 +1,23 @@
-var searchkey = localStorage.getItem("searchkey");
+$(document).ready(function(){
+	$("#launchSearchButton").click(function() {
+		console.log("button clicked");
+		console.log(SearchForm);
+		console.log("---------------------");
+		console.log(sessionkey);
+//					ServerServices.uploadData(dragNdropForm.userKeyword.value, fileList[0]);
+		ServerServices.getSearchResults(document.getElementById("searchWord").value);
+					return false;
+	});
+
+});
+
 
 var mozaikcontent = {
-		initialize : function() {
-			initializeUser();
 
-		}
 		
 };
 
-function initializeUser() {
-	console.log("Resultat de recherche pour "+searchkey);
 
-	var html = "Resultat de recherche pour "+searchkey;
-	var test = document.createElement('h1');
-	test.className="test";
-	test.innerHTML = html;
-	document.getElementById("usernameId").value = test;
-
-	
-}
 
 function displayResults(){
 	var html = "Resultat de recherche pour "+searchkey;

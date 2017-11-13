@@ -21,6 +21,10 @@ var leftMenu = {
 			showFriendRequest();
 			return false;
 		});
+		$('#searchButton').click(function(){
+			goSearch();
+			return false;
+		});
 	}
 };
 
@@ -35,6 +39,11 @@ function goMozaik(){
 	console.log("go to Mozaik called ...");
 	window.location.href = "./after_login_page.html";
 	return;
+}
+
+function goSearch(){
+	console.log("go to Search called ...");
+	window.location.href = "./search.html";
 }
 
 function showFriendRequest(){

@@ -55,6 +55,12 @@
 							<span>Amis</span>
 						</a>
 					</li>
+					<li id="searchButton">
+						<a href="#">
+							<i class="lnr lnr-users">R</i>
+							<span>Rechercher</span>
+						</a>
+					</li>
 					<li id="logoutButton">
 						<a href="#">
 							<i class="lnr lnr-users">L</i>
@@ -82,8 +88,8 @@
 						<div class="col-md-4 serch-part">
 							<div id="sb-search" class="sb-search">
 								<form>
-									<input class="sb-search-input" placeholder="Rechercher" type="search" name="search" id="search">
-									<input class="sb-search-submit" type="submit" value="" id="searchButton">
+									<input class="sb-search-input" placeholder="Rechercher" type="search" name="search">
+									<input class="sb-search-submit" type="submit" value="">
 								</form>
 							</div>
 						</div>
@@ -106,7 +112,12 @@
 				<div id="usernameId" class="username">
 					
 				</div>
-				
+				<div id="SearchArea">
+					<form id="SearchForm" enctype="multipart/form-data">
+						<input id="searchWord" name="searchWord" type="text" placeholder="Tapez un mot à rechercher" required>
+						<button id="launchSearchButton" type="submit">Rechercher</button>
+					</form>
+				</div>
 				<div id="AccessArea">
 					<form id="AccessForm" enctype="multipart/form-data">
 
