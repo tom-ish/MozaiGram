@@ -50,10 +50,11 @@ function displayAccessButton(name) {
 	button.id = name+"Button";
 	button.form = "AccessForm";
 	button.value = name;
+	button.textContent=name;
 	button.type = "submit";
 	button.style.height="50px";
 	button.style.width="200px";
-	button.onclick="accessClick(this);";
+	button.onclick=accessClick(this);
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
