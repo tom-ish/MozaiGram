@@ -38,7 +38,8 @@ public class SearchService {
 		
 		for (String user:users) {
 			if (user.contains(searchword)) {
-				results.concat(user+",");
+				results.concat(user);
+				results.concat(",");
 			}
 		}
 		return results;
