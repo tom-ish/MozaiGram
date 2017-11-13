@@ -126,7 +126,7 @@ function switchToHomePage() {
 
 function switchToMyPage() {
 	console.log("switchToMyPage called");
-
+	
 	window.location.href = "./myspace.html";
 }
 

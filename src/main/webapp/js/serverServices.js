@@ -45,6 +45,7 @@ var ServerServices = {
 						console.log(json.friends);
 						// Store username in localStorage Object before switching to MozaikPage
 						// Web Storage Compatibility should be checked at start
+						localStorage.clear();
 						localStorage.setItem("username", json.username);
 						localStorage.setItem("sessionKey", json.sessionKey);
 						localStorage.setItem("friends", json.friends);
