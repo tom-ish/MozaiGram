@@ -1,12 +1,10 @@
-jQuery('#searchButton').on('input', function () {
+function launchSearch () {
 		var word=document.getElementById("search").value;
 	   console.log("Searching for "+word);
 			goSearch();
 			document.getElementById("search").value=word;
 			ServerServices.getSearchResults(word);
-		
-
-});
+}
 
 
 
