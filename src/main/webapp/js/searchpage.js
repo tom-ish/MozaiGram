@@ -47,7 +47,7 @@ function displayAccessButton(name) {
 	button.type = "submit";
 	button.style.height="200px";
 	button.style.length="800px";
-	button.onclick=accessClick(button.id);
+	button.onclick=accessClick;
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
@@ -56,8 +56,8 @@ function flushAccessArea() {
 	$(document.getElementById("AccessArea")).innerHTML="";
 }
 
-function accessClick(id) {
-	localStorage.setItem("requestedpage", document.getElementById(id).value);
+function accessClick() {
+//	localStorage.setItem("requestedpage", field.value);
 	window.location.href = "./myspace.html";
 }
 
