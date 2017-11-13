@@ -45,12 +45,20 @@ function displayAccessButton(name) {
 	button.form = "AccessForm";
 	button.value = name;
 	button.type = "submit";
+	button.style.height="200px";
+	button.style.length="800px";
+	button.onclick=accessClick(button.id);
 	$(document.getElementById("AccessArea")).append(button);
 	return;
 }
 
 function flushAccessArea() {
 	$(document.getElementById("AccessArea")).innerHTML="";
+}
+
+function accessClick(id) {
+	localStorage.setItem("requestedpage", document.getElementById(id).value);
+	window.location.href = "./myspace.html";
 }
 
 window.onload = function() {
