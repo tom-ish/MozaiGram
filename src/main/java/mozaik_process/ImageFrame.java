@@ -12,6 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import algorithm.ImageComponent;
+import amazon.AmazonUtilities;
 import utils.Persist;
 
 public class ImageFrame {
@@ -316,7 +317,7 @@ public class ImageFrame {
 		System.out.print("DRAW OPERATION : ");
 		System.out.println(System.currentTimeMillis() - startTime);
 		
-		File output = new File("output");
+		File output = new File(originalFileName);
 		try {
 			ImageIO.write(rslt, "jpg", output);
 			Persist.RESIZED_IMAGES.clear();
@@ -344,8 +345,10 @@ public class ImageFrame {
 		*/
 		
 		
-		System.out.println("Mozaik generated!");
-		return Persist.SUCCESS;
+		int finalRslt = AmazonUtilities.uploadImagesAmazonAPI(output);
+		if(finalRslt == Persist.SUCCESS)
+			System.out.println("Mozaik generated!");
+		return finalRslt;
 	}
 	
 	private void loadLibrary(int grain) {
