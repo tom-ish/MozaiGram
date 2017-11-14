@@ -317,7 +317,8 @@ public class ImageFrame {
 		System.out.print("DRAW OPERATION : ");
 		System.out.println(System.currentTimeMillis() - startTime);
 		
-		File output = new File(originalFileName);
+		File output = new File(originalFileName + ".jpg");
+		System.out.println(output.getAbsolutePath());
 		try {
 			ImageIO.write(rslt, "jpg", output);
 			Persist.RESIZED_IMAGES.clear();
