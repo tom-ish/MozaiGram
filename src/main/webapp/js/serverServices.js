@@ -45,10 +45,13 @@ var ServerServices = {
 						console.log(json.friends);
 						// Store username in localStorage Object before switching to MozaikPage
 						// Web Storage Compatibility should be checked at start
+						localStorage.clear();
 						localStorage.setItem("username", json.username);
 						localStorage.setItem("sessionKey", json.sessionKey);
 						localStorage.setItem("friends", json.friends);
 						localStorage.setItem("friendRequests", json.friendRequests);
+						localStorage.setItem("requestedpage", json.username);
+						switchToMyPage();
 					}
 					else{
 						console.log("Connexion failed!");
@@ -230,32 +233,26 @@ var ServerServices = {
 			});
 		},
 		
-		getSearchResults : function getSearchResults(sessionkey) {
+		getSearchResults : function getSearchResults(searchword) {
 			console.log("getSearchResults called...");
-			var generated = false;
+			var sessionkey=localStorage.getItem("sessionKey");
 			$.ajax({
 				type: "POST",
 				url: "SearchServlet",
-				data: "sessionkey=" + sessionkey,
+				data: "sessionkey=" + sessionkey+"&searchword="+searchword,
 				dataType: 'json',
 				success: function(json) {
-					if (json.searchEnded) {
-						generated=true;
-					}
-					var listResearch = json.listResearch;
-					localStorage.setItem("listResearch",listResearch);
-					displayResults();
-				},
-				complete: function(json) {
-					if(!generated) {
-						// Schedule the next
-	                    setTimeout(ServerServices.searchresult(sessionkey), 100);
+					if (json.SearchServlet == SUCCESS_CODE){
+						var listResearch = json.listResearch;
+						localStorage.setItem("listResearch",listResearch);
+						displayResults(searchword);
 					}
 					else {
-						console.log("Search Ended");
+						console.log("getSearchResults failed!");
+						console.log("returned code : " + json.SearchServlet);
 					}
-					
 				},
+			
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log(textStatus);
 					console.log(jqXHR.responseText + " status : " + jqXHR.status);

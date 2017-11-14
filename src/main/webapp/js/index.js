@@ -51,7 +51,7 @@ function login(formulaire) {
 	console.log("username : " + username + ", pwd : " + pwd);
 	if(ok) {
 		ServerServices.connect(username, pwd);
-		switchToMyPage();
+
 	}
 }
 
@@ -126,7 +126,7 @@ function switchToHomePage() {
 
 function switchToMyPage() {
 	console.log("switchToMyPage called");
-	localStorage.setItem("previouspage","mypage");
+	
 	window.location.href = "./myspace.html";
 }
 

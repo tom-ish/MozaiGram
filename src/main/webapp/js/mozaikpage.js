@@ -5,7 +5,6 @@ var mozaikcontent = {
 		initialize : function() {
 			initializeUser();
 			console.log("USERNAME : " + username + ", sessionKey : " + sessionkey);
-			localStorage.setItem("previouspage", "mozaikpage");
 		}
 		
 };
@@ -19,4 +18,5 @@ function initializeUser() {
 
 window.onload = function() {
 	mozaikcontent.initialize();
+	leftMenu.initialize();
 }

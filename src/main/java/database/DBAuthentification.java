@@ -47,7 +47,7 @@ public class DBAuthentification {
 	}
 	
 	public static ArrayList<String> getUserNames(){
-		String hql="from SearchEngine";
+		String hql="from User";
 		ArrayList<String> result = new ArrayList<String>();
 		if (Persist.OPENED_SESSION !=null){
 			List<User> users= Persist.OPENED_SESSION.createQuery(hql).getResultList();

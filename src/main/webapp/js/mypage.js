@@ -1,14 +1,19 @@
+	var username = localStorage.getItem("requestedpage");
+	var sessionkey = localStorage.getItem("sessionKey");
+//	var friends = localStorage.getItem("friends");
+//	var friendRequests = localStorage.getItem("friendRequests");
+
 var mypagecontent = {
 		initialize : function() {
-			localStorage.setItem("previouspage", "mypage");
 			initializePage();
-			loadFriendsListInfo();
-			loadFriendRequestsInfo();
+//			loadFriendsListInfo();
+//			loadFriendRequestsInfo();
 		}
 		
 };
 
 function initializePage() {
+	console.log("Page personnelle de "+username);
 	var html = "Page personnelle de "+username;
 	var test = document.createElement('h1');
 	test.className="test";
@@ -42,10 +47,6 @@ function loadFriendRequestsInfo() {
 }
 
 window.onload = function() {
-	var username = localStorage.getItem("requestedpage");
-	var sessionkey = localStorage.getItem("sessionKey");
-	var friends = localStorage.getItem("friends");
-	var friendRequests = localStorage.getItem("friendRequests");
-	
 	mypagecontent.initialize();
+	leftMenu.initialize();
 }

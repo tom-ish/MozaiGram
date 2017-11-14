@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Generation de mosaique</title>
 
 <link href="css/bootstrap.css" rel ="stylesheet" type='text/css' />
@@ -56,6 +56,12 @@
 							<span>Amis</span>
 						</a>
 					</li>
+					<li id="searchButton">
+						<a href="#">
+							<i class="lnr lnr-users">R</i>
+							<span>Rechercher</span>
+						</a>
+					</li>
 					<li id="logoutButton">
 						<a href="#">
 							<i class="lnr lnr-users">L</i>
@@ -83,8 +89,8 @@
 						<div class="col-md-4 serch-part">
 							<div id="sb-search" class="sb-search">
 								<form>
-									<input class="sb-search-input" placeholder="Rechercher" type="search" name="search" id="search">
-									<input class="sb-search-submit" type="submit" value="" onchange="search(this);">
+									<input class="sb-search-input" placeholder="Rechercher" type="search" name="search">
+									<input class="sb-search-submit" type="submit" value="">
 									<span class="sb-icon-search"></span>
 								</form>
 							</div>
@@ -467,9 +473,9 @@
    	<script type="text/javascript" src="js/global.js"></script>
    	<script type="text/javascript" src="js/serverServices.js"></script>
    	<script type="text/javascript" src="js/afterLogin/dragNdrop.js"></script>
-   	<script type="text/javascript" src="js/mozaikpage.js" ></script>
 	<script type="text/javascript" src="js/search.js" ></script>
    	<script type="text/javascript" src="js/leftMenu/leftMenu.js"></script>
+   	<script type="text/javascript" src="js/mozaikpage.js" ></script>
 	<script type="text/javascript" src="js/afterLogin/bootstrap.js"></script>
 </body>
 </html>
