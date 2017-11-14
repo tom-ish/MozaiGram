@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
@@ -118,16 +119,15 @@ public class UploadDataServlet extends HttpServlet {
 				Executors.newSingleThreadExecutor());
 	}
 
-	private CompletableFuture<Integer> saveAndResizeImagesFromURLs(String sessionkey, String keyword) {
+	private CompletableFuture<List<BufferedImage>> saveAndResizeImagesFromURLs(String sessionkey, String keyword) {
 		return getURLs(sessionkey, keyword).
-			thenCompose(urls -> ServicesMozaikProcessingCompletableFuture.saveImagesFromURLs(urls)).
-			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.resizeImages(status));
+			thenCompose(urls -> ServicesMozaikProcessingCompletableFuture.saveImagesFromURLs(urls));
 	}
 
 	private int generateMozaik(String sessionkey, String keyword, Image image, String originalFileName) {
 		long startTime = System.currentTimeMillis();
 		saveAndResizeImagesFromURLs(sessionkey, keyword).
-			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.generateMozaik(status, image, originalFileName)).
+			thenCompose(savedImages -> ServicesMozaikProcessingCompletableFuture.generateMozaik(savedImages, image, originalFileName)).
 			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.storeMozaik(status, sessionkey, originalFileName)).
 			thenAccept( statusImgIdSimpleEntry -> {
 				userTasksMapper.put(sessionkey, statusImgIdSimpleEntry);

@@ -1,5 +1,6 @@
 package utils;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,16 +10,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.Part;
 
-import com.cloudinary.utils.ObjectUtils;
-
-import amazon.AmazonUtilities;
-import database.DBStatic;
 import services.ServicesMozaikProcessingCompletableFuture;
 
 // C:\Program Files\Java\jdk1.8.0_91/bin
@@ -40,6 +36,16 @@ public class FileProcess {
 		System.out.println("Number of saved files : "+ nbImgSaved);
 		return nbImgSaved;
 	}
+	
+	public static List<BufferedImage> saveImagesFromURLsAsList(ArrayList<String> urls) {
+		ArrayList<BufferedImage> rslt = new ArrayList<BufferedImage>();
+		for(String url : urls) {
+			BufferedImage img = saveImageAfterResizing(url);
+			if(img != null)
+				rslt.add(img);
+		}
+		return rslt;
+	}
 
 	public static boolean saveImage(String host) {
 		URL url = null;
@@ -57,24 +63,31 @@ public class FileProcess {
 			return false;
 		}
 
-		String fileName = url.getFile().substring(url.getFile().lastIndexOf('/')+1);
+		int type = img.getType() == BufferedImage.TYPE_CUSTOM? BufferedImage.TYPE_INT_ARGB : img.getType();
+		BufferedImage imgResized = resizeImage(img, type);
+		
+		String fileName = Tools.getFilenameFromURL(url);
 		//fileName = fileName.replaceAll("[^A-Za-z0-9.]", "");
-
+		
 		if(fileName.contains("?"))
 			fileName = fileName.substring(0, fileName.lastIndexOf('?'));		
 		if(!Tools.verifyImageExtension(fileName)) {
 			System.out.println("Corrupted fileName from saveImage() : " + url);
 			return false;
 		}
-
 		
+		if(Persist.RESIZED_IMAGES == null)
+			Persist.RESIZED_IMAGES = new ArrayList<BufferedImage>();
+		Persist.RESIZED_IMAGES.add(imgResized);
+		return true;
 		
+		/*
 		File file = new File(ServicesMozaikProcessingCompletableFuture.FROM_REPOSITORY.getName()+File.separator+fileName);
 		
-		if(img != null) {
+		if(imgResized != null) {
 			try {
 				System.out.println("filename : " + fileName + " path : " + file.getAbsolutePath());
-				ImageIO.write(img, "jpg", file);
+				ImageIO.write(imgResized, "jpg", file);
 				if(AmazonUtilities.uploadImagesAmazonAPI(file) == Persist.SUCCESS)
 					return true;
 				return false;
@@ -88,7 +101,39 @@ public class FileProcess {
 		else {
 			System.out.println("img from "+file.getAbsolutePath()+" to save is null...");
 			return false;
+		}*/
+	}
+	
+	public static BufferedImage saveImageAfterResizing(String host) {
+		URL url = null;
+		BufferedImage img = null;
+		try {
+			url = new URL(host);
+			img = ImageIO.read(url.openStream());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("IOException on ImageIO.read() from saveImage() : " + url + "\nprobably Error 403 on URL opening...");
+			return null;
 		}
+
+		int type = img.getType() == BufferedImage.TYPE_CUSTOM? BufferedImage.TYPE_INT_ARGB : img.getType();
+		BufferedImage imgResized = resizeImage(img, type);
+		
+		String fileName = Tools.getFilenameFromURL(url);
+		//fileName = fileName.replaceAll("[^A-Za-z0-9.]", "");
+		
+		if(fileName.contains("?"))
+			fileName = fileName.substring(0, fileName.lastIndexOf('?'));		
+		if(!Tools.verifyImageExtension(fileName)) {
+			System.out.println("Corrupted fileName from saveImage() : " + url);
+			return null;
+		}
+		
+		return imgResized;
 	}
 	
 	public static BufferedImage getBufferedImageFromPart(Part imageFilePart) {
@@ -166,6 +211,20 @@ public class FileProcess {
 		for (File f : dir_from.listFiles()){
 			f.delete();
 		}
+	}
+	
+	
+	public static BufferedImage resizeImage(BufferedImage originalImage, int type){
+		return resizeImage(originalImage, type, Persist.IMG_WIDTH, Persist.IMG_HEIGHT);
+	}
+	
+	public static BufferedImage resizeImage(BufferedImage originalImage, int type, int imgWidth, int imgHeight) {
+		BufferedImage resizedImage = new BufferedImage(imgWidth, imgHeight, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, imgWidth, imgHeight, null);
+		g.dispose();
+
+		return resizedImage;
 	}
 
 	//public static void main(String[] args){

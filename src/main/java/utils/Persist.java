@@ -1,6 +1,9 @@
 package utils;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -95,5 +98,9 @@ public class Persist {
 	
 	public static String STRINGIFY_SEPARATOR = "###";
 	public static String STRINGIFY_ATTRIBUTE_SEPARATOR = "&&&";
+	public static int IMG_WIDTH = 35;
+	public static int IMG_HEIGHT = 35;
 	
+	
+	public static List<BufferedImage> RESIZED_IMAGES = new ArrayList<BufferedImage>();
 }

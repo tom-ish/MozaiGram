@@ -7,10 +7,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import utils.Persist;
+
 public class ImageResizer {
-	public static int IMG_WIDTH = 35;
-	public static int IMG_HEIGHT = 35;
-	
 	public static void resizeMultipleImages(File dir_from, String to) {
 		int nbResizedImages = 0;
 		File dir_to = new File(to);
@@ -45,7 +44,7 @@ public class ImageResizer {
 	}
 	
 	public static BufferedImage resizeImage(BufferedImage originalImage, int type){
-		return resizeImage(originalImage, type, IMG_WIDTH, IMG_HEIGHT);
+		return resizeImage(originalImage, type, Persist.IMG_WIDTH, Persist.IMG_HEIGHT);
 	}
 	
 	public static BufferedImage resizeImage(BufferedImage originalImage, int type, int imgWidth, int imgHeight) {

@@ -143,6 +143,9 @@ public class Tools {
 		return "";
 	}
 	
+	public static String getFilenameFromURL(URL url) {
+		return url.getFile().substring(url.getFile().lastIndexOf('/')+1);
+	}
 	
 	public static String stringifyUsersSet(Set<User> users) {
 		String rslt = "";
