@@ -320,7 +320,8 @@ public class ImageFrame {
 		File output = new File(originalFileName + ".jpg");
 		System.out.println(output.getAbsolutePath());
 		try {
-			ImageIO.write(rslt, "jpg", output);
+			if(ImageIO.write(rslt, "jpg", output) == false)
+				System.out.println("ERROR ON ImageIO.write");
 			Persist.RESIZED_IMAGES.clear();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
