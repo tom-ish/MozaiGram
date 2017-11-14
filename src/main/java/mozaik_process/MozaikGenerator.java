@@ -17,7 +17,8 @@ public class MozaikGenerator {
 		
 		// The actual MozaikGenerator Algorithm is right here
 		ImageFrame frame = new ImageFrame(savedImages, image, originalFileName);
-		return frame.compute(GRAIN);
+		return frame.generateMozaik(GRAIN);
+//		return frame.compute(GRAIN);
 	}
 
 
