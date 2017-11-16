@@ -27,6 +27,7 @@ import mozaik_process.ImageResizer;
 import services.ServicesMozaikProcessingCompletableFuture;
 import utils.FileProcess;
 import utils.Persist;
+import utils.Tools;
 
 
 /**
@@ -72,7 +73,8 @@ public class UploadDataServlet extends HttpServlet {
 		String keyword = request.getParameter("userKeyword");
 		Part imageFilePart = request.getPart("imageFile");
 		
-		String originalFileName = imageFilePart.getName();
+		String originalFileName = Tools.getFileName(imageFilePart);
+		
 		BufferedImage originalImage = FileProcess.getBufferedImageFromPart(imageFilePart);
 		BufferedImage image = ImageResizer.resizeValidDimensions(originalImage, originalImage.getType(), originalImage.getWidth(), originalImage.getHeight());
 		

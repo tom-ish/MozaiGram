@@ -147,6 +147,20 @@ public class Tools {
 		return url.getFile().substring(url.getFile().lastIndexOf('/')+1);
 	}
 	
+    /**
+     * Returns the filename from the content-disposition header of the given part.
+     */
+    private String getFilename(Part part) {
+    	final String CONTENT_DISPOSITION = "content-disposition";
+        final String CONTENT_DISPOSITION_FILENAME = "filename";
+        for (String cd : part.getHeader(CONTENT_DISPOSITION).split(";")) {
+            if (cd.trim().startsWith(CONTENT_DISPOSITION_FILENAME)) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+	
 	public static String stringifyUsersSet(Set<User> users) {
 		String rslt = "";
 		for(User user : users) {

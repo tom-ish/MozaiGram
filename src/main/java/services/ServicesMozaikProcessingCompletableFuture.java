@@ -49,11 +49,11 @@ public class ServicesMozaikProcessingCompletableFuture {
 	
 	public static CompletableFuture<List<BufferedImage>> saveImagesFromURLs(ArrayList<String> urls) {
 		ExecutorService executorService = Executors.newFixedThreadPool(NB_THREAD);
-		CompletionService<Integer> completion = new ExecutorCompletionService<Integer>(executorService);
 
 
 		// Separation  des taches dans les differents threads
 		/*
+		CompletionService<Integer> completion = new ExecutorCompletionService<Integer>(executorService);
 		int nb_images_per_pool = urls.size()/NB_THREAD;
 		int i = 0;
 		for(i = 0; i < NB_THREAD-1; i++) {
