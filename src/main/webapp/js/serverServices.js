@@ -99,7 +99,8 @@ var ServerServices = {
 			console.log(form.userKeyword.value);
 			var dataform = new FormData(form);
 			dataform.append("sessionkey", sessionkey);
-			console.log("filename : " + $('#dragNdropInput').val())
+			console.log("filename : ");
+			console.log(""+$('#dragNdropInput').val());
 			
 			$.ajax({
 				type: "POST",
