@@ -318,7 +318,7 @@ public class ImageFrame {
 		System.out.print("DRAW OPERATION : ");
 		System.out.println(System.currentTimeMillis() - startTime);
 		
-		File output = new File(originalFileName + ".jpg");
+		File output = new File(originalFileName);
 //        File output = Paths.get(originalFileName).toFile();
         System.out.println("output file created");
 		
