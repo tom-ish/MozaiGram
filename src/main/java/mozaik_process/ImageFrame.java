@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -318,7 +319,13 @@ public class ImageFrame {
 		System.out.println(System.currentTimeMillis() - startTime);
 		
 		File output = new File(originalFileName + ".jpg");
+//        File output = Paths.get(originalFileName).toFile();
+        System.out.println("output file created");
+		
+		
 		System.out.println(output.getAbsolutePath());
+		System.out.println(output.isFile());
+		System.out.println(output.isDirectory());
 		try {
 			if(ImageIO.write(rslt, "jpg", output) == false)
 				System.out.println("ERROR ON ImageIO.write");
