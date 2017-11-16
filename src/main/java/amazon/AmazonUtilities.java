@@ -5,11 +5,11 @@ import java.io.File;
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 
@@ -31,7 +31,11 @@ public class AmazonUtilities {
         // TransferManager processes all transfers asynchronously, 
         // so this call will return immediately.
         System.out.println("Trying to upload " + toUpload.getAbsolutePath());
-        Upload upload = tm.upload(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
+        
+        PutObjectRequest por = new PutObjectRequest(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
+        por.setCannedAcl(CannedAccessControlList.PublicRead);
+        Upload upload = tm.upload(por);
+        //Upload upload = tm.upload(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
         System.out.println("----------");
 
         try {
