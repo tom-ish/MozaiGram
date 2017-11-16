@@ -96,10 +96,10 @@ var ServerServices = {
 		uploadData : function uploadData(form, sessionkey) {
 			console.log("ServerServices.uploadData()");
 			console.log(form);
-			console.log("value");
 			console.log(form.userKeyword.value);
 			var dataform = new FormData(form);
 			dataform.append("sessionkey", sessionkey);
+			console.log("filename : " + $('#dragNdropInput').val())
 			
 			$.ajax({
 				type: "POST",
