@@ -30,6 +30,10 @@ $(document).ready(function(){
 					console.log(dragNdropForm);
 					console.log("---------------------");
 					console.log(sessionkey);
+					var str = document.getElementById('dragNdropInput').value;
+					console.log("test str");
+					console.log(str);
+					
 //					ServerServices.uploadData(dragNdropForm.userKeyword.value, fileList[0]);
 					ServerServices.uploadData(dragNdropForm, sessionkey);
 					return false;
