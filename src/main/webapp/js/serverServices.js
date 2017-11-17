@@ -285,6 +285,32 @@ var ServerServices = {
 					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
+		},
+		addComment : function addComment(sessionkey, comment, imageId) {
+			$.ajax ({
+				type: "POST",
+				url: "AddCommentServlet",
+				/*
+				contentType: false, // obligatoire pour de l'upload
+				processData: false, // obligatoire pour de l'upload
+				*/
+				data: "sessionkey=" + sessionkey+ "&text=" + comment +"&imageId="+imageId,
+				dataType: 'json',
+				success: function(json){
+					if(json.AddCommentServlet == SUCCESS_CODE){
+						console.log("add Comment success!");
+						console.log("returned code : " + json.AddCommentServlet);
+					}
+					else{
+						console.log("Connexion failed!");
+						console.log("returned code : " + json.ConnectUserServlet);
+					}
+				},
+				error: function(jqXHR , textStatus , errorThrown ){
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status: " + jqXHR.status);
+					//alert("Erreur Ajax: Connexion is not working.\n" + textStatus + " " + errorThrown);
+				}
+			});
 		}
-		
 }
