@@ -40,18 +40,13 @@ public class SearchServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static int NB_IMAGES = 149;
-
-	public static HashMap<String, SimpleEntry<Integer, Integer>> userTasksMapper;
-	
 	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public SearchServlet() {
 		// TODO Auto-generated constructor stub
-		if(userTasksMapper == null)
-			userTasksMapper = new HashMap<String, SimpleEntry<Integer, Integer>>();
+
 	}
 
 	/**

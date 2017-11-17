@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
@@ -26,6 +27,7 @@ import mozaik_process.ImageResizer;
 import services.ServicesMozaikProcessingCompletableFuture;
 import utils.FileProcess;
 import utils.Persist;
+import utils.Tools;
 
 
 /**
@@ -71,7 +73,8 @@ public class UploadDataServlet extends HttpServlet {
 		String keyword = request.getParameter("userKeyword");
 		Part imageFilePart = request.getPart("imageFile");
 		
-		String originalFileName = imageFilePart.getName();
+		String originalFileName = Tools.getFileName(imageFilePart);
+		
 		BufferedImage originalImage = FileProcess.getBufferedImageFromPart(imageFilePart);
 		BufferedImage image = ImageResizer.resizeValidDimensions(originalImage, originalImage.getType(), originalImage.getWidth(), originalImage.getHeight());
 		
@@ -118,22 +121,21 @@ public class UploadDataServlet extends HttpServlet {
 				Executors.newSingleThreadExecutor());
 	}
 
-	private CompletableFuture<Integer> saveAndResizeImagesFromURLs(String sessionkey, String keyword) {
+	private CompletableFuture<List<BufferedImage>> saveAndResizeImagesFromURLs(String sessionkey, String keyword) {
 		return getURLs(sessionkey, keyword).
-			thenCompose(urls -> ServicesMozaikProcessingCompletableFuture.saveImagesFromURLs(urls)).
-			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.resizeImages(status));
+			thenCompose(urls -> ServicesMozaikProcessingCompletableFuture.saveImagesFromURLs(urls));
 	}
 
 	private int generateMozaik(String sessionkey, String keyword, Image image, String originalFileName) {
 		long startTime = System.currentTimeMillis();
 		saveAndResizeImagesFromURLs(sessionkey, keyword).
-			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.generateMozaik(status, image, originalFileName)).
+			thenCompose(savedImages -> ServicesMozaikProcessingCompletableFuture.generateMozaik(savedImages, image, originalFileName)).
 			thenCompose(status -> ServicesMozaikProcessingCompletableFuture.storeMozaik(status, sessionkey, originalFileName)).
-			thenAccept( statusImgIdSimpleEntry -> {
+			thenAccept( (statusImgIdSimpleEntry) -> {					
 				userTasksMapper.put(sessionkey, statusImgIdSimpleEntry);
 				getServletContext().setAttribute(Persist.USERS_TASKS, userTasksMapper);
 				System.out.println(System.currentTimeMillis() - startTime);
-				System.out.println("COMPLETED FUTURE - STATUS : " + statusImgIdSimpleEntry.getKey() + " imgId : " + statusImgIdSimpleEntry.getValue());				
+				System.out.println("COMPLETED FUTURE - STATUS : " + statusImgIdSimpleEntry.getKey() + " imgId : " + statusImgIdSimpleEntry.getValue());
 		});
 		return Persist.PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED;
 	}

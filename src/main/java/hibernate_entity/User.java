@@ -1,9 +1,12 @@
 package hibernate_entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="users")
@@ -22,6 +25,10 @@ public class User {
 	
 	@Column(name="email")
 	private String email;
+	
+	@Column(name="creation_date")
+	@CreationTimestamp
+	private Date creationDate;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 	private Set<Friendship> friends;
@@ -47,14 +54,16 @@ public class User {
 	public String getUsername() { return this.username; }
 	public String getPassword() { return this.password; } 
 	public String getEmail() { return this.email; }
+	public Date getCreationDate() { return this.creationDate; }
 	public Set<Friendship> getAllFriends() { return this.friends; }
-	public Set<Library> getAllLiraries() { return this.libraries; }
+	public Set<Library> getAllLibraries() { return this.libraries; }
 	public Set<Comment> getAllComments() { return this.comments; }
 
 	public void setId(int id) { this.id =  id; }
 	public void setUsername(String username) { this.username = username; }
 	public void setPassword(String password) { this.password = password; }
 	public void setEmail(String email) { this.email = email; }
+	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
 	public void setFriends(Set<Friendship> friends) { this.friends = friends; }
 	public void setLibraries(Set<Library> libraries) { this.libraries = libraries; }
 	public void setComments(Set<Comment> comments) { this.comments = comments; }

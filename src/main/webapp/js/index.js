@@ -49,8 +49,10 @@ function login(formulaire) {
 	var ok = verif_connect_form(username, pwd);
 	console.log("verif_connect_form" + ok);
 	console.log("username : " + username + ", pwd : " + pwd);
-	if(ok)
+	if(ok) {
 		ServerServices.connect(username, pwd);
+
+	}
 }
 
 function createUser(formulaire) {
@@ -64,6 +66,7 @@ function createUser(formulaire) {
 
 	if(ok) {
 		ServerServices.signup(username, pwd, pwd2, email);
+		switchToHomePage();
 	}
 }
 
@@ -123,7 +126,7 @@ function switchToHomePage() {
 
 function switchToMyPage() {
 	console.log("switchToMyPage called");
-	localStorage.setItem("previouspage","mypage");
+	
 	window.location.href = "./myspace.html";
 }
 

@@ -1,10 +1,13 @@
 package services;
 
+import java.util.Set;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import database.DBAuthentification;
-import database.DBStatic;
+import database.DBFriendship;
+import hibernate_entity.User;
 import utils.Persist;
 import utils.Tools;
 
@@ -38,14 +41,19 @@ public class ServicesAuthentification {
 				return Persist.ERROR_USER_PASSWORD_NOT_MATCH;
 			
 			// DB
+			int userId = DBAuthentification.getIdByUsername(username);
 			String sessionkey = DBAuthentification.connect(username);
+			String friends = DBFriendship.getStringFromUsersSet(DBFriendship.getAllFriends(userId));
+			String friendRequest = DBFriendship.getStringFromUsersSet(DBFriendship.getAllFriendRequests(userId));
+			
 			if(sessionkey != null){
 				json.put("username", username);
 				json.put("sessionKey", sessionkey);
+				json.put("friends", friends);
+				json.put("friendRequests", friendRequest);
 				return Persist.SUCCESS;
 			}
 		}
-
 		return Persist.ERROR;
 	}
 

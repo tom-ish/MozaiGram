@@ -6,6 +6,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
@@ -46,23 +47,37 @@ public class ServicesMozaikProcessingCompletableFuture {
 	}
 	
 	
-	public static CompletableFuture<Integer> saveImagesFromURLs(ArrayList<String> urls) {
+	public static CompletableFuture<List<BufferedImage>> saveImagesFromURLs(ArrayList<String> urls) {
 		ExecutorService executorService = Executors.newFixedThreadPool(NB_THREAD);
-		CompletionService<Integer> completion = new ExecutorCompletionService<Integer>(executorService);
+
 
 		// Separation  des taches dans les differents threads
+		/*
+		CompletionService<Integer> completion = new ExecutorCompletionService<Integer>(executorService);
 		int nb_images_per_pool = urls.size()/NB_THREAD;
 		int i = 0;
 		for(i = 0; i < NB_THREAD-1; i++) {
 			completion.submit(new ImageSaver(new ArrayList<String>(urls.subList(i*nb_images_per_pool, (i+1)*(nb_images_per_pool)-1))));
 		}
 		completion.submit(new ImageSaver(new ArrayList<String>(urls.subList(i*nb_images_per_pool, urls.size()-1))));
+		*/
+
+		CompletionService<List<BufferedImage>> imagesCompletion = new ExecutorCompletionService<List<BufferedImage>>(executorService);
+		int nb_images_per_pool = urls.size()/NB_THREAD;
+		int i = 0;
+		for(i = 0; i < NB_THREAD-1; i++) {
+			imagesCompletion.submit(new ImageSaver(new ArrayList<String>(urls.subList(i*nb_images_per_pool, (i+1)*(nb_images_per_pool)-1))));
+		}
+		imagesCompletion.submit(new ImageSaver(new ArrayList<String>(urls.subList(i*nb_images_per_pool, urls.size()-1))));
+		
 		
 		i = 0;
+		List<BufferedImage> savedImages = new ArrayList<BufferedImage>();
 		Integer nbImagesSaved = 0;
 		for(i = 0; i < NB_THREAD; i++) {
 			try {
-				nbImagesSaved += completion.take().get();
+				savedImages.addAll(imagesCompletion.take().get());
+//				nbImagesSaved += completion.take().get();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,9 +87,10 @@ public class ServicesMozaikProcessingCompletableFuture {
 			}
 		}
 		executorService.shutdown();
+		nbImagesSaved = savedImages.size();
 		System.out.println("NB_IMAGE_SAVED : " + nbImagesSaved);
 		
-		return CompletableFuture.completedFuture(Persist.SUCCESS);
+		return CompletableFuture.completedFuture(savedImages);
 	}
 	
 	public static CompletableFuture<Integer> resizeImages(Integer previousReturnCode) {
@@ -86,14 +102,16 @@ public class ServicesMozaikProcessingCompletableFuture {
 			return CompletableFuture.completedFuture(previousReturnCode);
 	}
 	
-	public static CompletableFuture<Integer> generateMozaik(Integer previousReturnCode, Image image, String originalFileName) {
-		if(previousReturnCode == Persist.SUCCESS)
-			return CompletableFuture.completedFuture(MozaikGenerator.generate(image, originalFileName));
-		return CompletableFuture.completedFuture(previousReturnCode);
+	public static CompletableFuture<Integer> generateMozaik(List<BufferedImage> savedImages, Image image, String originalFileName) {
+		if(savedImages != null)
+			return CompletableFuture.completedFuture(MozaikGenerator.generate(savedImages, image, originalFileName));
+		return CompletableFuture.completedFuture(Persist.ERROR);
 	}
 	
 	public static CompletableFuture<SimpleEntry<Integer,Integer>> storeMozaik(Integer previousReturnCode, String sessionkey, String originalFileName) {
-		String mozaikFilePath = Persist.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
+		//String mozaikFilePath = Persist.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
+		String mozaikFilePath = originalFileName;
+		System.out.println("MOZAIKGENERATION RETURNED " + previousReturnCode);
 		if(previousReturnCode == Persist.SUCCESS)		
 			return CompletableFuture.completedFuture(ServicesImage.addImage(sessionkey, mozaikFilePath));
 		return CompletableFuture.completedFuture(new SimpleEntry<Integer, Integer>(previousReturnCode, -1));

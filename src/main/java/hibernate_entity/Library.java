@@ -1,5 +1,6 @@
 package hibernate_entity;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="library")
@@ -30,6 +33,10 @@ public class Library {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="imgid")
 	private Set<Image> images;
+
+	@Column(name="creation_date")
+	@CreationTimestamp
+	private Date creationDate;
 	
 	public Library() {}
 	
@@ -41,9 +48,11 @@ public class Library {
 	public int getId() { return this.id; }
 	public User getUser() { return this.user; }
 	public Set<Image> getImages() { return this.images; }
+	public Date getCreationDate() { return this.creationDate; }
 	
 	public void setId(int id) { this.id = id; }
 	public void setUser(User user) { this.user = user; }
 	public void setImages(Set<Image> images) { this.images = images; }
+	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
 
 }

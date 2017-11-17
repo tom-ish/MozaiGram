@@ -2,21 +2,15 @@ package test;
 
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.hibernate.Session;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 
-import database.DBAuthentification;
 import database.DBStatic;
 import utils.Persist;
 
@@ -27,11 +21,10 @@ public class Test {
 		// TODO Auto-generated method stub
 		
 		/*
-		String filePath = "desktop_wallpaper.jpg";
-		int ok = Test.uploadImagesAmazonAPI(filePath);
+		String filePath = "tiger_ukiyoe.jpg";
+		int ok = AmazonUtilities.uploadImagesAmazonAPI(new File(filePath));
 		System.out.println(ok);
 		*/
-		
 			Session session = DBStatic.getHibernateSession();
 			session.beginTransaction();
 			session.createQuery(psql_create_friendship).executeUpdate();
@@ -39,6 +32,8 @@ public class Test {
 			session.getSessionFactory().close();
 			session.close();
 			System.out.println("OK");
+			
+			
 			
 			/*
 		try {
@@ -60,6 +55,9 @@ public class Test {
 			e.printStackTrace();
 			System.out.println("KO");
 		}*/
+		
+		
+		
 	}
 	
 	

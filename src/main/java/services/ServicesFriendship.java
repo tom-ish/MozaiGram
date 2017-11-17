@@ -1,12 +1,14 @@
 package services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONObject;
 
 import database.DBAuthentification;
 import database.DBFriendship;
 import database.DBSessionKey;
+import hibernate_entity.User;
 import utils.Persist;
 import utils.Tools;
 
@@ -51,10 +53,25 @@ public class ServicesFriendship {
 			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
 			int userId = DBSessionKey.getUserIdByKey(sessionkey);
-			
-			//List<Integer> friends = DBFriendship.getAllFriends(userId);
+			Set<User> friends = DBFriendship.getAllFriends(userId);
+			System.out.println("userId: "+userId+" FRIENDS.size() : " + friends.size() + " : " + friends);
+			json.put("friends", friends);
+			System.out.println("FRIENDS : " + friends);
+			return Persist.SUCCESS;
 		}
-		return -1;
+	}
+	
+	public static int getAllFriendRequest(String sessionkey, JSONObject json) {
+		if(Tools.isNullParameter(sessionkey))
+			return Persist.ERROR_NULL_PARAMETER;
+		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
+			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
+		else {
+			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			Set<User> requestUsers = DBFriendship.getAllFriendRequests(userId);
+			json.put("friendRequest", requestUsers);
+			return Persist.SUCCESS;
+		}
 	}
 
 }

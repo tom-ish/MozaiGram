@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Page personnelle</title>
 
 <link href="css/bootstrap.css" rel ="stylesheet" type='text/css' />
 <link href="css/afterLogin/style.css" rel="stylesheet" type='text/css' />
+<link href="css/leftMenu.css" rel="stylesheet" type='text/css' />
 <link href="css/afterLogin/style_custom.css" rel="stylesheet" type='text/css' />
+<link href="css/myspace.css" rel="stylesheet" type='text/css' />
 <link href="css/afterLogin/font-awesome.css" rel="stylesheet" />
 <link href="css/afterLogin/icon-font.css" type='text/css' />
+<link href="css/afterLogin/jplayer.blue.monday.min.css" rel="stylesheet" type="text/css">
 
 <script src="js/lib/jquery-2.1.4.js"></script>
 
 </head>
 <body class="sticky-header left-side-collapsed">
 
-	<section>
+	<div id="friendRequestSideNav" class="sidenav">
+		<div class="closebtn" onclick="closeFriendRequestSideNav()">&times;</div>
+		<div >About</div>
+		<div >Services</div>
+		<div >Clients</div>
+		<div>Contact</div>
+	</div>
+
+	<section id="visibleContent">
 		<!-- left side start -->
 		<div class="left-side sticky-left-side" style="overflow: hidden; outline: none;">
 			<div class="logo">
@@ -29,7 +40,7 @@
 				<!-- sidebar nav start -->
 				<ul class="nav nav-pills nav-stacked custom-nav">
 					<li class="active">
-						<a href="index.html" id="homeButton">
+						<a href="#" id="homeButton">
 							<i class="lnr lnr-home">H</i>
 							<span>Page personnelle</span>
 						</a>
@@ -38,6 +49,18 @@
 						<a href="#">
 							<i class="lnr lnr-users">M</i>
 							<span>Generer une mosaique</span>
+						</a>
+					</li>
+					<li id="friendRequestButton">
+						<a href="#">
+							<i class="lnr lnr-users">A</i>
+							<span>Amis</span>
+						</a>
+					</li>
+					<li id="searchButton">
+						<a href="#">
+							<i class="lnr lnr-users">R</i>
+							<span>Rechercher</span>
 						</a>
 					</li>
 					<li id="logoutButton">
@@ -67,7 +90,7 @@
 						<div class="col-md-4 serch-part">
 							<div id="sb-search" class="sb-search">
 								<form>
-									<input class="sb-search-input" placeholder="Recherchez" type="search" name="search" id="search">
+									<input class="sb-search-input" placeholder="Recherchez" type="search" name="search">
 									<input class="sb-search-submit" type="submit" value="">
 									<span class="sb-icon-search"></span>
 								</form>
@@ -88,16 +111,79 @@
 			</div>
 			<!-- header ends -->
 			
-			<div id="contentArea">
-				<div id="usernameId" class="username">
-					
+			<div id="middleContentArea">
+				<div id="contentArea">
+					<div id="usernameId" class="username">
+						
+					</div>
 				</div>
-				
-				
-				
-				
+				<div id="friendsListArea" class="jp-type-playlist">
+					<div class="jp-playlist">
+						<ul style="display: block;">
+							<li class="jp-playlist-current">
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item jp-playlist-current" tabindex="0">1. Ellie-Goulding 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">2. Mark-Ronson-Uptown 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">3. Ellie-Goulding 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">4. Maroon-Sugar 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">5. Pharrell-Williams 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">6. Ellie-Goulding 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+							<li>
+								<div>
+									<a href="javascript:;" class="jp-playlist-item-remove" style="display: none;">×</a>
+									<a href="javascript:;" class="jp-playlist-item" tabindex="0">7. Pharrell-Williams 
+										<span class="jp-artist">by Pixar</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
+			
+				
+				
 		<!-- main content end -->
 		
 		<div id="page-wrapper">
@@ -382,9 +468,9 @@
 	<script src="js/afterLogin/scripts.js"></script>
    	<script type="text/javascript" src="js/global.js"></script>
    	<script type="text/javascript" src="js/serverServices.js"></script>
-   	<script type="text/javascript" src="js/afterLogin/dragNdrop.js"></script>
+   	<script type="text/javascript" src="js/leftMenu/leftMenu.js"></script>
    	<script type="text/javascript" src="js/mypage.js" ></script>
-	<script type="text/javascript" src="js/search.js" ></script>
 	<script type="text/javascript" src="js/afterLogin/bootstrap.js"></script>
+	
 </body>
 </html>

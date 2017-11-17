@@ -9,12 +9,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.servlet.http.Part;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
+
+import hibernate_entity.User;
 
 public class Tools {
 
@@ -139,4 +142,33 @@ public class Tools {
 		}
 		return "";
 	}
+	
+	public static String getFilenameFromURL(URL url) {
+		return url.getFile().substring(url.getFile().lastIndexOf('/')+1);
+	}
+	
+    /**
+     * Returns the filename from the content-disposition header of the given part.
+     */
+    private String getFilename(Part part) {
+    	final String CONTENT_DISPOSITION = "content-disposition";
+        final String CONTENT_DISPOSITION_FILENAME = "filename";
+        for (String cd : part.getHeader(CONTENT_DISPOSITION).split(";")) {
+            if (cd.trim().startsWith(CONTENT_DISPOSITION_FILENAME)) {
+                return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+	
+	public static String stringifyUsersSet(Set<User> users) {
+		String rslt = "";
+		for(User user : users) {
+			rslt+= user.getId() + Persist.STRINGIFY_ATTRIBUTE_SEPARATOR
+					+ user.getUsername() + Persist.STRINGIFY_ATTRIBUTE_SEPARATOR
+					+ user.getEmail() + Persist.STRINGIFY_SEPARATOR;
+		}
+		return rslt;
+	}
+	
 }

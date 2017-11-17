@@ -8,6 +8,7 @@ import java.util.Set;
 import hibernate_entity.Friendship;
 import hibernate_entity.User;
 import utils.Persist;
+import utils.Tools;
 
 public class DBFriendship {
 	
@@ -34,7 +35,7 @@ public class DBFriendship {
 	}
 	
 	public static int getFriendshipRequestStatus(int userId, int friendId) {
-		String hql = "from Friendship f where f.userId='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
@@ -62,7 +63,7 @@ public class DBFriendship {
 	}
 	
 	public static List<Integer> getAllFriendsIds(int userId) {
-		String hql = "from Friendship f where f.userId='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		ArrayList<Integer> rslt = new ArrayList<Integer>();
 		if(Persist.OPENED_SESSION != null) {
 			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
@@ -74,7 +75,7 @@ public class DBFriendship {
 	}
 	
 	public static Set<User> getAllFriends(int userId) {
-		String hql = "from Friendship f where f.userId='"+userId+"'";
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		Set<User> rslt = new HashSet<User>();
 		
 		if(Persist.OPENED_SESSION != null) {
@@ -88,8 +89,8 @@ public class DBFriendship {
 		return rslt;
 	}
 	
-	public static Set<User> getAllFriendsRequests(int userId) {
-		String hql = "from Friendship f where f.userId='"+userId+"'";
+	public static Set<User> getAllFriendRequests(int userId) {
+		String hql = "from Friendship f where f.user='"+userId+"'";
 		Set<User> rslt = new HashSet<User>();
 		
 		if(Persist.OPENED_SESSION != null) {
@@ -101,6 +102,10 @@ public class DBFriendship {
 							rslt.add(f.getFriend());
 		}
 		return rslt;
+	}
+	
+	public static String getStringFromUsersSet(Set<User> users) {
+		return Tools.stringifyUsersSet(users);
 	}
 
 }

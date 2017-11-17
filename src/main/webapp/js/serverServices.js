@@ -10,7 +10,6 @@ var ServerServices = {
 					if(json.CreateUserServlet == SUCCESS_CODE){
 						console.log("signUp success!");
 						isLoginPage = false;
-						switchToHomePage();
 					}
 					else{
 						console.log("signUp failed with code: " + json.CreateUserServlet);
@@ -41,11 +40,17 @@ var ServerServices = {
 				success: function(json){
 					if(json.ConnectUserServlet == SUCCESS_CODE){
 						console.log("Connexion success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log(json);
+						console.log(json.friendRequest);
+						console.log(json.friends);
 						// Store username in localStorage Object before switching to MozaikPage
 						// Web Storage Compatibility should be checked at start
+						localStorage.clear();
 						localStorage.setItem("username", json.username);
 						localStorage.setItem("sessionKey", json.sessionKey);
+						localStorage.setItem("friends", json.friends);
+						localStorage.setItem("friendRequests", json.friendRequests);
+						localStorage.setItem("requestedpage", json.username);
 						switchToMyPage();
 					}
 					else{
@@ -91,10 +96,11 @@ var ServerServices = {
 		uploadData : function uploadData(form, sessionkey) {
 			console.log("ServerServices.uploadData()");
 			console.log(form);
-			console.log("value");
 			console.log(form.userKeyword.value);
 			var dataform = new FormData(form);
 			dataform.append("sessionkey", sessionkey);
+			console.log("filename : ");
+			console.log(""+$('#dragNdropInput').val());
 			
 			$.ajax({
 				type: "POST",
@@ -149,22 +155,26 @@ var ServerServices = {
 		},
 		
 		
-		sendFriendRequest : function sendFriendRequest(sessionkey, userid) {
+		sendFriendRequest : function sendFriendRequest(sessionkey, friendid) {
 			console.log("sendFriendRequest called...");
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "SendFriendRequestServlet",
-				data: "sessionkey=" + sessionkey + "&userid=" + userid,
+				data: "sessionkey=" + sessionkey + "&friendid=" + friendid,
 				dataType: 'json',
 				success: function(json){
 					if(json.SendFriendRequestServlet == SUCCESS_CODE){
 						console.log("addFriend success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("returned code : " + json.SendFriendRequestServlet);
 					}
 					else{
 						console.log("addFriend failed!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("returned code : " + json.SendFriendRequestServlet);
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
 		},
@@ -177,51 +187,99 @@ var ServerServices = {
 			});
 		},
 		
-		getAllFriends : function getAllFriends(sessionkey, userid) {
+		getAllFriends : function getAllFriends(sessionkey) {
 			console.log("getAllFriends called...");
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				url: "GetAllFriendsServlet",
-				data: "sessionkey=" + username + "&userid=" + password,
+				data: "sessionkey=" + sessionkey,
 				dataType: 'json',
 				success: function(json){
 					if(json.GetAllFriendsServlet == SUCCESS_CODE){
-						console.log("addFriend success!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("getAllFriends success!");
+						console.log(json);
 					}
 					else{
-						console.log("addFriend failed!");
-						console.log("returned code : " + json.ConnectUserServlet);
+						console.log("getAllFriends failed!");
+						console.log("returned code : " + json.GetAllFriendsServlet);
 					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
 		},
-		getSearchResults : function getSearchResults(sessionkey) {
+		getAllFriendRequest : function getAllFriendRequest(sessionkey) {
+			console.log("getAllFriendRequest called...");
+			$.ajax({
+				type: "GET",
+				url: "GetAllFriendRequestServlet",
+				data: "sessionkey=" + sessionkey,
+				datatype: 'json',
+				success: function(json) {
+					if(json.GetAllFriendRequestServlet == SUCCESS_CODE){
+						console.log("getAllFriendRequest success!");
+						console.log(json);
+					}
+					else {
+						console.log("getAllFriendRequest failed!");
+						console.log("returned code : " + json.getAllFriendRequestServlet);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
+				}
+			});
+		},
+		
+		getSearchResults : function getSearchResults(searchword) {
 			console.log("getSearchResults called...");
-			var generated = false;
+			var sessionkey=localStorage.getItem("sessionKey");
 			$.ajax({
 				type: "POST",
 				url: "SearchServlet",
-				data: "sessionkey=" + sessionkey,
+				data: "sessionkey=" + sessionkey+"&searchword="+searchword,
 				dataType: 'json',
 				success: function(json) {
-					if (json.searchEnded) {
-						generated=true;
-					}
-					var listResearch = json.listResearch;
-					localStorage.setItem("listResearch",listResearch);
-					displayResults();
-				},
-				complete: function(json) {
-					if(!generated) {
-						// Schedule the next
-	                    setTimeout(ServerServices.searchresult(sessionkey), 100);
+					if (json.SearchServlet == SUCCESS_CODE){
+						var listResearch = json.listResearch;
+						localStorage.setItem("listResearch",listResearch);
+						displayResults(searchword);
 					}
 					else {
-						console.log("Search Ended");
+						console.log("getSearchResults failed!");
+						console.log("returned code : " + json.SearchServlet);
 					}
-					
 				},
+			
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
+				}
+			});
+		},
+		
+		getImgUser : function getImgUser(name) {
+			console.log("getImgUser called...");
+			var sessionkey=localStorage.getItem("sessionKey");
+			$.ajax({
+				type: "POST",
+				url: "GetImgUserServlet",
+				data: "sessionkey=" + sessionkey+"&username="+name,
+				dataType: 'json',
+				success: function(json) {
+					if (json.GetImgUserServlet == SUCCESS_CODE){
+						var listImg = json.listImg;
+						localStorage.setItem("listImg",listImg);
+					}
+					else {
+						console.log("getImgUser failed!");
+						console.log("returned code : " + json.getImgUserServlet);
+					}
+				},
+			
 				error: function(jqXHR, textStatus, errorThrown) {
 					console.log(textStatus);
 					console.log(jqXHR.responseText + " status : " + jqXHR.status);
