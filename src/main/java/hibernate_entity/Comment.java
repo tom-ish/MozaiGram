@@ -39,8 +39,10 @@ public class Comment {
 	
 	public Comment() {}
 	
-	public Comment(String text) {
+	public Comment(String text, User auteur, Image img) {
 		this.text = text;
+		this.auteur = auteur;
+		this.img = img;
 	}
 	
 	public int getId() { return this.id; }

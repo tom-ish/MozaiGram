@@ -10,8 +10,8 @@ import utils.Persist;
 
 public class DBImage {
 
-	public static int addImage(String imgPath) {
-		Image img = new Image(imgPath);
+	public static int addImage(String imgPath, User user) {
+		Image img = new Image(imgPath, user);
 		if(Persist.OPENED_SESSION != null) {
 			Persist.OPENED_SESSION.beginTransaction();
 			Persist.OPENED_SESSION.save(img);

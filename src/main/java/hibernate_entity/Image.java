@@ -41,8 +41,9 @@ public class Image {
 	
 	public Image() {}
 	
-	public Image(String link) {
+	public Image(String link, User user) {
 		this.link = link;
+		this.user = user;
 		this.comments = new HashSet<Comment>();
 	}
 	
