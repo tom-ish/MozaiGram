@@ -5,19 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.List;
 
 import javax.imageio.ImageIO;
 
 import org.json.JSONObject;
 
-=======
-
-import javax.imageio.ImageIO;
-
->>>>>>> ab1e40ac19845aa71b3ecdd6b722e847ac50a421
-import database.DBAuthentification;
 import database.DBImage;
 import database.DBLibrary;
 import database.DBSessionKey;
@@ -83,8 +76,8 @@ public class ServicesImage {
 			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
 			List<hibernate_entity.Image> imgs = new ArrayList<>();
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
-			imgs = DBImage.getImageFromUserId(userId);
+			User user = DBSessionKey.getUserByKey(sessionkey);
+			imgs = DBImage.getImageFromUserId(user.getId());
 			
 			if(imgs != null) {
 				for(hibernate_entity.Image img : imgs) {
@@ -103,11 +96,11 @@ public class ServicesImage {
 		else if(!DBImage.existeImageId(imgid))
 			return Persist.ERROR_FRIEND_NOT_FOUND;
 		else {
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			User user = DBSessionKey.getUserByKey(sessionkey);
 			hibernate_entity.Image img = DBImage.getImageById(imgid);
 			int rslt = DBImage.addComment(img, comment);
 			if(rslt==Persist.SUCCESS) {
-				json.put("authorId", userId);
+				json.put("authorId", user.getId());
 				json.put("text", comment);
 				json.put("imgId", imgid);
 				
