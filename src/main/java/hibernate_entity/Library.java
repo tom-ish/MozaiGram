@@ -30,6 +30,8 @@ public class Library {
 	@JoinColumn(name="userid", nullable=false)
 	private User user;
 	
+	private String name;
+	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="imgid")
 	private Set<Image> images;
@@ -40,8 +42,9 @@ public class Library {
 	
 	public Library() {}
 	
-	public Library(User user) {
+	public Library(User user, String name) {
 		this.user = user;
+		this.name = name;
 		this.images = new HashSet<Image>();
 	}
 	
@@ -49,10 +52,12 @@ public class Library {
 	public User getUser() { return this.user; }
 	public Set<Image> getImages() { return this.images; }
 	public Date getCreationDate() { return this.creationDate; }
+	public String getName() { return this.name; }
 	
 	public void setId(int id) { this.id = id; }
 	public void setUser(User user) { this.user = user; }
 	public void setImages(Set<Image> images) { this.images = images; }
 	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
+	public void setName(String name) { this.name = name; }
 
 }

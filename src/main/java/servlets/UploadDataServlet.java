@@ -41,7 +41,7 @@ public class UploadDataServlet extends HttpServlet {
 
 	private static int NB_IMAGES = 149;
 
-	public static HashMap<String, SimpleEntry<Integer, Integer>> userTasksMapper;
+	public static HashMap<String, SimpleEntry<Integer, String>> userTasksMapper;
 	
 	
 	/**
@@ -50,7 +50,7 @@ public class UploadDataServlet extends HttpServlet {
 	public UploadDataServlet() {
 		// TODO Auto-generated constructor stub
 		if(userTasksMapper == null)
-			userTasksMapper = new HashMap<String, SimpleEntry<Integer, Integer>>();
+			userTasksMapper = new HashMap<String, SimpleEntry<Integer, String>>();
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class UploadDataServlet extends HttpServlet {
 	
 	private CompletableFuture<ArrayList<String>> getURLs(String sessionkey, String keyword) {
 		System.out.println("SESSIONKEY : " + sessionkey +" KEYWORD : " + keyword);
-		userTasksMapper.put(sessionkey, new SimpleEntry<Integer, Integer>(Persist.PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED, -1));
+		userTasksMapper.put(sessionkey, new SimpleEntry<Integer, String>(Persist.PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED, ""));
 		getServletContext().setAttribute(Persist.USERS_TASKS, userTasksMapper);
 		return CompletableFuture.supplyAsync( () -> ServicesMozaikProcessingCompletableFuture.loadAPIImagesFromKeyword(keyword),
 				Executors.newSingleThreadExecutor());
@@ -135,7 +135,7 @@ public class UploadDataServlet extends HttpServlet {
 				userTasksMapper.put(sessionkey, statusImgIdSimpleEntry);
 				getServletContext().setAttribute(Persist.USERS_TASKS, userTasksMapper);
 				System.out.println(System.currentTimeMillis() - startTime);
-				System.out.println("COMPLETED FUTURE - STATUS : " + statusImgIdSimpleEntry.getKey() + " imgId : " + statusImgIdSimpleEntry.getValue());
+				System.out.println("COMPLETED FUTURE - STATUS : " + statusImgIdSimpleEntry.getKey() + " imgPath : " + statusImgIdSimpleEntry.getValue());
 		});
 		return Persist.PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED;
 	}

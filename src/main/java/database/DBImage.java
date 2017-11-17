@@ -6,6 +6,7 @@ import java.util.List;
 import hibernate_entity.Comment;
 import hibernate_entity.Image;
 import hibernate_entity.Library;
+import hibernate_entity.User;
 import utils.Persist;
 
 public class DBImage {
@@ -46,7 +47,7 @@ public class DBImage {
 	}
 	
 	public static int addComment(Image img, String txt) {
-		Comment comment = new Comment(img, txt);
+		Comment comment = new Comment();
 		
 		if(Persist.OPENED_SESSION != null) {			
 			Persist.OPENED_SESSION.beginTransaction();
@@ -57,35 +58,16 @@ public class DBImage {
 		return Persist.ERROR;
 	}
 	
-	public static int addImage(String imgPath) {
-		Image img = new Image(imgPath);
-
+	public static Image addImage(String imgPath, User user) {
+		Image img = new Image(imgPath, user);
 		if(Persist.OPENED_SESSION != null) {
 			Persist.OPENED_SESSION.beginTransaction();
 			Persist.OPENED_SESSION.save(img);
 			Persist.OPENED_SESSION.getTransaction().commit();
 			Persist.OPENED_SESSION.close();
 		}
-		return img.getId();
-	}
 
-	public static int addImageToLibrary(int userId, int imgId) {
-
-		User user = DBAuthentification.getUserById(userId);
-		Image img = DBImage.getImgFromId(imgId);
-		if(user != null && img != null) {
-			Library library = new Library();
-			library.setUser(user);
-			library.getImages().add(img);
-			if(Persist.OPENED_SESSION != null) {
-				Persist.OPENED_SESSION.beginTransaction();
-				Persist.OPENED_SESSION.save(library);
-				Persist.OPENED_SESSION.getTransaction().commit();
-				Persist.OPENED_SESSION.close();
-			}
-			return library.getId();
-		}
-		return -1;
+		return img;
 	}
 
 	public static ArrayList<String> getPathsfromUser (String username) {
@@ -103,18 +85,6 @@ public class DBImage {
 		}
 		return results;
 		
-	}
-	
-	public static String getPathFromImgId(int id) {
-		String hql = "from Image";
-
-		if(Persist.OPENED_SESSION != null) {
-			Persist.OPENED_SESSION.beginTransaction();
-			Persist.OPENED_SESSION.save(library);
-			Persist.OPENED_SESSION.getTransaction().commit();
-			Persist.OPENED_SESSION.close();
-		}
-		return library.getId();
 	}
 	
 	public static String getPathFromImgId(int id) {
