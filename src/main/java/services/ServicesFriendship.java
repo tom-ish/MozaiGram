@@ -22,7 +22,7 @@ public class ServicesFriendship {
 		else if(!DBAuthentification.existeUserId(friendId))
 			return Persist.ERROR_FRIEND_NOT_FOUND;
 		else {
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			int userId = DBSessionKey.getUserByKey(sessionkey).getId();
 			
 			int status = DBFriendship.getFriendshipRequestStatus(userId, friendId);
 			switch(status) {
@@ -52,7 +52,7 @@ public class ServicesFriendship {
 		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
 			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			int userId = DBSessionKey.getUserByKey(sessionkey).getId();
 			Set<User> friends = DBFriendship.getAllFriends(userId);
 			System.out.println("userId: "+userId+" FRIENDS.size() : " + friends.size() + " : " + friends);
 			json.put("friends", friends);
@@ -67,7 +67,7 @@ public class ServicesFriendship {
 		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
 			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			int userId = DBSessionKey.getUserByKey(sessionkey).getId();
 			Set<User> requestUsers = DBFriendship.getAllFriendRequests(userId);
 			json.put("friendRequest", requestUsers);
 			return Persist.SUCCESS;

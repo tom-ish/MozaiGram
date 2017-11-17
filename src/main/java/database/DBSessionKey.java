@@ -22,23 +22,23 @@ public class DBSessionKey {
 		for(int i = 0; i < length; i++)
 			rslt += dictionnary.charAt((int) (Math.random()*dictionnary.length()));
 		
-		if(getUserIdByKey(rslt) != -1)
+		if(getUserByKey(rslt).getId() != -1)
 			return generateKey();
 		else
 			return rslt;
 	}
-		
-	public static int getUserIdByKey(String key) {
+	
+	public static User getUserByKey(String key) {
 		String hql = "from UserSession";
 		
 		if(Persist.OPENED_SESSION != null) {
 			List<UserSession> userSessions = Persist.OPENED_SESSION.createQuery(hql).getResultList();
 			for(UserSession userSession : userSessions) {
 				if(userSession.getSessionkey().equals(key))
-					return userSession.getUser().getId();
+					return userSession.getUser();
 			}
 		}
-		return -1;
+		return null;
 	}
 	
 	public static String getSessionkeyByUsername(String username) {

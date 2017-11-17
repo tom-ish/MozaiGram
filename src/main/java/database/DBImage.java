@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hibernate_entity.Image;
-import hibernate_entity.Library;
 import hibernate_entity.User;
 import utils.Persist;
 
 public class DBImage {
 
-	public static int addImage(String imgPath, User user) {
+	public static Image addImage(String imgPath, User user) {
 		Image img = new Image(imgPath, user);
 		if(Persist.OPENED_SESSION != null) {
 			Persist.OPENED_SESSION.beginTransaction();
@@ -18,25 +17,7 @@ public class DBImage {
 			Persist.OPENED_SESSION.getTransaction().commit();
 			Persist.OPENED_SESSION.close();
 		}
-		return img.getId();
-	}
-
-	public static int addImageToLibrary(int userId, int imgId) {
-		User user = DBAuthentification.getUserById(userId);
-		Image img = DBImage.getImgFromId(imgId);
-		if(user != null && img != null) {
-			Library library = new Library();
-			library.setUser(user);
-			library.getImages().add(img);
-			if(Persist.OPENED_SESSION != null) {
-				Persist.OPENED_SESSION.beginTransaction();
-				Persist.OPENED_SESSION.save(library);
-				Persist.OPENED_SESSION.getTransaction().commit();
-				Persist.OPENED_SESSION.close();
-			}
-			return library.getId();
-		}
-		return -1;
+		return img;
 	}
 
 	public static ArrayList<String> getPathsfromUser (String username) {

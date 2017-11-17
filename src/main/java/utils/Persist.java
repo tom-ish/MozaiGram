@@ -94,6 +94,8 @@ public class Persist {
 	 */
 	public static Session OPENED_SESSION = null;
 	
+	public static final String DEFAULT_LIBRARY = "_DEFAULT";
+	
 	
 	
 	public static String STRINGIFY_SEPARATOR = "###";

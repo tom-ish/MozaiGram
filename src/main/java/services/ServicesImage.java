@@ -10,42 +10,38 @@ import javax.imageio.ImageIO;
 
 import database.DBAuthentification;
 import database.DBImage;
+import database.DBLibrary;
 import database.DBSessionKey;
+import hibernate_entity.Library;
 import hibernate_entity.User;
 import utils.Persist;
 import utils.Tools;
 
 public class ServicesImage {
 	
-	public static SimpleEntry<Integer, Integer> addImage(String sessionkey, String imgPath) {
+	public static SimpleEntry<Integer, String> addImage(String sessionkey, String imgPath) {
 		if(Tools.isNullParameter(sessionkey) || Tools.isNullParameter(imgPath))
-			return new SimpleEntry<Integer, Integer>(Persist.ERROR_NULL_PARAMETER, -1);
+			return new SimpleEntry<Integer, String>(Persist.ERROR_NULL_PARAMETER, "");
 		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
-			return new SimpleEntry<Integer, Integer>(Persist.ERROR_SESSION_KEY_NOT_FOUND, -1);
+			return new SimpleEntry<Integer, String>(Persist.ERROR_SESSION_KEY_NOT_FOUND, "");
 		else {
-			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			User user = DBSessionKey.getUserByKey(sessionkey);
 			// On stocke l'adresse de l'image dans la DB Images
-			int imgId = DBImage.addImage(imgPath, DBAuthentification.getUserById(userId));
-			// si l'id de l'image == 0, alors c'est que la requete precedente n'a pas fonctionne correctement
-			if(imgId != 0)
-				return new SimpleEntry<Integer, Integer>(Persist.SUCCESS, imgId);
+			hibernate_entity.Image img = DBImage.addImage(imgPath, user);
+
+			// si l'id de l'image != 0, c'est que l'ajout s'est bien deroule
+			if(img != null) {
+				//  => on l'ajoute au default_library de l'user
+				Library defaultLibrary = DBLibrary.getUserDefaultLibrary(user);		
+				if(defaultLibrary == null)
+					defaultLibrary = DBLibrary.createDefaultLibrary(user);
+				if(DBLibrary.addImageToLibrary(user, img, defaultLibrary) == Persist.SUCCESS)
+					return new SimpleEntry<Integer, String>(Persist.SUCCESS, img.getLink());
+				else
+					return new SimpleEntry<Integer, String>(Persist.ERROR_DB_LIBRARY_CANNOT_ADD_NEW_INSTANCE, "");
+			}
 		}
-		return new SimpleEntry<Integer, Integer>(Persist.ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE, -1);
-	}
-	
-	public static SimpleEntry<Integer, Integer> addImageToLibrary(String sessionkey, int imgId) {
-		if(Tools.isNullParameter(sessionkey))
-			return new SimpleEntry<Integer, Integer>(Persist.ERROR_NULL_PARAMETER, -1);
-		if(imgId == 0)
-			return new SimpleEntry<Integer, Integer>(Persist.ERROR_DB_IMAGE_NOT_FOUND, -1);
-		
-		int userId = DBSessionKey.getUserIdByKey(sessionkey);
-		if(userId == -1)
-			return new SimpleEntry<Integer, Integer>(Persist.ERROR_SESSION_KEY_NOT_FOUND, -1);
-		int imgIdInLibrary = DBImage.addImageToLibrary(userId, imgId);
-		if(imgIdInLibrary != 0)
-			return new SimpleEntry<Integer, Integer>(Persist.SUCCESS, imgIdInLibrary);
-		return new SimpleEntry<Integer, Integer>(Persist.ERROR_DB_LIBRARY_CANNOT_ADD_NEW_INSTANCE, -1);
+		return new SimpleEntry<Integer, String>(Persist.ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE, "");
 	}
 	
 	public static String getPathFromImgId(int imgId) {
