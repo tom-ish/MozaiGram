@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -47,6 +48,10 @@ public class ServicesImage {
 			return null;
 		}
 		return DBImage.getPathFromImgId(imgId);
+	}
+	
+	public static ArrayList<String> getPathsfromUser (String username){
+		return DBImage.getPathsfromUser(username);
 	}
 	
 	public static Image getImageFromPath(String path) {

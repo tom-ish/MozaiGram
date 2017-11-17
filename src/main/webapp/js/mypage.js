@@ -13,12 +13,16 @@ var mypagecontent = {
 };
 
 function initializePage() {
+	username=localStorage.getItem("requestedpage");
 	console.log("Page personnelle de "+username);
 	var html = "Page personnelle de "+username;
 	var test = document.createElement('h1');
 	test.className="test";
 	test.innerHTML = html;
 	document.getElementById("usernameId").appendChild(test);
+	ServerServices.getImgUser(username);
+	listImg=localStorage.getItem("listImg");
+	console.log("Images correspondant à "+username+": "+listImg);
 	return;
 }
 
