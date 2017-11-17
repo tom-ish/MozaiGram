@@ -21,6 +21,8 @@ function initializePage() {
 	test.innerHTML = html;
 	document.getElementById("usernameId").appendChild(test);
 	ServerServices.getImgUser(username);
+	listImg=localStorage.getItem("listImg");
+	console.log("Images correspondant à "+username+": "+listImg);
 	return;
 }
 

@@ -272,7 +272,7 @@ var ServerServices = {
 				success: function(json) {
 					if (json.GetImgUserServlet == SUCCESS_CODE){
 						var listImg = json.listImg;
-						localStorage.setItem("listImg",listResearch);
+						localStorage.setItem("listImg",listImg);
 					}
 					else {
 						console.log("getImgUser failed!");
