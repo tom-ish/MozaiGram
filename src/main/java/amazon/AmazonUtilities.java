@@ -13,6 +13,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 
+import utils.AWSkeys;
 import utils.Persist;
 
 public class AmazonUtilities {
@@ -32,7 +33,7 @@ public class AmazonUtilities {
         // so this call will return immediately.
         System.out.println("Trying to upload " + toUpload.getAbsolutePath());
         
-        PutObjectRequest por = new PutObjectRequest(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
+        PutObjectRequest por = new PutObjectRequest(AWSkeys.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
         por.setCannedAcl(CannedAccessControlList.PublicRead);
         Upload upload = tm.upload(por);
         //Upload upload = tm.upload(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);

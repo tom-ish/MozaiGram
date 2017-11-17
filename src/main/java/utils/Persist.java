@@ -1,7 +1,6 @@
 package utils;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,17 +75,7 @@ public class Persist {
 	 */
 	public static final int ERROR_AMAZON_S3_CLIENT = 801;
 	
-	public static final String AMAZON_S3_BUCKET_NAME = "mozaigram";
-	public static final String AWS_ACCESS_KEY_ID = "AWS_ACCESS_KEY_ID";
-	public static final String AWS_SECRET_KEY_ID = "AWS_SECRET_KEY";
-
 	public static final String USERS_TASKS = "userTasks";
-	
-	
-	public static final String FROM_REPOSITORY_PATH = "images_save";
-	public static final File FROM_REPOSITORY = new File(Persist.FROM_REPOSITORY_PATH);
-	public static final String DEST_MOZAIK_REPOSITORY_PATH = "mozaikRslt";
-	public static final File DEST_MOZAIK_REPOSITORY = new File(Persist.DEST_MOZAIK_REPOSITORY_PATH);
 	
 	
 	/*
