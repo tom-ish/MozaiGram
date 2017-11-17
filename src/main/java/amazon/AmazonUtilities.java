@@ -13,14 +13,15 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 
-import utils.AWSkeys;
 import utils.Persist;
 
 public class AmazonUtilities {
 	
 	
 	public static int uploadImagesAmazonAPI(File toUpload) {
-		BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIAI7ZRBCXAMH57D4AA", "obAfX+Z/9yJUgdE2GDaOHlNKo2lDCWI6VI7iyOSe");
+		String awsAccessKeyId = System.getenv(Persist.AWS_ACCESS_KEY_ID);
+		String awsSecretAccessKey = System.getenv(Persist.AWS_SECRET_KEY_ID);
+		BasicAWSCredentials awsCreds = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
 		AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
 		                        .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 		                        .withRegion(Regions.EU_CENTRAL_1)
@@ -33,7 +34,7 @@ public class AmazonUtilities {
         // so this call will return immediately.
         System.out.println("Trying to upload " + toUpload.getAbsolutePath());
         
-        PutObjectRequest por = new PutObjectRequest(AWSkeys.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
+        PutObjectRequest por = new PutObjectRequest(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);
         por.setCannedAcl(CannedAccessControlList.PublicRead);
         Upload upload = tm.upload(por);
         //Upload upload = tm.upload(Persist.AMAZON_S3_BUCKET_NAME, toUpload.getName(), toUpload);

@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 
 import algorithm.ImageComponent;
 import amazon.AmazonUtilities;
-import utils.AWSkeys;
 import utils.Persist;
 
 public class ImageFrame {
@@ -181,9 +180,9 @@ public class ImageFrame {
 		System.out.print("DRAW OPERATION : ");
 		System.out.println(System.currentTimeMillis() - startTime);
 		try {
-			if(!AWSkeys.DEST_MOZAIK_REPOSITORY.exists() || !AWSkeys.DEST_MOZAIK_REPOSITORY.isDirectory())
-				AWSkeys.DEST_MOZAIK_REPOSITORY.mkdir();
-			String rsltFileName = AWSkeys.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
+			if(!Persist.DEST_MOZAIK_REPOSITORY.exists() || !Persist.DEST_MOZAIK_REPOSITORY.isDirectory())
+				Persist.DEST_MOZAIK_REPOSITORY.mkdir();
+			String rsltFileName = Persist.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
 			System.out.println("OUTPUT FILEPATH : " + rsltFileName);
 			ImageIO.write(rslt, "jpg", new File(rsltFileName));
 			
@@ -363,7 +362,7 @@ public class ImageFrame {
 	
 	private void loadLibrary(int grain) {
 		library=new ArrayList<String>();
-		for(File f : AWSkeys.FROM_REPOSITORY.listFiles()){
+		for(File f : Persist.FROM_REPOSITORY.listFiles()){
 			if (f.length() != 0 && f.isFile()){
 				//System.out.println("loaded path(file) : " + f.getPath());
 				//ImageResizer.resize(f.getPath(), "images_save" + File.separator + "rescale" + File.separator + f.getName(), grain, grain);
@@ -375,7 +374,7 @@ public class ImageFrame {
 	
 	
 	private void emptyLibrary(){
-		for (File f : AWSkeys.FROM_REPOSITORY.listFiles())
+		for (File f : Persist.FROM_REPOSITORY.listFiles())
 			if(f.isFile())
 				f.delete();
 	}

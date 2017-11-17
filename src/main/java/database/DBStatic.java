@@ -19,6 +19,7 @@ import hibernate_entity.Image;
 import hibernate_entity.Library;
 import hibernate_entity.User;
 import hibernate_entity.UserSession;
+import utils.Persist;
 
 public class DBStatic {
 	
@@ -57,16 +58,13 @@ public class DBStatic {
 	}
 
 	private static boolean postgresql_pooling = false;
-	private static String postgresql_username = "nuvvhgenjviffn";
-	private static String postgresql_password = "88c5e0822d52b10bf9138eb7ba756af22f04dd7c679b93d1f04a577e9b2f7eab";
 	
 	public static Connection getPostgreSQLConnection() throws SQLException {
-//		String url = "jdbc:postgresql://nuvvhgenjviffn:88c5e0822d52b10bf9138eb7ba756af22f04dd7c679b93d1f04a577e9b2f7eab@ec2-50-16-202-213.compute-1.amazonaws.com:5432/da5njdatl991hn";
-		String url = "jdbc:postgresql://ec2-50-16-202-213.compute-1.amazonaws.com:5432/da5njdatl991hn?sslmode=require";
+		String url = System.getenv(Persist.AWS_URL);
 		try {
 			Class.forName("org.postgresql.Driver").newInstance();
 			if(DBStatic.postgresql_pooling == false)
-				return (DriverManager.getConnection(url, DBStatic.postgresql_username, DBStatic.postgresql_password));
+				return (DriverManager.getConnection(url, System.getenv(Persist.PSQL_USERNAME), System.getenv(Persist.PSQL_PASSWORD)));
 			else {
 				if(database == null)
 					database =  new Database("jdbc/db");
@@ -83,7 +81,7 @@ public class DBStatic {
 			e.printStackTrace();
 		}
 		
-		return (DriverManager.getConnection(url, DBStatic.postgresql_username, DBStatic.postgresql_password));
+		return (DriverManager.getConnection(url, System.getenv(Persist.PSQL_USERNAME), System.getenv(Persist.PSQL_PASSWORD)));
 	}
 	
 	public static Session getHibernateSession() {
@@ -102,7 +100,6 @@ public class DBStatic {
 	private static String CLOUDINARY_CLOUD_NAME = "hldpldmwn";
 	private static String CLOUDINARY_API_KEY = "483791282241664";
 	private static String CLOUDINARY_API_SECRET = "cz_RVeyy1cw327ShrWBUehBHxH0";
-	private static String CLOUDINARY_URL = "cloudinary://483791282241664:cz_RVeyy1cw327ShrWBUehBHxH0@hldpldmwn/";
 	public static Cloudinary getCloudinaryInstance() {
 		Map<String, String> config = new HashMap<String, String>();
 		config.put("cloud_name", CLOUDINARY_CLOUD_NAME);

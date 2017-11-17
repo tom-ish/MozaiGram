@@ -14,7 +14,6 @@ import database.DBLibrary;
 import database.DBSessionKey;
 import hibernate_entity.Library;
 import hibernate_entity.User;
-import utils.AWSkeys;
 import utils.Persist;
 import utils.Tools;
 
@@ -28,8 +27,8 @@ public class ServicesImage {
 		else {
 			User user = DBSessionKey.getUserByKey(sessionkey);
 			// On stocke l'adresse de l'image dans la DB Images
-			String imgURL = AWSkeys.AMAZON_S3_SERVER_URL+imgPath;
-			hibernate_entity.Image img = DBImage.addImage(imgPath, user);
+			String imgURL = Persist.AMAZON_S3_SERVER_URL+imgPath;
+			hibernate_entity.Image img = DBImage.addImage(imgURL, user);
 
 			// si l'id de l'image != 0, c'est que l'ajout s'est bien deroule
 			if(img != null) {
