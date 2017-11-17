@@ -259,6 +259,32 @@ var ServerServices = {
 					console.log(jqXHR.responseText + " status : " + jqXHR.status);
 				}
 			});
+		},
+		
+		getImgUser : function getImgUser(name) {
+			console.log("getImgUser called...");
+			var sessionkey=localStorage.getItem("sessionKey");
+			$.ajax({
+				type: "POST",
+				url: "GetImgUserServlet",
+				data: "sessionkey=" + sessionkey+"&username="+name,
+				dataType: 'json',
+				success: function(json) {
+					if (json.GetImgUserServlet == SUCCESS_CODE){
+						var listImg = json.listImg;
+						localStorage.setItem("listImg",listResearch);
+					}
+					else {
+						console.log("getImgUser failed!");
+						console.log("returned code : " + json.getImgUserServlet);
+					}
+				},
+			
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
+				}
+			});
 		}
 		
 }
