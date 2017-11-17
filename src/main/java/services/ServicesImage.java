@@ -8,8 +8,10 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import database.DBAuthentification;
 import database.DBImage;
 import database.DBSessionKey;
+import hibernate_entity.User;
 import utils.Persist;
 import utils.Tools;
 
@@ -18,13 +20,16 @@ public class ServicesImage {
 	public static SimpleEntry<Integer, Integer> addImage(String sessionkey, String imgPath) {
 		if(Tools.isNullParameter(sessionkey) || Tools.isNullParameter(imgPath))
 			return new SimpleEntry<Integer, Integer>(Persist.ERROR_NULL_PARAMETER, -1);
-		
-		// On stocke l'adresse de l'image dans la DB Images
-		int imgId = DBImage.addImage(imgPath); 
-		
-		// si l'id de l'image == 0, alors c'est que la requete precedente n'a pas fonctionne correctement
-		if(imgId != 0)
-			return new SimpleEntry<Integer, Integer>(Persist.SUCCESS, imgId);
+		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
+			return new SimpleEntry<Integer, Integer>(Persist.ERROR_SESSION_KEY_NOT_FOUND, -1);
+		else {
+			int userId = DBSessionKey.getUserIdByKey(sessionkey);
+			// On stocke l'adresse de l'image dans la DB Images
+			int imgId = DBImage.addImage(imgPath, DBAuthentification.getUserById(userId));
+			// si l'id de l'image == 0, alors c'est que la requete precedente n'a pas fonctionne correctement
+			if(imgId != 0)
+				return new SimpleEntry<Integer, Integer>(Persist.SUCCESS, imgId);
+		}
 		return new SimpleEntry<Integer, Integer>(Persist.ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE, -1);
 	}
 	
