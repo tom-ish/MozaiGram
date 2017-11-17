@@ -111,6 +111,7 @@ public class ServicesMozaikProcessingCompletableFuture {
 	public static CompletableFuture<SimpleEntry<Integer,Integer>> storeMozaik(Integer previousReturnCode, String sessionkey, String originalFileName) {
 		//String mozaikFilePath = Persist.DEST_MOZAIK_REPOSITORY_PATH + File.separator + originalFileName;
 		String mozaikFilePath = originalFileName;
+		System.out.println("MOZAIKGENERATION RETURNED " + previousReturnCode);
 		if(previousReturnCode == Persist.SUCCESS)		
 			return CompletableFuture.completedFuture(ServicesImage.addImage(sessionkey, mozaikFilePath));
 		return CompletableFuture.completedFuture(new SimpleEntry<Integer, Integer>(previousReturnCode, -1));
