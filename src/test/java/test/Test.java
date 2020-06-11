@@ -3,6 +3,7 @@ package test;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -11,7 +12,10 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 
+import database.DBImage;
 import database.DBStatic;
+import hibernate_entity.Image;
+import utils.HibernateUtil;
 import utils.Persist;
 
 
@@ -19,18 +23,28 @@ public class Test {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		/*
+		Persist.OPENED_SESSION = HibernateUtil.currentSession();
 		
+		JSONArray array = ServicesMyMozaik.buildMozaikThumnails("OZvLfTG14VgShvY58YL1loyhGrcn0Lsz");
+		
+		System.out.println(array);
+		
+		Persist.OPENED_SESSION.close();
 		/*
 		String filePath = "tiger_ukiyoe.jpg";
 		int ok = AmazonUtilities.uploadImagesAmazonAPI(new File(filePath));
 		System.out.println(ok);
 		*/
-			Session session = DBStatic.getHibernateSession();
+			
+		
+		
+		Session session = HibernateUtil.currentSession();
 			session.beginTransaction();
 			session.createQuery(psql_create_friendship).executeUpdate();
 			session.getTransaction().commit();
 			session.getSessionFactory().close();
-			session.close();
+			HibernateUtil.closeSession();
 			System.out.println("OK");
 			
 			
@@ -168,6 +182,10 @@ public class Test {
 			e.printStackTrace();
 		}
         return Persist.ERROR;
+	}
+	
+	public static List<Image> getImagesTest() {
+		return DBImage.getImages();
 	}
 
 }

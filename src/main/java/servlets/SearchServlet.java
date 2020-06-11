@@ -21,11 +21,13 @@ import javax.servlet.http.Part;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
 import mozaik_process.ImageResizer;
 
 import services.SearchService;
 import services.ServicesAuthentification;
+import services.ServicesImage;
 import services.ServicesMozaikProcessingCompletableFuture;
 import utils.FileProcess;
 import utils.Persist;
@@ -71,36 +73,37 @@ public class SearchServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
 		ArrayList<String> results=new ArrayList<String>();
-		try {
-			JSONObject json = new JSONObject();
-			results = SearchService.searchResults(searchword);
-			json.put("SearchServlet", ""+Persist.SUCCESS);
-			json.put("listResearch", ""+results);
-			System.out.println(json);
-			writer.println(json.toString());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ArrayList<String> images=new ArrayList<String>();
+		JSONObject json = new JSONObject();
+
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		if(reset == Persist.RESET_SESSION_KEY_OK) {	
+			try {
+				results = SearchService.searchResults(searchword);
+				images = ServicesImage.getImgfromSearch(results);
+				json.put("SearchServlet", ""+Persist.SUCCESS);
+				json.put("listResearch", ""+results);
+				json.put("listImg", images);
+				System.out.println(json);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
-		
+		else {
+			try {
+				json.put("SearchServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
 
+		writer.println(json.toString());
 
 	}
 	
 	
 
-
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
 }

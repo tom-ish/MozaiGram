@@ -35,6 +35,7 @@ $(document).ready(function(){
 					console.log(str);
 					
 //					ServerServices.uploadData(dragNdropForm.userKeyword.value, fileList[0]);
+					//ServerServices.asyncUploadData(dragNdropForm, sessionkey);
 					ServerServices.uploadData(dragNdropForm, sessionkey);
 					return false;
 				});

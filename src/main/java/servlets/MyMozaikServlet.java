@@ -3,37 +3,41 @@ package servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
+import services.ServicesMyMozaik;
 import utils.Persist;
 
 /**
- * Servlet implementation class PersistenceTestServlet
+ * Servlet implementation class GetUserImagesServlet
  */
-@WebServlet("/PersistenceTestServlet")
-public class PersistenceTestServlet extends HttpServlet {
+@WebServlet("/MyMozaikServlet")
+public class MyMozaikServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private int count = 0;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MyMozaikServlet() {
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public PersistenceTestServlet() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -42,44 +46,36 @@ public class PersistenceTestServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		String sessionkey = request.getParameter("sessionkey");
-				
-		JSONObject json = new JSONObject();
-
-		try {
-			if(count <= 10)
-				json.put("PersistenceTestServlet", ""+Persist.ERROR);
-			else
-				json.put("PersistenceTestServlet", ""+Persist.SUCCESS);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		count++;
-		// Ecriture des donnees
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
+		
+		JSONObject json = new JSONObject();
+		
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		if(reset == Persist.RESET_SESSION_KEY_OK) {
+			try {
+				JSONArray jsonArray = ServicesMyMozaik.buildMozaikThumnails(sessionkey);
+				System.out.println(jsonArray);
+				json.put("MyMozaikServlet", ""+Persist.SUCCESS);
+				json.put("myMozaikRslt", jsonArray);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		}
+		else {
+			try {
+				json.put("MyMozaikServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
 		writer.println(json.toString());
-		System.out.println("Since loading, this servlet has been accessed " +
-				count + " times.");
-	}
-
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
 	}
 }

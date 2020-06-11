@@ -40,22 +40,6 @@ public class AcceptFriendRequestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 	
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
 	
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
 
 }

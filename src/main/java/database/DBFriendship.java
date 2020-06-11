@@ -5,105 +5,166 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import hibernate_entity.Friendship;
 import hibernate_entity.User;
+import utils.HibernateUtil;
 import utils.Persist;
 import utils.Tools;
 
 public class DBFriendship {
-	
-	public static int addFriend(int userId, int friendId) {
-		if(userId == friendId)
+
+	public static int addFriend(User user, User friend) {
+		if(user.getId() == friend.getId())
 			return Persist.ERROR_FRIENDSHIP_SAME_USER_ID;
-		
-		User user = DBAuthentification.getUserById(userId);
-		User friend = DBAuthentification.getUserById(friendId);
-		
+
 		if(user != null && friend != null) {
 			Friendship friendship = new Friendship();
 			friendship.setFriend(friend);
 			friendship.setUser(user);
 			friendship.setState(Persist.STATUS_FRIENDSHIP_REQUEST_SENT);
-			if(Persist.OPENED_SESSION != null) {
-				Persist.OPENED_SESSION.beginTransaction();
-				Persist.OPENED_SESSION.save(friendship);
-				Persist.OPENED_SESSION.getTransaction().commit();
-				return Persist.SUCCESS;
+			Session session = HibernateUtil.currentSession();
+			Transaction tx = null;
+			try {
+				if(session != null) {
+					tx = session.beginTransaction();
+					session.save(friendship);
+					session.flush();
+					tx.commit();
+					HibernateUtil.closeSession();
+					return Persist.SUCCESS;
+				}
+			}
+			catch(HibernateException e) {
+				if(tx != null) tx.rollback();
+				e.printStackTrace();
+			}
+			finally {
+				HibernateUtil.closeSession();
 			}
 		}
 		return Persist.ERROR;
 	}
-	
-	public static int getFriendshipRequestStatus(int userId, int friendId) {
-		String hql = "from Friendship f where f.user='"+userId+"'";
-		
-		if(Persist.OPENED_SESSION != null) {
-			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
-			for(Friendship friendship : friendships)
-				if(friendship.getUser().getId() == userId && friendship.getFriend().getId() == friendId)
-					return friendship.getState();
+
+	public static int getFriendshipRequestStatus(User user, User friend) {
+		String hql = "from Friendship as f where f.user=:user and f.friend=:friend";
+		Session session = HibernateUtil.currentSession();
+		if(session != null) {
+			try {
+				List<Friendship> friendships = session.createQuery(hql)
+						.setParameter("user", user)
+						.setParameter("friend", friend)
+						.getResultList();
+				for(Friendship friendship : friendships) {
+					if(friendship.getUser().equals(user) && friendship.getFriend().equals(friend)) {
+						HibernateUtil.closeSession();
+						return friendship.getState();
+					}
+				}
+			}
+			catch(HibernateException e) {
+				e.printStackTrace();
+			}
+			finally {
+				HibernateUtil.closeSession();
+			}
 		}
 		return Persist.ERROR_FRIENDSHIP_NOT_FOUND;
 	}
-	
-	public static boolean isFriend(int userId1, int userId2) {
-		List<Integer> friendsOfUser1 = getAllFriendsIds(userId1);
-		
-		for(Integer friendIdFromUser1 : friendsOfUser1) {
-			if(friendIdFromUser1.intValue() == userId2)
+
+	public static boolean isFriend(User user1, User user2) {
+		List<User> friendsOfUser1 = getAllFriendsIds(user1);
+		for(User friendIdFromUser1 : friendsOfUser1) {
+			if(friendIdFromUser1.equals(user2))
 				return true;
 		}
-		
-		List<Integer> friendsOfUser2 = getAllFriendsIds(userId2);
-		for(Integer friendIdFromUser2 : friendsOfUser2) {
-			if(friendIdFromUser2.intValue() == userId1)
+
+		List<User> friendsOfUser2 = getAllFriendsIds(user2);
+		for(User friendIdFromUser2 : friendsOfUser2) {
+			if(friendIdFromUser2.equals(user1))
 				return true;
 		}	
 		return false;
 	}
-	
-	public static List<Integer> getAllFriendsIds(int userId) {
-		String hql = "from Friendship f where f.user='"+userId+"'";
-		ArrayList<Integer> rslt = new ArrayList<Integer>();
-		if(Persist.OPENED_SESSION != null) {
-			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
-			for(Friendship friendship : friendships)
-				if(friendship.getUser().getId() == userId)
-					rslt.add(new Integer(friendship.getFriend().getId()));
+
+	public static List<User> getAllFriendsIds(User user) {
+		String hql = "from Friendship as f where f.user=:user";
+		ArrayList<User> rslt = new ArrayList<User>();
+		Session session = HibernateUtil.currentSession();
+		if(session != null) {
+			try {
+				List<Friendship> friendships = session.createQuery(hql)
+						.setParameter("user", user)
+						.getResultList();
+				for(Friendship friendship : friendships)
+					if(friendship.getUser().equals(user))
+						rslt.add(friendship.getFriend());
+			}
+			catch(HibernateException e) {
+				e.printStackTrace();
+			}
+			finally {
+				HibernateUtil.closeSession();
+			}
 		}
 		return rslt;
 	}
-	
-	public static Set<User> getAllFriends(int userId) {
-		String hql = "from Friendship f where f.user='"+userId+"'";
+
+	public static Set<User> getAllFriends(User user) {
+		String hql = "from Friendship as f where f.user=:user";
 		Set<User> rslt = new HashSet<User>();
-		
-		if(Persist.OPENED_SESSION != null) {
-			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
-			for(Friendship friendship : friendships)
-				if(friendship.getUser().getId() == userId)
-					for(Friendship f : friendship.getUser().getAllFriends())
-						if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_ACCEPTED)
-							rslt.add(f.getFriend());
+
+		Session session = HibernateUtil.currentSession();
+		if(session != null) {
+			try {
+				List<Friendship> friendships = session.createQuery(hql)
+						.setParameter("user", user)
+						.getResultList();
+				for(Friendship friendship : friendships)
+					if(friendship.getUser().equals(user))
+						for(Friendship f : friendship.getUser().getAllFriends())
+							if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_ACCEPTED)
+								rslt.add(f.getFriend());
+			}
+			catch(HibernateException e) {
+				e.printStackTrace();
+			}
+			finally {
+				HibernateUtil.closeSession();
+			}
 		}
 		return rslt;
 	}
-	
-	public static Set<User> getAllFriendRequests(int userId) {
-		String hql = "from Friendship f where f.user='"+userId+"'";
+
+	public static Set<User> getAllFriendRequests(User user) {
+		String hql = "from Friendship as f where f.user=:user";
 		Set<User> rslt = new HashSet<User>();
-		
-		if(Persist.OPENED_SESSION != null) {
-			List<Friendship> friendships = Persist.OPENED_SESSION.createQuery(hql).getResultList();
-			for(Friendship friendship : friendships)
-				if(friendship.getUser().getId() == userId)
-					for(Friendship f : friendship.getUser().getAllFriends())
-						if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_SENT)
-							rslt.add(f.getFriend());
+
+		Session session = HibernateUtil.currentSession();
+		if(session != null) {
+			try {
+				List<Friendship> friendships = session.createQuery(hql)
+						.setParameter("user", user)
+						.getResultList();
+				for(Friendship friendship : friendships)
+					if(friendship.getUser().equals(user))
+						for(Friendship f : friendship.getUser().getAllFriends())
+							if(f.getState() == Persist.STATUS_FRIENDSHIP_REQUEST_SENT)
+								rslt.add(f.getFriend());
+			}
+			catch(HibernateException e) {
+				e.printStackTrace();
+			}
+			finally {
+				HibernateUtil.closeSession();
+			}
 		}
 		return rslt;
 	}
-	
+
 	public static String getStringFromUsersSet(Set<User> users) {
 		return Tools.stringifyUsersSet(users);
 	}

@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import database.DBStatic;
 import services.ServicesAuthentification;
+import utils.HibernateUtil;
 import utils.Persist;
 
 /**
@@ -66,18 +68,5 @@ public class ConnectUserServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
 
 }

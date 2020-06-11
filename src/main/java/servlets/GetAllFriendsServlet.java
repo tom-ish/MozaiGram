@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
 import services.ServicesFriendship;
 import utils.Persist;
@@ -49,32 +50,33 @@ public class GetAllFriendsServlet extends HttpServlet {
 
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
-		try {
-			// Traitement des donnees
-			JSONObject json = new JSONObject();
-			int rslt = ServicesFriendship.getAllFriends(sessionkey, json);
-			json.put("GetAllFriendsServlet", ""+rslt);
-			json.put("sessionkey", ""+sessionkey);
-			
-			writer.println(json.toString());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		JSONObject json = new JSONObject();
+		
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		if(reset == Persist.RESET_SESSION_KEY_OK) {
+			try {
+				// Traitement des donnees
+				int rslt = ServicesFriendship.getAllFriends(sessionkey, json);
+				json.put("GetAllFriendsServlet", ""+rslt);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		else {
+			try {
+				json.put("GetAllFriendsServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		
+		writer.println(json.toString());
+		
 	}
 
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
 
 }

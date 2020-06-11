@@ -11,6 +11,10 @@ import org.hibernate.annotations.CreationTimestamp;
 public class UserSession {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private int id;
+	
 	@Column(name="sessionkey")
 	private String sessionkey;
 	
@@ -28,10 +32,12 @@ public class UserSession {
 		this.sessionkey = sessionkey;
 	}
 	
+	public int getId() { return this.id; }
 	public String getSessionkey() { return this.sessionkey; }
 	public Date getSince() { return this.since; }
 	public User getUser() { return this.user; }
 	
+	public void setId(int id) { this.id = id; }
 	public void setSessionkey(String sessionkey) { this.sessionkey = sessionkey; }
 	public void setSince(Date created) { this.since = created; }
 	public void setUser(User user) { this.user = user; }

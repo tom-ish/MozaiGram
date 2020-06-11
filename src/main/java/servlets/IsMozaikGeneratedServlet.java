@@ -15,8 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
+import database.DBUserTask;
 import services.ServicesImage;
+import services.ServicesUserTask;
+import utils.HibernateUtil;
 import utils.Persist;
 
 /**
@@ -48,56 +52,32 @@ public class IsMozaikGeneratedServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		String sessionkey = request.getParameter("sessionkey");
-		HashMap<String, SimpleEntry<Integer, Integer>> userTasksMapper = (HashMap<String, SimpleEntry<Integer, Integer>>) getServletContext().getAttribute(Persist.USERS_TASKS);
+		response.setContentType("text/plain");
 		
 		JSONObject json = new JSONObject();
-
-		if(userTasksMapper.containsKey(sessionkey)) {
-			if(userTasksMapper.get(sessionkey).getKey() == Persist.SUCCESS) {
-				Integer imgId = userTasksMapper.get(sessionkey).getValue();
-				String imgPath = ServicesImage.getPathFromImgId(imgId);
-				//Image mozaik = ServicesImage.getImageFromPath(imgPath);
-				
-				try {
-					json.put("IsMozaikGeneratedServlet", ""+Persist.SUCCESS);
-					json.put("imgId", ""+imgId);
-					json.put("imgPath", ""+imgPath);
-					//json.put()
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		if(reset == Persist.RESET_SESSION_KEY_OK) {
+			try {
+				Integer rslt = ServicesUserTask.getImgPath(sessionkey, json);
+				json.put("IsMozaikGeneratedServlet", ""+rslt);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}			
 		}
 		else {
 			try {
-				json.put("IsMozaikGeneratedServlet", Persist.ERROR_SESSION_KEY_NOT_FOUND);
+				json.put("IsMozaikGeneratedServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}	
 		}
 		
 		// Ecriture des donnees
 		PrintWriter writer = response.getWriter();
-		response.setContentType("text/plain");
 		writer.println(json.toString());
-	}
-
-
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
 	}
 }

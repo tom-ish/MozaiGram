@@ -9,9 +9,9 @@
 			<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 			<!--  JDBC Database connection settings -->
 			<property name="connection.driver_class">org.postgresql.Driver</property>
-			<property name="connection.url">jdbc:postgresql://ec2-50-16-202-213.compute-1.amazonaws.com:5432/da5njdatl991hn?sslmode=require</property>
-			<property name="connection.username">nuvvhgenjviffn</property>
-			<property name="connection.password">88c5e0822d52b10bf9138eb7ba756af22f04dd7c679b93d1f04a577e9b2f7eab</property>
+			<property name="connection.url">${AWS_URL}</property>
+			<property name="connection.username">${PSQL_USERNAME}</property>
+			<property name="connection.password">${PSQL_PASSWORD}</property>
 			
 			<!-- JDBC connection pool settings... using built-in test pool -->
 			<property name="connection.pool_size">1</property>

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
 import services.ServicesFriendship;
 import utils.Persist;
@@ -45,39 +46,34 @@ public class GetAllFriendRequestServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String sessionkey =  request.getParameter("sessionkey");
-
-
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
-		try {
-			// Traitement des donnees
-			JSONObject json = new JSONObject();
-			int rslt = ServicesFriendship.getAllFriendRequest(sessionkey, json);
-			json.put("GetAllFriendsServlet", ""+rslt);
-			json.put("sessionkey", ""+sessionkey);
-			writer.println(json.toString());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		JSONObject json = new JSONObject();
+		if(reset == Persist.RESET_SESSION_KEY_OK) {
+			try {
+				// Traitement des donnees
+				int rslt = ServicesFriendship.getAllFriendRequest(sessionkey, json);
+				json.put("GetAllFriendsServlet", ""+rslt);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		else {
+			try {
+				json.put("GetAllFriendsServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+
+		writer.println(json.toString());
 	}
 
 	
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
 }

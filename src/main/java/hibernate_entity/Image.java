@@ -59,4 +59,12 @@ public class Image {
 	public void setCreationDate(Date creationDate) { this.creationDate = creationDate; }
 	public void setUser(User user) { this.user = user; }
 
+	@Override
+	public String toString() {
+		return "Image [id=" + id + ", link=" + link + ", user=" + user + ", creationDate=" + creationDate
+				+ ", comments=" + comments + "]";
+	}
+	
+	
+
 }

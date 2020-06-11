@@ -39,9 +39,14 @@ public class Persist {
 
 	
 	/*
-	 * SessionKey error codes : [320 - 330]
+	 * SessionKey error/return codes : [320 - 330]
 	 */
 	public static final int ERROR_SESSION_KEY_NOT_FOUND = 320;
+	public static final int ERROR_SESSION_KEY_EXPIRED = 321;
+	public static final int SESSION_KEY_STILL_VALID = 322;
+	public static final int RESET_SESSION_KEY_OK = 323;
+	public static final int RESET_SESSION_KEY_KO = 324;
+	
 	
 	/*
 	 * Database error codes: [500 - 510]
@@ -54,6 +59,8 @@ public class Persist {
 	public static final int ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE = 506;
 	public static final int ERROR_DB_IMAGE_NOT_FOUND = 507;
 	public static final int ERROR_DB_LIBRARY_CANNOT_ADD_NEW_INSTANCE = 508;
+	public static final int ERROR_DB_USER_TASK_NOT_FOUND = 509;
+	public static final int ERROR_DB_USER_TASK_CANNOT_BE_DELETED = 510;
 	
 	/*
 	 * Files error codes: [600 - 610]
@@ -80,8 +87,10 @@ public class Persist {
 	public static final String AMAZON_S3_SERVER_URL = "https://s3.eu-central-1.amazonaws.com/"+AMAZON_S3_BUCKET_NAME+"/";
 	public static final String AWS_ACCESS_KEY_ID = "AWS_ACCESS_KEY_ID";
 	public static final String AWS_SECRET_KEY_ID = "AWS_SECRET_ACCESS_KEY";
-	public static final String AWS_URL = "";
+	public static final String AWS_URL = "AWS_URL";
 
+	
+	
 	public static final String USERS_TASKS = "userTasks";
 	
 	
@@ -105,6 +114,7 @@ public class Persist {
 	public static final String DEFAULT_LIBRARY = "_DEFAULT";
 	
 	
+	public static final int TIMEOUT_HOUR = 3;
 	
 	public static String STRINGIFY_SEPARATOR = "###";
 	public static String STRINGIFY_ATTRIBUTE_SEPARATOR = "&&&";

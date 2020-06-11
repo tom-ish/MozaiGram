@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import database.DBSessionKey;
 import database.DBStatic;
 import services.ServicesFriendship;
 import utils.Persist;
@@ -22,13 +23,13 @@ import utils.Persist;
 @WebServlet("/SendFriendRequestServlet")
 public class SendFriendRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SendFriendRequestServlet() {
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SendFriendRequestServlet() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,36 +46,35 @@ public class SendFriendRequestServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String sessionkey =  request.getParameter("sessionkey");
 		int friendId = Integer.valueOf(request.getParameter("friendid"));
-		
+
+		JSONObject json = new JSONObject();
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
-		
-		try {
-			// Traitement des donnees
-			JSONObject json = new JSONObject();
-			int rslt = ServicesFriendship.addFriend(sessionkey, friendId, json);
-			json.put("SendFriendRequestServlet", ""+rslt);
-			json.put("sessionkey", ""+sessionkey);
-			json.put("friendId", ""+friendId);
-			writer.println(json.toString());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		int reset = DBSessionKey.resetSessionKey(sessionkey);
+		if(reset == Persist.RESET_SESSION_KEY_OK) {
+			try {
+				// Traitement des donnees
+				int rslt = ServicesFriendship.addFriend(sessionkey, friendId, json);
+				json.put("SendFriendRequestServlet", ""+rslt);
+				json.put("sessionkey", ""+sessionkey);
+				json.put("friendId", ""+friendId);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
+		else {
+			try {
+				json.put("SendFriendRequestServlet", ""+reset);
+				json.put("sessionkey", ""+sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		}
+		writer.println(json.toString());
 	}
-	
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		Persist.OPENED_SESSION = DBStatic.getHibernateSession();
-	}
-	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		Persist.OPENED_SESSION.close();
-		super.destroy();
-	}
+
 
 }

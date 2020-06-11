@@ -30,6 +30,7 @@ public class Library {
 	@JoinColumn(name="userid", nullable=false)
 	private User user;
 	
+	@Column(name="name")
 	private String name;
 	
 	@ManyToMany(cascade=CascadeType.ALL)

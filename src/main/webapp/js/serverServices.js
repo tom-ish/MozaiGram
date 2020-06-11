@@ -51,6 +51,7 @@ var ServerServices = {
 						localStorage.setItem("friends", json.friends);
 						localStorage.setItem("friendRequests", json.friendRequests);
 						localStorage.setItem("requestedpage", json.username);
+						localStorage.setItem("images", json.images)
 						switchToMyPage();
 					}
 					else{
@@ -85,14 +86,6 @@ var ServerServices = {
 				}
 			});
 		},
-		/*
-		uploadData : function uploadData(keyword, image) {
-			console.log("ServerServices.uploadData()");
-			console.log(keyword);
-			console.log(image);
-			
-		}
-		*/
 		uploadData : function uploadData(form, sessionkey) {
 			console.log("ServerServices.uploadData()");
 			console.log(form);
@@ -114,7 +107,7 @@ var ServerServices = {
 					if(json.UploadDataServlet == PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED) {
 						console.log(json);
 						console.log("sessionKey: " + sessionkey);
-						setTimeout(ServerServices.isMozaikGenerated(sessionkey), 2000);
+						ServerServices.isMozaikGenerated(sessionkey);
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -123,8 +116,51 @@ var ServerServices = {
 				}
 			});
 		},
+		/*
+		asyncUploadData : function asyncUploadData(form, sessionkey) {
+			console.log("ServerServices.AsyncUploadData()");
+			console.log(form);
+			console.log(form.userKeyword.value);
+			var dataform = new FormData(form);
+			dataform.append("sessionkey", sessionkey);
+			console.log("filename : ");
+			console.log(""+$('#dragNdropInput').val());
+			var generated2 = false;
+			
+			$.ajax({
+				type: "POST",
+				url: "AsyncUploadDataServlet",
+				data: dataform,
+				cache: false,
+				contentType: false, // obligatoire pour de l'upload
+				processData: false, // obligatoire pour de l'upload
+				dataType: 'json',
+				success: function(json) {
+					if(json.AsyncUploadDataServlet == PROCESS_COMPLETABLE_FUTURE_TASKS_STARTED) {
+						console.log(json);
+					}
+					else if(json.AsyncUploadDataServlet == SUCCESS) {
+						console.log("sessionKey: " + sessionkey);
+						generated2 = true;
+					}
+				},
+				complete: function(json) {
+					if(!generated2) {
+	                    console.log(json);	
+					}
+					else {
+						console.log("ServerServices.AsyncUploadData() SUCCESS");
+						console.log(json);	
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status : " + jqXHR.status);
+				}
+			});
+		},*/
 		isMozaikGenerated : function isMozaikGenerated(sessionkey) {
-			console.log("isMozaikGenerated called...");
+			console.log("isMozaikGenerated called from client sessionkey : "+sessionkey+"...");
 			var generated = false;
 			$.ajax({
 				type: "POST",
@@ -133,14 +169,24 @@ var ServerServices = {
 				dataType: 'json',
 				success: function(json) {
 					if(json.IsMozaikGeneratedServlet == SUCCESS_CODE) {
-						console.log(json);
-						generated = true;
+						if(json.status == PROCESS_COMPLETE) {
+							console.log("imgPath available : ")
+							console.log(json);
+							// imgPath contains the server Path to the image here
+							console.log(json.imgPath);
+							generated = true;
+						}
 					}
 				},
 				complete: function(json) {
 					if(!generated) {
+						// Synchronous delay before next Recursive call
+						var start = Date.now(), now = start;
+						while(now - start < 10000)
+							now = Date.now();
+						ServerServices.isMo
 						// Schedule the next
-	                    //setTimeout(ServerServices.isMozaikGenerated(sessionkey), 10000);
+	                    ServerServices.isMozaikGenerated(sessionkey);
 					}
 					else {
 						console.log("SUCCESS");
@@ -245,7 +291,9 @@ var ServerServices = {
 				success: function(json) {
 					if (json.SearchServlet == SUCCESS_CODE){
 						var listResearch = json.listResearch;
+						var listImg = json.listImg;
 						localStorage.setItem("listResearch",listResearch);
+						localStorage.setItem("listImg",listImg);
 						displayResults(searchword);
 					}
 					else {
@@ -273,6 +321,8 @@ var ServerServices = {
 					if (json.GetImgUserServlet == SUCCESS_CODE){
 						var listImg = json.listImg;
 						localStorage.setItem("listImg",listImg);
+						console.log("getImgUser returned "+listImg+" for a search for "+name);
+						displayImages(listImg);
 					}
 					else {
 						console.log("getImgUser failed!");
@@ -299,7 +349,8 @@ var ServerServices = {
 				success: function(json){
 					if(json.AddCommentServlet == SUCCESS_CODE){
 						console.log("add Comment success!");
-						console.log("returned code : " + json.AddCommentServlet);
+						console.log("returned code : ")
+						console.log(json.AddCommentServlet);
 					}
 					else{
 						console.log("Connexion failed!");
@@ -310,6 +361,29 @@ var ServerServices = {
 					console.log(textStatus);
 					console.log(jqXHR.responseText + " status: " + jqXHR.status);
 					//alert("Erreur Ajax: Connexion is not working.\n" + textStatus + " " + errorThrown);
+				}
+			});
+		},
+		myMozaikThumbnails : function myMozaikThumbnails(sessionkey){
+			$.ajax ({
+				type: "POST",
+				url: "MyMozaikServlet",
+				data: "sessionkey=" + sessionkey,
+				dataType: 'json',
+				success: function(json){
+					if(json.MyMozaikServlet == SUCCESS_CODE){
+						console.log("My Moszaiks success");
+						console.log("returned code : ");
+						listImages(json);
+					}
+					else{
+						console.log("My Moszaiks failed!");
+						console.log("returned code : " + json);
+					}
+				},
+				error: function(jqXHR , textStatus , errorThrown ){
+					console.log(textStatus);
+					console.log(jqXHR.responseText + " status: " + jqXHR.status);
 				}
 			});
 		}

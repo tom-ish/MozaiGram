@@ -14,27 +14,26 @@ import org.json.JSONObject;
 
 import database.DBSessionKey;
 import database.DBStatic;
-import services.ServicesAuthentification;
+import services.ServicesComment;
 import utils.Persist;
 
 /**
- * Servlet implementation class LogoutUserServlet
+ * Servlet implementation class AddCommentServlet
  */
-@WebServlet("/LogoutUserServlet")
-public class LogoutUserServlet extends HttpServlet {
+@WebServlet("/AddCommentServlet")
+public class AddCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogoutUserServlet() {
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AddCommentServlet() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -43,36 +42,39 @@ public class LogoutUserServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("username");
 		String sessionkey = request.getParameter("sessionkey");
-
+		String comment = request.getParameter("text");
+		int imgid = Integer.valueOf(request.getParameter("imgid"));
+		
 		PrintWriter writer = response.getWriter();
 		response.setContentType("text/plain");
 		JSONObject json = new JSONObject();
 		
-		int reset = DBSessionKey.resetSessionKey(sessionkey);
-		if(reset == Persist.RESET_SESSION_KEY_OK) {
+		int reset = DBSessionKey.resetSessionKey(sessionkey); 
+		if(reset == Persist.RESET_SESSION_KEY_OK) {			
+			int rslt = ServicesComment.addComment(sessionkey,comment,imgid,json);
 			try {
-				int rslt = ServicesAuthentification.logoutUser(username, sessionkey);
-				json.put("LogoutUserServlet", ""+rslt);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}			
-		}
-		else {
-			try {
-				json.put("LogoutUserServlet", ""+reset);
+				// Traitement des donnees
+				json.put("AddCommentServlet", ""+rslt);
 				json.put("sessionkey", sessionkey);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	
+			}
 		}
-
+		else {
+			try {
+				// Traitement des donnees
+				json.put("AddCommentServlet", ""+reset);
+				json.put("sessionkey", sessionkey);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// Ecriture des donnees
 		writer.println(json.toString());
 	}
 

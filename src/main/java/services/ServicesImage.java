@@ -3,8 +3,8 @@ package services;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -12,18 +12,23 @@ import database.DBAuthentification;
 import database.DBImage;
 import database.DBLibrary;
 import database.DBSessionKey;
+import database.DBUserTask;
 import hibernate_entity.Library;
 import hibernate_entity.User;
+import hibernate_entity.UserSession;
+import hibernate_entity.UserTask;
 import utils.Persist;
 import utils.Tools;
 
 public class ServicesImage {
 	
-	public static SimpleEntry<Integer, String> addImage(String sessionkey, String imgPath) {
+	public static Integer addImage(String sessionkey, String imgPath) {
 		if(Tools.isNullParameter(sessionkey) || Tools.isNullParameter(imgPath))
-			return new SimpleEntry<Integer, String>(Persist.ERROR_NULL_PARAMETER, "");
-		else if(DBSessionKey.isSessionKeyExpired(sessionkey))
-			return new SimpleEntry<Integer, String>(Persist.ERROR_SESSION_KEY_NOT_FOUND, "");
+			return Persist.ERROR_NULL_PARAMETER;
+		else if(DBSessionKey.isSessionKeyExpired(sessionkey) == Persist.ERROR_SESSION_KEY_EXPIRED)
+			return Persist.ERROR_SESSION_KEY_EXPIRED;
+		else if(DBSessionKey.isSessionKeyExpired(sessionkey) == Persist.ERROR_SESSION_KEY_NOT_FOUND)
+			return Persist.ERROR_SESSION_KEY_NOT_FOUND;
 		else {
 			User user = DBSessionKey.getUserByKey(sessionkey);
 			// On stocke l'adresse de l'image dans la DB Images
@@ -32,17 +37,27 @@ public class ServicesImage {
 
 			// si l'id de l'image != 0, c'est que l'ajout s'est bien deroule
 			if(img != null) {
+				System.out.println(img);
 				//  => on l'ajoute au default_library de l'user
 				Library defaultLibrary = DBLibrary.getUserDefaultLibrary(user);		
 				if(defaultLibrary == null)
 					defaultLibrary = DBLibrary.createDefaultLibrary(user);
-				if(DBLibrary.addImageToLibrary(user, img, defaultLibrary) == Persist.SUCCESS)
-					return new SimpleEntry<Integer, String>(Persist.SUCCESS, img.getLink());
+				
+				System.out.println(defaultLibrary);
+				if(DBLibrary.addImageToLibrary(user, img, defaultLibrary) == Persist.SUCCESS) {
+					// on notifie dans la table UserTask la completion de la generation de mosaique
+					UserSession userSession = DBSessionKey.getUserSessionFromSessionKey(sessionkey);
+					UserTask userTask = DBUserTask.notifyUserTaskComplete(userSession, img.getLink());
+					if(userTask != null)
+						return Persist.SUCCESS;
+					else
+						return Persist.ERROR_DB_USER_TASK_NOT_FOUND;
+				}
 				else
-					return new SimpleEntry<Integer, String>(Persist.ERROR_DB_LIBRARY_CANNOT_ADD_NEW_INSTANCE, "");
+					return Persist.ERROR_DB_LIBRARY_CANNOT_ADD_NEW_INSTANCE;
 			}
 		}
-		return new SimpleEntry<Integer, String>(Persist.ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE, "");
+		return Persist.ERROR_DB_IMAGE_CANNOT_ADD_NEW_INSTANCE;
 	}
 	
 	public static String getPathFromImgId(int imgId) {
@@ -52,8 +67,26 @@ public class ServicesImage {
 		return DBImage.getPathFromImgId(imgId);
 	}
 	
+	public static List<String> getPathsFromUser(User user) {
+		List<hibernate_entity.Image> images = DBImage.getUserImages(user);
+		if(images == null)
+			return null;
+		List<String> rslt = new ArrayList<String>();
+		for(hibernate_entity.Image img : images) {
+			rslt.add(img.getLink());
+		}
+		return rslt;
+	}
+	
 	public static ArrayList<String> getPathsfromUser (String username){
-		return DBImage.getPathsfromUser(username);
+		List<hibernate_entity.Image> images = DBImage.getImages();
+		ArrayList<String> results= new ArrayList<String>();
+		for (hibernate_entity.Image i:images){
+			if (i.getUser().getUsername()==username) {
+				results.add(i.getLink());
+			}
+		}
+		return results;
 	}
 	
 	public static Image getImageFromPath(String path) {
@@ -66,6 +99,21 @@ public class ServicesImage {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static ArrayList<String> getImgfromSearch(ArrayList<String> results) {
+		ArrayList<String> images=new ArrayList<String>();
+		for (String u:results) {
+			List<String> img=getPathsFromUser(DBAuthentification.getUserByUsername(u));
+			if (img.size()==1) {
+				images.add(img.get(0));
+			}
+			else if (img.size()>=2) {
+				images.add(img.get(0));
+				images.add(img.get(1));
+			}
+		}
+		return images;
 	}
 
 }
